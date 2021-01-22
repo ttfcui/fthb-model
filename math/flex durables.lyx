@@ -1,0 +1,785 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+Durables problem (Luengo-Prado 2006)
+\end_layout
+
+\begin_layout Subsection*
+Setup
+\end_layout
+
+\begin_layout Standard
+(1-delta)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U(C_{t},D_{t})=\frac{C_{t}^{1-\rho}}{1-\rho}+\psi\frac{D_{t}^{1-\rho}}{1-\rho}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+BC: 
+\begin_inset Formula $A_{t}+C_{t}+D_{t}=RA_{t-1}+Y_{t}+\delta D_{t-1}-\zeta(D_{t},D_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a standard budget constraint.
+ Only novelty is the adjustment cost 
+\begin_inset Formula $\zeta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+CC: 
+\begin_inset Formula $A_{t}+(1-\theta)D_{t}\geq0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This constraint implies that an individual’s borrowing limit is a fraction
+ 
+\begin_inset Formula $(1-\theta)$
+\end_inset
+
+ of the durable stock.
+ The constraint summarizes several commonly observed aspects of collateral
+ lending.
+ A household can only finance a fraction 
+\begin_inset Formula $(1-\theta)$
+\end_inset
+
+ of durable purchases.
+ In other words, it must satisfy a down payment requirement 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+ The constraint also implies that when a household owns a durable good,
+ it can obtain a durable-equity loan with a maximum loan-to-value ratio
+ 
+\begin_inset Formula $(1-\theta)$
+\end_inset
+
+ In summary, at any point in time, an agent is only required to keep an
+ accumulated durable equity equal to 
+\begin_inset Formula $\theta D$
+\end_inset
+
+.
+ Note that total wealth, 
+\begin_inset Formula $A+D$
+\end_inset
+
+ can be divided into a required down payment (required equity or required
+ wealth), 
+\begin_inset Formula $\theta D$
+\end_inset
+
+ and the wealth held in excess of the required down payment or voluntary
+ equity, 
+\begin_inset Formula $Q=A+(1-\theta)D$
+\end_inset
+
+.
+ Also, the consumer can increase nondurable consumption by decreasing either
+ voluntary or required equity.
+ However, accessing required equity implies changing the durable stock,
+ which may be costly if adjustment costs are present.
+ Finally, this collateralized constraint does not imply a fixed borrowing
+ limit but a limit that varies with the durable stock and 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+FOCs
+\end_layout
+
+\begin_layout Standard
+Consider model with no adjustment costs 
+\begin_inset Formula $\zeta=0.$
+\end_inset
+
+ Define cash on hand, 
+\begin_inset Formula $X_{t}=Y_{t}+RA_{t-1}+\delta D_{t-1}$
+\end_inset
+
+.
+ Using cash on hand, we can rewrite the budget constaint and collateral
+ constraint as:
+\end_layout
+
+\begin_layout Standard
+BC: 
+\begin_inset Formula $A_{t}=X_{t}-C_{t}-D_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+CC: 
+\begin_inset Formula $C_{t}+\theta D_{t}\leq X_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+COH: 
+\begin_inset Formula $X_{t+1}=R(X_{t}-C_{t})+(\delta-R)D_{t}+Y_{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Take the FOCs
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{c}(C_{t})=\beta RE_{t}[U_{c}(C_{t+1})+\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{d}(D_{t})=\beta(R-\delta)E_{t}[U_{c}(C_{t+1})+\theta\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\lambda_{t}(X_{t}-C_{t}-\theta D_{t})=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lets try and understand each equation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+U_{c}(C_{t})=\beta RE_{t}[U_{c}(C_{t+1})]+\lambda_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This equation states that the marginal utility of nondurable consumption
+ in period t must equal the discounted expected marginal utility of nondurable
+ consumption in period t + 1, plus the shadow price of the borrowing constraint
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+U_{d}(D_{t})=\beta(R-\delta)E_{t}[U_{c}(C_{t+1})+\theta\lambda_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Analogously, this FOC states that the marginal utility of durable consumption
+ in period t must be equal to the expected marginal utility of nondurable
+ consumption in period t +1 discounted by 
+\begin_inset Formula $\beta(R-\delta)$
+\end_inset
+
+ plus 
+\begin_inset Formula $\theta$
+\end_inset
+
+ times the shadow price of the constraint.
+ Note the difference in the discount factor— 
+\begin_inset Formula $\beta R$
+\end_inset
+
+ versus 
+\begin_inset Formula $\beta(R-\delta)$
+\end_inset
+
+—because of the durability of 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is multiplied by 
+\begin_inset Formula $\theta$
+\end_inset
+
+ reflects the fact that only a down payment is required as payment for the
+ durable in period t.
+\end_layout
+
+\begin_layout Standard
+These equations are both intertermporal equations.
+ We can comvine them to see how agents trade-off the non-durables versus
+ durables within a period.
+ Solving for 
+\begin_inset Formula $\text{\beta E_{t}[U_{c}(C_{t+1})}$
+\end_inset
+
+] and plugging into the second FOC gives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+U_{d}(D_{t})=\frac{R-\delta}{R}U_{c}C+\left(\theta-\frac{R-\delta}{R}\right)\lambda_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+if the borrowing constraint is not binding and using our functional forms
+ we get the standard optimal relationship between C and D:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{C_{t}}{D_{t}}=\psi^{-1/\rho}\left(\frac{R-\delta}{R}\right)^{1/\rho}\equiv\Omega
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Notice that if 
+\begin_inset Formula $\psi=1$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta=0$
+\end_inset
+
+ then the consumer optimally chooses to consume and equal amount of each.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(\frac{R-\delta}{R}\right)$
+\end_inset
+
+ is the user cost of the durable (ignoring price changes).
+ With price changes it would be 
+\begin_inset Formula $\left(\frac{Rp_{t}-\delta p_{t+1}}{Rp_{t}}\right)$
+\end_inset
+
+ .
+ So a decrease in the price is akin to the durable becoming more durable,
+ making it more attractive.
+ Back to the simple case, the user cost is the single-period cost, or rental
+ equivalent cost of one durable unit.
+ The user cost depends on both the depreciation factor and the interest
+ rate.
+ Depreciation erodes the agent’s investment in the durable and effectively
+ increases its cost.
+ The interest rate also increases the user cost as it reflects the opportunity
+ cost of investing in the durable: a dollar invested in the durable could
+ have returned R-1 dollars if invested in financial assets.
+\end_layout
+
+\begin_layout Standard
+When the agent is not constrained, the trade-off between C and D is fully
+ captured by the user cost and the preference parameters.
+ For constrained agents, other factors come into play.
+ If D is poor collateral ( 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is higher than the user cost), constrained agents let durable consumption
+ fall temporarily and vice versa.
+ Note that when 
+\begin_inset Formula $\theta=\left(\frac{R-\delta}{R}\right)$
+\end_inset
+
+ , the trade-off between C and D is determined only by the user cost, even
+ if the constraint is binding.
+ This is a particularly useful benchmark case since the constraint does
+ not impose any distortions in the intratemporal allocation between the
+ two goods.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+ELASTICITIES
+\end_layout
+
+\begin_layout Standard
+The first equation can be rewritten 
+\begin_inset Formula $\beta R\mathbb{E}\big[\frac{U_{C}(C_{t+1})}{U_{c}}\big]=1-\lambda_{t}\Rightarrow\beta R\bigg(\frac{C_{t+1}}{C_{t}}\bigg)^{-\rho}=1-\lambda_{t}+\nu_{c,t+1},$
+\end_inset
+
+ rewriting the stochastic variable as a constant and an error term with
+ 
+\begin_inset Formula $\mathbb{E}[\nu]=0$
+\end_inset
+
+.
+ Then log-linearize both sides: the RHS is second-order approximated as
+ 
+\begin_inset Formula 
+\begin{align*}
+\log(1-\lambda_{t}+\nu_{c,t+1}) & \approx\log1+1\cdot(\nu-\lambda_{t})-\frac{1}{2}\cdot(\nu-\lambda_{t})^{2}\\
+ & =\nu-\frac{1}{2}\nu^{2}+\lambda_{t}\nu-\lambda_{t}-\frac{1}{2}\lambda_{t}^{2}\\
+ & =\tilde{\nu}-\lambda(1-\nu+\frac{1}{2}\lambda).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume the errors are conditionally homoskedastic, 
+\begin_inset Formula $\mathbb{E}[\nu^{2}]=\sigma^{2}$
+\end_inset
+
+.
+ 
+\series bold
+Then the logged equation is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\rho\log C_{t+1}/C_{t} & =\alpha_{0}+\log R+\alpha_{1}\lambda_{t}+\eta_{c,t+1},\\
+\text{where } & \alpha_{0}=\frac{1}{2}\sigma^{2}+\log\beta,\:\alpha_{1}=1-\nu_{c,t+1}+\lambda_{t}/2,\\
+ & \eta_{c,t+1}=-\tilde{\nu}-\frac{1}{2}\sigma^{2}\Rightarrow\mathbb{E}[\eta_{c,t+1}]=0.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second equation can be rewritten 
+\begin_inset Formula 
+\begin{align*}
+\psi D_{t}^{-\rho} & =\frac{R-\delta}{R}C_{t}^{-\rho}+\bigg(\theta-\frac{R-\delta}{R}\bigg)\lambda_{t}\\
+\Rightarrow\frac{R-\delta}{R\psi}\bigg(\frac{C_{t}}{D_{t}}\bigg)^{-\rho} & =1-\frac{R-\delta}{R}(\theta\frac{R}{R-\delta}-1)\lambda_{t}\\
+\Rightarrow\frac{1}{\psi}\bigg(\frac{C_{t}}{D_{t}}\bigg)^{-\rho} & =1+(1-\theta\frac{R}{R-\delta})\lambda_{t}-\frac{\delta}{R-\delta}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Log-linearising, the RHS is second-order approximated as 
+\begin_inset Formula 
+\begin{align*}
+\log\bigg(1+(1-\theta\frac{R}{R-\delta})\lambda_{t}-\frac{\delta}{R-\delta}\bigg)\approx & (1-\theta\frac{R}{R-\delta})\lambda_{t}-\frac{\delta}{R-\delta}-\frac{1}{2}\cdot\bigg((1-\theta\frac{R}{R-\delta})\lambda_{t}-\frac{\delta}{R-\delta}\bigg)^{2}\\
+= & (1-\theta\frac{R}{R-\delta})\lambda_{t}-\frac{1}{2}(1-\theta\frac{R}{R-\delta})^{2}\lambda_{t}^{2}+\frac{\delta}{R-\delta}(1-\theta\frac{R}{R-\delta})\lambda_{t}-\frac{\delta}{R-\delta}-\bigg(\frac{\delta}{R-\delta}\bigg)^{2}\\
+= & \lambda_{t}(\gamma_{1}-\gamma_{2}\gamma_{1}-\gamma_{1}^{2}\lambda)+\gamma_{2}\frac{R}{R-\delta},
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\gamma_{1}=(1-\theta\frac{R}{R-\delta})<0\text{ [usually] },\gamma_{2}=(1-\frac{R}{R-\delta})=\frac{-\delta}{R-\delta}<0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Then the logged equation is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\log C_{t}=-\log\psi+\log D_{t}-\frac{\gamma_{2}}{\rho}\frac{R}{R-\delta}-\frac{\gamma_{1}\gamma_{3}}{\rho}\lambda_{t},\\
+\gamma_{3}=1-\gamma_{2}-\gamma_{1}\lambda.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And with market clearing 
+\begin_inset Formula $\lambda_{t}(X_{t}-C_{t}-\theta D_{t})=0$
+\end_inset
+
+ determines a system of three variables in 
+\begin_inset Formula $C_{t},D_{t},\lambda_{t}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Now the short-run elasticities can actually be calculated.
+ For these we assume 
+\begin_inset Formula $\log C_{t+1}$
+\end_inset
+
+ is constant (see Mankiw 1985).
+ First for consumption:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+d\log C_{t}/d\log R_{t}= & -\frac{1}{\rho}+\alpha_{1}\frac{\partial\lambda_{t}}{\partial X_{t}}\frac{\partial X_{t}}{\partial\log R_{t}}+\frac{\partial\alpha_{1}}{\partial\log R_{t}}\lambda_{t}\\
+= & -\frac{1}{\rho}+\alpha_{1}\frac{\partial\lambda_{t}}{\partial X_{t}}R_{t}A_{t-1}+\frac{1}{2}\frac{\partial\lambda_{t}}{\partial X_{t}}R_{t}A_{t-1}\lambda_{t}\\
+= & -\frac{1}{\rho}+\frac{\partial\lambda_{t}}{\partial X_{t}}\varphi R_{t}A_{t-1},\:\varphi=\frac{1-\nu_{c,t+1}+3\lambda_{t}/2}{\rho}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ is also a shadow price on cash-on-hand 
+\begin_inset Formula $X_{t}$
+\end_inset
+
+, under usual concavity assumptions 
+\begin_inset Formula $\frac{\partial\lambda_{t}}{\partial X_{t}}<0$
+\end_inset
+
+ (???)
+\end_layout
+
+\begin_layout Standard
+Therefore, an agent that is DP constrainted has consumption more responsive
+ to interest rates, and the magnitude depends on liquid assets 
+\begin_inset Formula $A_{t-1}$
+\end_inset
+
+ (i.e.
+ the amount of mortgage remaining on the durable).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+d\log C_{t}/d\log\theta= & \alpha_{1}\frac{\partial\lambda_{t}}{\partial\theta D{}_{t}}\frac{\partial\theta D_{t}}{\partial\log\theta}+\frac{\partial\alpha_{1}}{\partial\log\theta}\lambda_{t}\\
+= & \alpha_{1}\frac{\partial\lambda_{t}}{\partial\theta D_{t}}\theta D_{t}+\frac{1}{2}\frac{\partial\lambda_{t}}{\partial\theta D_{t}}\theta D_{t}\lambda_{t}\\
+= & \frac{\partial\lambda_{t}}{\partial\theta D_{t}}\varphi\theta D_{t},\:\varphi\text{ same as before. }
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This would suggest that the short-run elasticity wrt the down payment, at
+ least for unconstrained agents in this no wealth effects environment, is
+ zero.
+\end_layout
+
+\begin_layout Standard
+Next for durable goods.
+ Instead of differentiating wrt 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+, more convenient to differentiate wrt 
+\begin_inset Formula $\tilde{R_{t}}=R_{t}/(R_{t}-\delta)$
+\end_inset
+
+, or whatever the inverse of the user cost is.
+ In that case 
+\begin_inset Formula $\partial\gamma_{1}/\partial\tilde{R}_{t}=-\theta,\partial\gamma_{2}/\partial\tilde{R}_{t}=-1,\partial\gamma_{3}/\partial\tilde{R}_{t}=1+\theta\lambda$
+\end_inset
+
+.
+ Then
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+d\log D_{t}/d\log\tilde{R}_{t}= & -(d\log C_{t}/d\log R_{t})\cdot(d\log R_{t}/d\log\tilde{R}_{t})+\frac{\gamma_{1}\gamma_{3}}{\rho}\frac{\partial\lambda}{\partial X_{t}}\frac{\partial X_{t}}{\partial\log R_{t}}\frac{d\log R_{t}}{d\log\tilde{R}_{t}}\\
+ & +\biggg[\frac{\partial\gamma_{2}}{\partial\tilde{R}_{t}}\tilde{R}_{t}+\gamma_{2}+\bigg(\frac{\partial\gamma_{1}}{\partial\tilde{R}_{t}}\gamma_{3}+\frac{\partial\gamma_{3}}{\partial\tilde{R}_{t}}\gamma_{1}\bigg)\lambda_{t}\biggg]\cdot\frac{1}{\rho}\frac{d\tilde{R}_{t}}{d\log\tilde{R}_{t}}\\
+= & -\frac{d\log C_{t}}{d\log R_{t}}+\gamma_{1}\gamma_{3}\frac{\partial\lambda_{t}}{\partial X_{t}}R_{t}A_{t-1}-\bigg[\tilde{R}_{t}+\gamma_{2}+\bigg(-\theta\gamma_{3}+(1+\theta\lambda)\gamma_{1}\bigg)\lambda_{t}\bigg]\tilde{R}_{t}/\rho\\
+= & -\frac{d\log C_{t}}{d\log R_{t}}+\gamma_{1}\gamma_{3}\frac{\partial\lambda_{t}}{\partial X_{t}}R_{t}A_{t-1}-\bigg[\tilde{R}_{t}+\gamma_{2}+\bigg(\gamma_{1}(1+\theta\lambda)+\gamma_{1}\theta\lambda_{t}+\theta(\gamma_{2}-1)\bigg)\lambda_{t}\bigg]\tilde{R}_{t}/\rho\\
+= & -\frac{d\log C_{t}}{d\log R_{t}}+\gamma_{1}\gamma_{3}\frac{\partial\lambda_{t}}{\partial X_{t}}R_{t}A_{t-1}+\bigg[(\gamma_{1}\lambda_{t}-\tilde{R}_{t})(1+\theta\lambda_{t})+\gamma_{2}+\gamma_{1}\theta\lambda_{t}^{2}\bigg]\tilde{R}_{t}/\rho\\
+= & \frac{1}{\rho}+\bigg[\gamma_{2}+(\frac{\lambda_{t}}{1+\theta\lambda_{t}}-\tilde{R}_{t})(1+\theta\lambda_{t})^{2}+\gamma_{1}\theta\lambda_{t}^{2}\bigg]\tilde{R}_{t}/\rho+\frac{\partial\lambda_{t}}{\partial X_{t}}\Gamma R_{t}A_{t-1}.\:\Gamma=\frac{\gamma_{1}\gamma_{3}}{\rho}-\varphi.\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+d\log D_{t}/d\log\theta= & -(d\log C_{t}/d\log\theta)+\frac{1}{\rho}\bigg(\frac{\partial\gamma_{1}}{\partial\theta}\gamma_{3}+\frac{\partial\gamma_{3}}{\partial\theta}\gamma_{1}\bigg)\lambda_{t}+\frac{\gamma_{1}\gamma_{3}}{\rho}\frac{\partial\lambda}{\partial\theta D_{t}}\theta D_{t}\\
+= & -(d\log C_{t}/d\log\theta)+\frac{1}{\rho}\bigg(-\tilde{R}_{t}\gamma_{3}-\tilde{R}_{t}\lambda\gamma_{1}\bigg)\lambda_{t}+\frac{\gamma_{1}\gamma_{3}}{\rho}\frac{\partial\lambda}{\partial\theta D_{t}}\theta D_{t}\\
+= & -(d\log C_{t}/d\log\theta)+\frac{1}{\rho}\bigg(-1+\gamma_{2}\bigg)\tilde{R}_{t}\lambda_{t}+\frac{\gamma_{1}\gamma_{3}}{\rho}\frac{\partial\lambda}{\partial\theta D_{t}}\theta D_{t}\\
+= & \bigg(-1+\gamma_{2}\bigg)\tilde{R}_{t}\lambda_{t}/\rho+\frac{\partial\lambda}{\partial\theta D_{t}}\Gamma\theta D_{t},\:\Gamma=\frac{\gamma_{1}\gamma_{3}}{\rho}-\varphi.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Notably, the second and third terms show how the elasticity decreases in
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+ 
+\begin_inset Formula $(\text{2nd: }\theta\uparrow\Rightarrow\frac{\lambda_{t}}{1+\theta\lambda_{t}}\downarrow,1+\theta\lambda_{t}\uparrow)$
+\end_inset
+
+ Also suggests that for most values of 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+, the level of housing is 
+\emph on
+more responsive
+\emph default
+ to interest rates than consumption.
+\end_layout
+
+\begin_layout Standard
+For common values of 
+\begin_inset Formula $R,\delta$
+\end_inset
+
+ the user cost is quite small, i.e.
+ the inverse 
+\begin_inset Formula $\tilde{R}_{t}$
+\end_inset
+
+ is very high.
+ Assume a user cost of Suppose 
+\begin_inset Formula $R=2.5\%,\:\delta=2\%,$
+\end_inset
+
+ so 
+\begin_inset Formula $\tilde{R}_{t}=5$
+\end_inset
+
+.
+ Assume 
+\begin_inset Formula $\theta=0.2$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\gamma_{1}=0,\gamma_{2}=-4,\gamma_{3}=5$
+\end_inset
+
+.
+ Correspondingly, the elasticity 
+\begin_inset Formula $d\log D_{t}/d\log\tilde{R}_{t}$
+\end_inset
+
+would be 
+\begin_inset Formula 
+\begin{align*}
+ & -d\log C_{t}/d\log R_{t}+5/\rho\bigg[-4+(\frac{\lambda_{t}}{1+\theta\lambda_{t}}-5)(1+\theta\lambda_{t})^{2}\bigg]\\
+= & -d\log C_{t}/d\log R_{t}-20/\rho+(\frac{\lambda_{t}}{1+0.2\lambda_{t}}-5)(1+0.2\lambda_{t})^{2}/\rho
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which could range to -10 to -20, given consumption smoothing implies 
+\begin_inset Formula $d\log C_{t}/d\log R_{t}$
+\end_inset
+
+ is closer to 1.
+ If the agent is unconstrained, then more clearly the elasticity has magnitude
+ 25 less the consumption elasticity.
+ To be precise, constrained agents are 
+\emph on
+less responsive in durable size
+\emph default
+ at the margin than unconstrained ones.
+\end_layout
+
+\begin_layout Standard
+Maybe separability/lack of wealth effects factors into here, since with
+ no wealth effects perfectly adjustable durable goods and liquid assets
+ are close substitutes.
+\end_layout
+
+\begin_layout Standard
+If the agent is constrained, then the elasticity is 
+\emph on
+more responsive to down payments
+\emph default
+ than unconstrained agents, who should have an elasticity of zero (as 
+\begin_inset Formula $\lambda_{t}=0$
+\end_inset
+
+).
+ Using the same estimates above, a constrained agent has an elasticity of
+ 
+\begin_inset Formula $-d\log C_{t}/d\log\theta-25\lambda/\rho$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Assuming the elasticity of durables wrt downpayment rates is constant, when
+ it is clearly multiplicative in 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, is a bad idea.
+ The implication would be that an $8000 credit on a 20% down payment of
+ a median valued house, being a 25% increase (8K/0.2*160K), would lead to
+ a 
+\begin_inset Formula $625\lambda/\rho$
+\end_inset
+
+% increase in the size of the house held.
+ Note that at some threshold subsidy value, the agent may no longer have
+ a binding constraint, at which point further drops in the DP rate seem
+ to pass through entirely to more liquid assets.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,428 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Recall 
+\begin_inset Formula $f_{\tau}(t:\mu,\sigma,\theta,p_{H})=\frac{\log(\theta p_{H})}{\sigma\sqrt{2\pi t^{3}}}\exp\bigg\{-\frac{(\log(\theta p_{H})-\mu t)^{2}}{2\sigma^{2}t}\bigg\}\equiv f_{\tau}(t:\Theta)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\lambda=\log(\theta p_{H})$
+\end_inset
+
+, since the two parameters are not separately identified.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Proof that the stopping time is MLR restricted to 
+\begin_inset Formula $\mu$
+\end_inset
+
+,
+\begin_inset Formula $\lambda$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+The distributions belong to the exponential family, seen after some algebra
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f_{\tau}(t,\mu)|\Theta_{-\mu}=\bigg\{\frac{\lambda}{\sigma\sqrt{2\pi t^{3}}}\exp\bigg[-(\lambda/\sqrt{2}\sigma)^{2}\frac{1}{t}\bigg]\bigg\}\exp\bigg\{-(\mu/\sqrt{2}\sigma)^{2}t+(\lambda\mu/\sigma^{2})\bigg\},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so 
+\begin_inset Formula $f_{\tau}(t,\mu)|\Theta_{-\mu}$
+\end_inset
+
+satisfies MLR in 
+\begin_inset Formula $-t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f_{\tau}(t,\lambda)|\Theta_{-\lambda}=\bigg\{\frac{1}{\sigma\sqrt{2\pi t^{3}}}\exp\bigg[-(\mu/\sqrt{2}\sigma)^{2}t\bigg]\bigg\}\exp\bigg\{-(\lambda/\sqrt{2}\sigma)^{2}\frac{1}{t}+(\lambda\mu/\sigma^{2}+\log\lambda)\bigg\},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so 
+\begin_inset Formula $f_{\tau}(t,\lambda)|\Theta_{-\lambda}$
+\end_inset
+
+satisfies MLR in 
+\begin_inset Formula $-1/t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Numerical computations confirm that statistics like the mean, median and
+ mode
+\end_layout
+
+\begin_layout Standard
+increases when 
+\begin_inset Formula $\mu$
+\end_inset
+
+
+\emph on
+decreases
+\emph default
+ (approaches 0, e.g.), but increases when 
+\begin_inset Formula $\lambda$
+\end_inset
+
+increases.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Analytic expressions for the 
+\begin_inset Quotes eld
+\end_inset
+
+age gap
+\begin_inset Quotes erd
+\end_inset
+
+ between separate distributions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{P}(\tau^{i}(\mu)|\Theta_{-\mu}\in[\underline{t},\overline{t}])-\mathbb{P}(\tau^{i}(\hat{\mu})|\Theta_{-\mu}\in[\underline{t},\overline{t}])$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\underline{t}}^{\overline{t}}f_{\tau}(t,\mu)|\Theta_{-\mu}-f_{\tau}(t,\hat{\mu})|\Theta_{-\mu}dt==\int_{\underline{t}}^{\overline{t}}\frac{1}{\sigma\sqrt{2\pi t^{3}}}A(t,\mu,\Theta_{-\mu})[\exp(-(\frac{\mu}{\sqrt{2}\sigma})^{2}t)-\exp(\lambda(\hat{\mu}-\mu)/\sigma^{2}-(\frac{\hat{\mu}}{\sqrt{2}\sigma})^{2}t)]dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\underline{t}}^{\overline{t}}f_{\tau}(t:\Theta)\bigg[1-\exp\bigg\{\lambda(\hat{\mu}-\mu)/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]t\bigg\}\bigg]dt$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{P}(\tau^{i}(\lambda)|\Theta_{-\lambda}\in[\underline{t},\overline{t}])-\mathbb{P}(\tau^{i}(\hat{\lambda})|\Theta_{-\lambda}\in[\underline{t},\overline{t}])$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\underline{t}}^{\overline{t}}f_{\tau}(t,\lambda)|\Theta_{-\lambda}-f_{\tau}(t,\hat{\lambda})|\Theta_{-\lambda}dt==\int_{\underline{t}}^{\overline{t}}\frac{1}{\sigma\sqrt{2\pi t^{3}}}B(t,\lambda,\Theta_{-\lambda})[\exp(-(\frac{\lambda}{\sqrt{2}\sigma})^{2}1/t)-\frac{\hat{\lambda}}{\lambda}\exp((\hat{\lambda}-\lambda)\mu/\sigma^{2}-(\frac{\hat{\lambda}}{\sqrt{2}\sigma})^{2}1/t)]dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\underline{t}}^{\overline{t}}f_{\tau}(t:\Theta)\bigg[1-\frac{\hat{\lambda}}{\lambda}\exp\bigg\{(\hat{\lambda}-\lambda)\mu/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]\frac{1}{t}\bigg\}\bigg]dt$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $A(t,\mu,\Theta_{-\mu})=\exp[-(\lambda/\sqrt{2}\sigma)^{2}\frac{1}{t}+(\lambda\mu/\sigma^{2}+\log\lambda)]=\exp[-(\lambda-\mu t)^{2}/2\sigma{}^{2}t+\log\lambda+(\mu/\sqrt{2}\sigma)^{2}t]$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+and
+\begin_inset Formula $B(t,\lambda,\Theta_{-\lambda})=\exp[-(\mu/\sqrt{2}\sigma)^{2}t+(\lambda\mu/\sigma^{2}+\log\lambda)]=\exp[-(\lambda-\mu t)^{2}/2\sigma{}^{2}t+\log\lambda+(\lambda/\sqrt{2}\sigma)^{2}\frac{1}{t}]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Decrease 
+\begin_inset Formula $\lambda$
+\end_inset
+
+and increase 
+\begin_inset Formula $\mu$
+\end_inset
+
+, so the distribution's statistics decrease.
+ To compare which of these interventions is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+pulling forward
+\begin_inset Quotes erd
+\end_inset
+
+ the age distribution more, consider the difference in differences
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Delta=\bigg[\mathbb{P}(\tau^{i}(\hat{\lambda})|\Theta_{-\lambda}\in[\underline{t},\overline{t}])-\mathbb{P}(\tau^{i}(\lambda)|\Theta_{-\lambda}\in[\underline{t},\overline{t}])\bigg]-\bigg[\mathbb{P}(\tau^{i}(\hat{\mu})|\Theta_{-\mu}\in[\underline{t},\overline{t}])-\mathbb{P}(\tau^{i}(\mu)|\Theta_{-\mu}\in[\underline{t},\overline{t}])\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\int_{\underline{t}}^{\overline{t}}f_{\tau}(t:\Theta)\bigg[\frac{\hat{\lambda}}{\lambda}\exp\bigg\{(\hat{\lambda}-\lambda)\mu/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]\frac{1}{t}\bigg\}-\exp\bigg\{\lambda(\hat{\mu}-\mu)/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]t\bigg\}\bigg]dt,$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{d\Delta}{dt}(\overline{t})=f_{\tau}(\overline{t}:\Theta)\bigg[\frac{\hat{\lambda}}{\lambda}\exp\bigg\{(\hat{\lambda}-\lambda)\mu/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]\frac{1}{t}\bigg\}-\exp\bigg\{\lambda(\hat{\mu}-\mu)/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]t\bigg\}\bigg]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To test regions over which 
+\begin_inset Formula $\frac{d\Delta}{dt}(\overline{t})\geq0,$
+\end_inset
+
+ factor out the density and simplify:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\exp\bigg\{(\hat{\lambda}-\lambda)\mu/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]\frac{1}{\overline{t}}+\log\frac{\hat{\lambda}}{\lambda}\bigg\}-\exp\bigg\{\lambda(\hat{\mu}-\mu)/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]\overline{t}\bigg\}\geq0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow(\hat{\lambda}-\lambda)\mu/\sigma^{2}+\frac{1}{2\sigma^{2}}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]\frac{1}{\overline{t}}+\log\frac{\hat{\lambda}}{\lambda}-\lambda(\hat{\mu}-\mu)/\sigma^{2}+\frac{1}{2\sigma^{2}}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]\overline{t}\geq0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\frac{1}{2}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]\overline{t}^{2}+\bigg[\hat{\lambda}\mu+\sigma^{2}\log\frac{\hat{\lambda}}{\lambda}-\lambda\hat{\mu}\bigg]t+\frac{1}{2}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a quadratic inequality 
+\begin_inset Formula $at^{2}+bt+c\geq0$
+\end_inset
+
+.
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ is positive by assumption and 
+\begin_inset Formula $b,c$
+\end_inset
+
+ are negative by assumption.
+\end_layout
+
+\begin_layout Standard
+Then the discriminant is positive and the function has two zeros, one guaranteed
+ to be positive and the other
+\end_layout
+
+\begin_layout Standard
+of ambiguous sign.
+ Another formulation is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Prop.$
+\end_inset
+
+ Consider three separate stopping times with parameters 
+\begin_inset Formula $(\lambda,\mu,\sigma),(\hat{\lambda},\mu,\sigma),(\lambda,\hat{\mu},\sigma).$
+\end_inset
+
+ Assume
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\hat{\lambda}<\lambda,\hat{\mu}>\mu.$
+\end_inset
+
+ Then 
+\begin_inset Formula $d\Delta/dt>0$
+\end_inset
+
+ for all 
+\begin_inset Formula $t>0$
+\end_inset
+
+ except for a compact or half-closed subinterval.
+\end_layout
+
+\begin_layout Standard
+Where is the 
+\begin_inset Quotes eld
+\end_inset
+
+positive zero?
+\begin_inset Quotes erd
+\end_inset
+
+ A heuristic is to let 
+\begin_inset Formula $\overline{t}=1+\varepsilon,\underline{t}=1-\varepsilon$
+\end_inset
+
+, so the approximation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Delta\approx\int_{\underline{t}}^{\overline{t}}f_{\tau}(t:\Theta)\bigg[\frac{\hat{\lambda}}{\lambda}\exp\bigg\{(\hat{\lambda}-\lambda)\mu/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\lambda}^{2}-\lambda^{2}\bigg]t\bigg\}-\exp\bigg\{\lambda(\hat{\mu}-\mu)/\sigma^{2}-\frac{1}{2\sigma^{2}}\bigg[\hat{\mu}^{2}-\mu^{2}\bigg]t\bigg\}\bigg]dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+holds.
+ [CLAIM: The magnitude difference between 
+\begin_inset Formula $\lambda/\sigma,\mu/\sigma$
+\end_inset
+
+ is so large it overwhelms the other
+\end_layout
+
+\begin_layout Standard
+perturbation terms, so 
+\begin_inset Formula $\Delta$
+\end_inset
+
+>0.
+ This implies the positive zero 
+\begin_inset Formula $<1$
+\end_inset
+
+, which means the 
+\begin_inset Formula $\lambda$
+\end_inset
+
+intervention
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+pulls forward
+\begin_inset Quotes erd
+\end_inset
+
+ more for most of the range we're interested in.]
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,560 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout LyX-Code
+
+\series bold
+A model with two consumption goods, one perishable and one durable
+\end_layout
+
+\begin_layout LyX-Code
+The consumer's problem in a general equilibrium setup can be described by
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\max_{c,i,x}\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\bigg\{\frac{[c_{t}^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}\bigg\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{\text{s.t. \ensuremath{\ensuremath{\ensuremath{c_{t}+p_{t}(1}-\theta_{t})x_{t}+i_{t}}\leq(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}}.}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Here 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is the investment in durables, and 
+\begin_inset Formula $i_{t}$
+\end_inset
+
+ the investment in capital.The transfer 
+\begin_inset Formula $T_{t}$
+\end_inset
+
+ satisfies the balanced budget constraint.
+ The price of capital is normalized to 1.
+ The Lagrangian, after substituting in the laws of motion for durables and
+ capital, is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}=\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\bigg\{\frac{[c_{t}^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}\bigg\}+\sum_{t}\lambda_{t}\bigg[(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}-(k_{t+1}-(1-\delta_{K})k_{t})-p_{t}(1-\theta_{t})(d_{t+1}-(1-\delta)d_{t})-c_{t}\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Then take relevant FOCs:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[c_{t}\bigg]\qquad\qquad\qquad\beta^{t}\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}\alpha c_{t}^{\alpha-1}d_{t}^{1-\alpha}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[c_{t+1}\bigg]\qquad\qquad\qquad\beta^{t+1}\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}\alpha c_{t+1}^{\alpha-1}d_{t+1}^{1-\alpha}=\lambda_{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[d_{t+1}\bigg]\qquad\qquad\qquad\beta^{t+1}\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}+p_{t+1}(1-\theta_{t+1})(1-\delta)\lambda_{t+1}=p_{t}(1-\theta_{t})\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[k_{t+1}\bigg]\qquad\qquad\qquad\bigg[(1-\tau_{K})r_{t+1}+\delta_{K}\tau_{K}+(1-\delta_{K})\bigg]\lambda_{t+1}=\lambda_{t}\Rightarrow\Delta^{K}\lambda_{t+1}=\lambda_{t}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Delta^{K}$
+\end_inset
+
+ corresponds to discountK in the code.
+ Substitute 
+\begin_inset Formula $\big[k_{t+1}]$
+\end_inset
+
+ into 
+\begin_inset Formula $\big[d_{t+1}]$
+\end_inset
+
+ to get 
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\beta^{t+1}\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}=\lambda_{t+1}\bigg[p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute in 
+\begin_inset Formula $[c_{t+1}]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{1-\alpha}{\alpha}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{1-\alpha}=\frac{1-\alpha}{\alpha}\frac{c_{t+1}}{d_{t+1}}=p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+or
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $d_{t+1}=\frac{1-\alpha}{\alpha}\bigg\{ c_{t+1}/\big[p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)\big]\bigg\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+Instead, if we solve for 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ in 
+\begin_inset Formula $\big[k_{t+1}]$
+\end_inset
+
+,then divide 
+\begin_inset Formula $[c_{t}]$
+\end_inset
+
+ from 
+\begin_inset Formula $\big[c_{t+1}]$
+\end_inset
+
+, the result is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\beta\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{d_{t+1}}{c_{t+1}}\bigg)^{1-\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}=1/\Delta^{K}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+or
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{d_{t}}{c_{t}}=\bigg\{\beta\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\Delta^{K}\bigg\}^{\frac{1}{1-\alpha}}\bigg(\frac{d_{t+1}}{c_{t+1}}\bigg).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg(\beta\Delta^{K}d_{t+1}^{-\gamma}\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}\bigg]^{1+\alpha(\gamma-1)}=d_{t}^{-\gamma}\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+All the other equations in equilibrium are standard.
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+A model with one durable consumption good
+\end_layout
+
+\begin_layout LyX-Code
+Now the consumer's utility function and constraint is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\max_{i,x}\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\cdot\frac{d_{t}^{1-\gamma}}{1-\gamma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{\text{s.t. \ensuremath{\ensuremath{\ensuremath{p_{t}(1}-\theta_{t})x_{t}+i_{t}}\leq(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}}.}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The Lagrangian is 
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}=\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\cdot\frac{d_{t}{}^{1-\gamma}}{1-\gamma}+\sum_{t}\lambda_{t}\bigg[(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}-(k_{t+1}-(1-\delta_{K})k_{t})-p_{t}(1-\theta_{t})(d_{t+1}-(1-\delta)d_{t})\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+with FOCs
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[d_{t}\bigg]\qquad\qquad\qquad\beta^{t}d_{t}^{-\gamma}+p_{t}(1-\theta_{t})(1-\delta)\lambda_{t}=p_{t-1}(1-\theta_{t-1})\lambda_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[d_{t+1}\bigg]\qquad\qquad\qquad\beta^{t+1}d_{t+1}^{-\gamma}+p_{t+1}(1-\theta_{t+1})(1-\delta)\lambda_{t+1}=p_{t}(1-\theta_{t})\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[k_{t+1}\bigg]\qquad\qquad\qquad\bigg[(1-\tau_{K})r_{t+1}+\delta_{K}\tau_{K}+(1-\delta_{K})\bigg]\lambda_{t+1}=\lambda_{t}\Rightarrow\Delta^{K}\lambda_{t+1}=\lambda_{t}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout LyX-Code
+Use 
+\begin_inset Formula $\bigg[k_{t+1}\bigg]$
+\end_inset
+
+ to solve for 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ in both 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\bigg[d_{t}\bigg],\bigg[d_{t+1}\bigg];$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\beta d_{t}^{-\gamma}+=\lambda_{t}[p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)];\quad\beta^{t+1}d_{t+1}^{-\gamma}=\lambda_{t}[p_{t}(1-\theta_{t})-p_{t+1}(1-\theta_{t+1})(1-\delta)/\Delta^{K}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+and divide to eliminate 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ and obtain
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $d_{t}^{-\gamma}=\beta d_{t+1}^{-\gamma}\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})-p_{t+1}(1-\theta_{t+1})(1-\delta)/\Delta^{K}}\bigg]=\beta\Delta^{K}d_{t+1}^{-\gamma}\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}\bigg]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+This is just the bracketed expression in the last section, with 
+\begin_inset Formula $\alpha=0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+A discrete subsidy shock around the steady state
+\end_layout
+
+\begin_layout LyX-Code
+We assume house price, subsidy and the rental cost of capital are at
+\end_layout
+
+\begin_layout LyX-Code
+their steady state values 
+\begin_inset Formula $\overline{p},\overline{\theta},\text{\text{ and} }\overline{r}$
+\end_inset
+
+respectively.
+ In period t+1, the subsidy
+\end_layout
+
+\begin_layout LyX-Code
+shifts to 
+\begin_inset Formula $\theta_{t+1}>\overline{\theta}$
+\end_inset
+
+.
+ Hence
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\beta\Delta^{K}\frac{d_{t+1}^{-\gamma}}{d_{t}^{-\gamma}}=\bigg[\frac{\overline{p}(1-\overline{\theta)}\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}{\overline{p}(1-\overline{\theta)}(\Delta^{K}-1+\delta)}\bigg]^{1+\alpha(\gamma-1)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+If r and p are sufficiently inelastic (or exogenous), the numerator is
+\end_layout
+
+\begin_layout LyX-Code
+a higher value because the negative term in it decreases.
+ Hence there
+\end_layout
+
+\begin_layout LyX-Code
+is more investment in durables.
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+The subsidy point elasticity of demand around the steady state
+\end_layout
+
+\begin_layout LyX-Code
+Let 
+\begin_inset Formula $G=\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}\bigg]$
+\end_inset
+
+.
+ In the steady state, 
+\begin_inset Formula $G=1.$
+\end_inset
+
+ However,
+\end_layout
+
+\begin_layout LyX-Code
+we can differentiate:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\gamma}{\beta\Delta^{K}}\bigg(\frac{\overline{d}}{\overline{d}}\bigg)^{\gamma-1}\frac{\partial d}{\partial\theta}=[1+\alpha(\gamma-1)]G^{\alpha(\gamma-1)}\cdot-\bigg[\overline{p}(1-\overline{\theta})\big(\Delta^{K}-1+\delta)\bigg]^{-1}\cdot(1-\delta)\bigg[-\frac{\partial p}{\partial d}\frac{\partial d}{\partial\theta}(1-\overline{\theta})+\overline{p}\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Cancelling out terms,
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\gamma}{\beta\Delta^{K}}\frac{\partial d}{\partial\theta}=[1+\alpha(\gamma-1)](1-\delta)\bigg[\overline{p}(1-\overline{\theta})\big(\Delta^{K}-1+\delta)\bigg]^{-1}\cdot\bigg[\frac{\partial p}{\partial d}\frac{\partial d}{\partial\theta}(1-\overline{\theta})-\overline{p}\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow\frac{\partial d}{\partial\theta}\bigg\{[1+\alpha(\gamma-1)](1-\delta)\bigg[\overline{p}\big(\Delta^{K}-1+\delta)\bigg]^{-1}\frac{\partial p}{\partial d}-\frac{\gamma}{\beta\Delta^{K}}=[1+\alpha(\gamma-1)](1-\delta)\bigg[(1-\overline{\theta)}\big(\Delta^{K}-1+\delta)\bigg]^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow\frac{\partial d}{\partial\theta}=\frac{(1-\overline{\theta})^{-1}\big(\Delta^{K}-1+\delta){}^{-1}}{\bigg[\overline{p}\big(\Delta^{K}-1+\delta)\bigg]^{-1}\frac{\partial p}{\partial d}-\frac{\gamma}{\beta\Delta^{K}(1-\delta)(1+\alpha(\gamma-1))}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow\frac{\partial d}{\partial\theta}=\frac{1}{1-\overline{\theta}}\cdot\frac{\big(\Delta^{K}-1+\delta)^{-1}}{[\overline{p}(\Delta^{K}-1+\delta)]^{-1}\big(\frac{\partial d}{\partial p}\big)^{-1}-\gamma\frac{1}{\beta\Delta^{K}(1-\delta)(1+\alpha(\gamma-1))}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+Now consider the percentage change in housing induced by the subsidy:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\partial d}{\partial\theta}\frac{1}{\overline{d}}=\frac{1}{1-\overline{\theta}}\cdot\frac{\big(\Delta^{K}-1+\delta)^{-1}}{\bigg[(\Delta^{K}-1+\delta)^{-1}\bigg(\frac{\partial d}{\partial p}\frac{\overline{p}}{\overline{d}}\bigg)^{-1}-\gamma\overline{d}\frac{1}{\beta\Delta^{K}(1-\delta)(1+\alpha(\gamma-1))}\bigg]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\emph on
+\begin_inset Formula $\Rightarrow\frac{\partial d/\partial\theta(\overline{\theta})}{\overline{d}}=\frac{1}{1-\overline{\theta}}\cdot\bigg[[\epsilon_{\overline{d},p}(\overline{p})]^{-1}-(\overline{d}/\nu_{2}\overline{p})(\nu_{1}/\Delta^{K})\bigg]^{-1},\qquad\nu_{1}=\overline{p}(\Delta^{K}-1+\delta),\nu_{2}=\beta(1-\delta)(1+\alpha(\gamma-1))/\gamma.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+If 
+\begin_inset Formula $\Delta^{K}\approx1-\delta(\text{e.g. }r+\delta\approx0)\text{ or }\nu_{2}\gg0,\frac{\partial d/\partial\theta}{\overline{d}}\approx\frac{1}{1-\overline{\theta}}\cdot\epsilon_{\overline{d},p}(\overline{p}).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The elasticity is 
+\begin_inset Formula $\epsilon_{\overline{d},\theta}(\overline{\theta})=\partial d/\partial\theta(\overline{\theta})\frac{\overline{\theta}}{\overline{d}}\approx\frac{\overline{\theta}}{1-\overline{\theta}}\cdot\epsilon_{\overline{d},p}(\overline{p}).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Suppose 
+\begin_inset Formula $\overline{\theta}=0$
+\end_inset
+
+, but a temporary subsidy 
+\begin_inset Formula $\theta'$
+\end_inset
+
+ is implemented and extended long enough
+\end_layout
+
+\begin_layout LyX-Code
+for a steady state 
+\begin_inset Formula $\overline{d}'$
+\end_inset
+
+ to be reached.
+ Then an approximation of net change in
+\end_layout
+
+\begin_layout LyX-Code
+investment upon return to the original steady state can be proposed:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\partial d/\partial\theta(\overline{\theta})}{\overline{d}}-\frac{\partial d/\partial\theta(\theta')}{\overline{d}'}=\frac{\epsilon_{\overline{d},p}(\overline{p})-\theta'\epsilon_{\overline{d},p}(\overline{p})-\epsilon_{\overline{d}',p}(p')}{1-\theta'}\approx(1+\theta')[\epsilon_{\overline{d},p}(\overline{p})-\theta'\epsilon_{\overline{d},p}(\overline{p})-\epsilon_{\overline{d}',p}(p')]$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

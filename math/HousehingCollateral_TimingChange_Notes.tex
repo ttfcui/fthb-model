@@ -1,0 +1,649 @@
+%% LyX 2.3.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{rotfloat}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\theoremstyle{remark}
+\newtheorem*{claim*}{\protect\claimname}
+
+\makeatother
+
+\usepackage{babel}
+\providecommand{\claimname}{Claim}
+
+\begin{document}
+A household is born with $1$ unit of housing, $h_{-1}=1$ and lives
+for two periods. A unit of house is worth $p$. The household must
+pay a fraction $(1-\gamma)ph_{-1}$ in period $0$, meaning that only
+a fraction $\gamma$ of the house value was paid ``yesterday'' (normalization).
+The household has income $w_{0}$ and $w_{1}$ in periods $0$ and
+$1$ respectively. The agent only values housing in period $1$, and
+consumption in both periods. The utility function is
+\[
+u(c_{0},c_{1},v)=c_{0}+c_{1}+v(h_{1})
+\]
+The household's budget constraints are
+\[
+c_{0}+\gamma ph_{0}\mathcal{I}(h_{0}\neq1)+(1-\gamma)p\leq p\mathcal{I}(h_{0}\neq1)+w_{0}+T_{0}^{b}\mathcal{I}(h_{0}>1)
+\]
+\[
+c_{1}+ph_{1}\mathcal{I}(h_{1}\neq h_{0})+(1-\gamma)ph_{0}\mathcal{I}(h_{0}\neq1)\leq ph_{0}\mathcal{I}(h_{1}\neq h_{0})+w_{1}+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+If $h_{0}=1$ then the first one is
+\[
+c_{0}+(1-\gamma)p\leq w_{0}+T_{0}^{b}\mathcal{I}(h_{0}>1)
+\]
+if $h_{0}\neq1$ then
+\[
+c_{0}+\gamma p(h_{0}-1)\leq w_{0}+T_{0}^{b}\mathcal{I}(h_{0}>1).
+\]
+The second if $h_{1}=h_{0}$ is
+\[
+c_{1}+(1-\gamma)ph_{0}\mathcal{I}(h_{0}\neq1)\leq w_{1}+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+else
+\[
+c_{1}+p(h_{1}-h_{0})+(1-\gamma)ph_{0}\mathcal{I}(h_{0}\neq1)\leq w_{1}+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+the second is equal to the first when $h_{1}=h_{0}$ therefore we
+can use the conditions
+\[
+c_{0}+\gamma ph_{0}\mathcal{I}(h_{0}\neq1)+(1-\gamma)p\leq p\mathcal{I}(h_{0}\neq1)+w_{0}+T_{0}^{b}\mathcal{I}(h_{0}>1)
+\]
+\[
+c_{1}+p(h_{1}-h_{0})+(1-\gamma)ph_{0}\mathcal{I}(h_{0}\neq1)\leq w_{1}+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+These two bind, and hence we can write
+\[
+C\equiv c_{0}+c_{1}=p\mathcal{I}(h_{0}\neq1)+w_{0}+T_{0}^{b}\mathcal{I}(h_{0}>1)-\gamma ph_{0}\mathcal{I}(h_{0}\neq1)-(1-\gamma)p
+\]
+\[
+w_{1}+T_{1}^{b}\mathcal{I}(h_{1}>1)-p(h_{1}-h_{0})-(1-\gamma)ph_{0}\mathcal{I}(h_{0}\neq1)
+\]
+\[
+=p(1-h_{0})\mathcal{I}(h_{0}\neq1)-p(h_{1}-h_{0})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}\mathcal{I}(h_{0}>1)+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+\[
+=p(1-h_{0})-p(h_{1}-h_{0})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}\mathcal{I}(h_{0}>1)+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+\[
+=p(1-h_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}\mathcal{I}(h_{0}>1)+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+On top of these two constraints, the household also has the collateral
+constraints
+\[
+\gamma ph_{0}\leq\gamma p+w_{0}+T_{0}^{c}\Leftrightarrow h_{0}\leq1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+\[
+\gamma ph_{1}\leq\gamma ph_{0}\mathcal{I}(h_{0}\neq1)+p\mathcal{I}(h_{0}=1)+w_{1}+T_{1}^{c}\Leftrightarrow h_{1}\leq h_{0}\mathcal{I}(h_{0}\neq1)+\frac{\mathcal{I}(h_{0}=1)}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}
+\]
+This assymetry is due to the fact that if the household does not purchase
+a house in period $0$ it will not be indebted to period $t+1$. Kind
+of a consequence of this financial market...
+
+\paragraph*{The full problem}
+
+\[
+\max_{C,h_{0},h_{1}}C+v(h_{1})\text{ s.to.}
+\]
+\[
+C=p(1-h_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}\mathcal{I}(h_{0}>1)+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+\[
+h_{0}\leq1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\text{ if \ensuremath{h_{0}\neq1}}
+\]
+\[
+h_{1}\leq h_{0}\mathcal{I}(h_{0}\neq1)+\frac{\mathcal{I}(h_{0}=1)}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\text{ if \ensuremath{h_{1}\neq h_{0}}}
+\]
+
+
+\paragraph*{The unconstrained problem
+\[
+\max_{C,h_{0},h_{1}}C+v(h_{1})\text{ s.to.}
+\]
+\[
+C=p(1-h_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}\mathcal{I}(h_{0}>1)+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+}
+
+The marginal condition is
+\[
+v'(h_{1})=p
+\]
+This defines the unconstrained optimal level of housing
+\[
+h^{*}=[v']^{-1}(p)
+\]
+assume $h^{*}>1$. Assume that $T_{0}^{b},T_{1}^{b}\geq0$, then this
+is the optimal choice.
+
+\paragraph*{An effectively unconstrained household at time $0$}
+
+Suppose that for a household
+\[
+1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\geq h^{*}\Leftrightarrow w_{0}\geq\overline{w}\equiv\gamma p(h^{*}-1)-T_{0}^{c}.
+\]
+Then the household chooses 
+\[
+h_{0}=h_{1}=h^{*}
+\]
+\[
+C=p(1-h^{*})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}+T_{1}^{b}
+\]
+
+
+\paragraph*{Slightly constrained household at time $0$}
+
+Consider instead households such that
+\[
+w_{0}<\overline{w}.
+\]
+Define 
+\[
+\overline{h}_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+which is the maximum house that the household could buy. The household
+wants to get $h_{1}$ the closes it can to $h^{*}$, and since $h_{0}$
+doesn't appear directly in the definition of $C$, conditional on
+moving to a new house the household chooses $h_{0}=\overline{h}_{0}$.
+Then the problem becomes
+\[
+\max_{C,h_{0},h_{1}}C+v(h_{1})\text{ s.to.}
+\]
+\[
+C=p(1-h_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}\mathcal{I}(h_{0}>1)+T_{1}^{b}\mathcal{I}(h_{1}>1)
+\]
+\[
+h_{0}\in\{\overline{h}_{0},1\}
+\]
+\[
+h_{1}\leq\overline{h}_{0}\mathcal{I}(h_{0}\neq1)+\frac{\mathcal{I}(h_{0}=1)}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\text{ if \ensuremath{h_{1}\neq h_{0}}}
+\]
+
+\begin{claim*}
+Suppose that
+\[
+\overline{h}_{0}\geq\frac{1}{\gamma}
+\]
+then the household moves in period 0. (I am actually assuming that
+$h^{*}>1/\gamma$).
+\end{claim*}
+This is simple. If moving makes us less constrained tomorrow and also
+gives the transfer today then it is strictly better to move.
+\begin{claim*}
+Suppose that 
+\[
+\overline{h}_{0}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\geq h^{*}\text{ and \ensuremath{\overline{h}_{0}>1}}
+\]
+then it is also strictly better to move because the household gets
+the transfer ans still goes to the optimal house.
+\end{claim*}
+If either 
+\[
+\overline{h}_{0}\geq\frac{1}{\gamma}\text{ or \ensuremath{\overline{h}_{0}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\geq h^{*}}}
+\]
+then the household moves in period $0$ and in period $1$. These
+constraints can be written as
+\[
+1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\geq\frac{1}{\gamma}\Leftrightarrow w_{0}\geq p(1-\gamma)-T_{0}^{c}\Rightarrow\begin{cases}
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\\
+h_{1}=\max\left\{ \bar{h}_{0},\min\left\{ h^{*},\overline{h}_{0}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right\} \right\} 
+\end{cases}
+\]
+
+\[
+w_{0}>-T_{0}^{c}
+\]
+\[
+1+\frac{w_{0}+T_{0}^{c}}{\gamma p}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\geq h^{*}\Leftrightarrow w_{1}\geq\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}\Rightarrow\begin{cases}
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\\
+h_{1}=h^{*}
+\end{cases}
+\]
+
+
+\paragraph*{Very very constrained households}
+
+Suppose that
+\[
+w_{0}\leq-T_{0}^{c}
+\]
+These households never buy in period $0$. They buy in period $1$
+if they can, so
+\[
+h_{0}=1
+\]
+\[
+h_{1}=\max\left\{ 1,\min\left\{ h^{*},\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right\} \right\} 
+\]
+\[
+=\begin{cases}
+1 & \text{if \ensuremath{w_{1}\leq\gamma\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}}}\\
+\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}-1}{\gamma p} & \text{if \ensuremath{w_{1}<\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}}}\\
+h^{*} & \text{if \ensuremath{w_{1}>\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}}}
+\end{cases}
+\]
+
+
+\paragraph*{Slightly more constrained households}
+
+Suppose that
+\[
+-T_{0}^{c}<w_{0}<p(1-\gamma)-T_{0}^{c}
+\]
+and
+\[
+w_{1}<\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}
+\]
+These are households that can buy houses in period $0$ but its not
+necessarily optimal for them to do so, this is because by buying a
+house they become more constrained.
+
+If there was no transfer in case they move houses in period $0$ this
+would be simple. They would not buy a house, and in period $1$ their
+decisions would be the usual.
+
+\subparagraph*{Very constrained households}
+
+Suppose that
+\[
+w_{1}\leq\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}
+\]
+If they don't buy in time $0$ they cannot buy a house larger than
+1 in time $1$. However, they can still purchase a larger house in
+period $0$
+\[
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+\[
+h_{1}=h_{0}
+\]
+
+
+\subparagraph*{With the transfer}
+
+Assume that 
+\[
+w_{1}>\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}
+\]
+which just means that if the household does not purchase a house at
+time $0$ it can do so at time $1$.
+
+If the household buys a house it will buy
+\[
+\overline{h}_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\in\left(1,\frac{1}{\gamma}\right)
+\]
+and at time 1
+\[
+\tilde{h}_{1}=\overline{h}_{0}+\max\left\{ 0,\frac{w_{1}+T_{1}^{c}}{\gamma p}\right\} =1+\frac{w_{0}+T_{0}^{c}}{\gamma p}+\max\left\{ 0,\frac{w_{1}+T_{1}^{c}}{\gamma p}\right\} 
+\]
+With utility
+\[
+V^{p}=p(1-\tilde{h}_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}+T_{1}^{b}+v(\tilde{h}_{1})
+\]
+
+Else, if the household does not buy in period $0$ then
+\[
+h_{0}=1
+\]
+\[
+\hat{h}_{1}=\min\left\{ h^{*},\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right\} >\tilde{h}_{1}
+\]
+With utility
+\[
+V^{n}=p(1-\hat{h}_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{1}^{b}+v(\hat{h}_{1})
+\]
+Then the household purchases a house in period $1$ if
+\[
+V^{p}\geq V^{n}\Leftrightarrow p(\hat{h}_{1}-\tilde{h}_{1})+T_{0}^{b}\geq v(\hat{h}_{1})-v(\tilde{h}_{1})
+\]
+
+
+\subparagraph*{Suppose that $h^{*}\protect\leq\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\Leftrightarrow w_{1}\protect\geq\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}$}
+
+Then
+\[
+V^{p}\geq V^{n}\Leftrightarrow v(\tilde{h}_{1})-p\tilde{h}_{1}+T_{0}^{b}\geq v(h^{*})-ph^{*}
+\]
+There is a single $h_{1}^{c}<h^{*}$ such that
+\[
+v(h_{1}^{c})-ph_{1}^{c}+T_{0}^{b}=v(h^{*})-ph^{*},
+\]
+Furthermore, the household will buy if they can afford more than this
+level of housing, and will not buy in period $0$ if they can't.
+
+Proof is simple: RHS is increasing in $h_{1}^{c}$ because $h_{1}^{c}<h^{*}$
+furthermore, as $h_{1}^{c}\to h^{*}$ then the RHS is strictly larger
+than the LHS. Assume that $h_{1}^{c}>1$. This means that the household
+will buy if 
+\[
+1+\frac{w_{0}+T_{0}^{c}}{\gamma p}+\max\left\{ 0,\frac{w_{1}+T_{1}^{c}}{\gamma p}\right\} \geq h_{1}^{c}\Leftrightarrow w_{1}\geq\gamma p\left(h_{1}^{c}-1\right)-T_{0}^{c}-T_{1}^{c}-w_{0}
+\]
+Then if
+\[
+w_{1}\geq\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}\text{ and \ensuremath{w_{1}\geq\gamma p\left(h_{1}^{c}-1\right)-T_{0}^{c}-T_{1}^{c}-w_{0}}}
+\]
+The household acquires
+\[
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+\[
+h_{1}=h_{0}+\frac{w_{1}+T_{1}^{c}}{\gamma p}
+\]
+If instead
+\[
+w_{1}\geq\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}\text{ and \ensuremath{w_{1}<\gamma p\left(h_{1}^{c}-1\right)-T_{0}^{c}-T_{1}^{c}-w_{0}}}
+\]
+Then
+\[
+h_{0}=1
+\]
+\[
+h_{1}=h^{*}
+\]
+Furthermore,
+\[
+\frac{dh_{1}^{c}}{dT_{0}^{b}}\left(v'(h_{1}^{c})-p\right)+1=0\Leftrightarrow\frac{dh_{1}^{c}}{dT_{0}^{b}}=-\frac{1}{v'(h_{1}^{c})-p}<0
+\]
+
+
+\subparagraph*{Suppose that $w_{1}\protect\leq-T_{1}^{c}$}
+
+Then
+\[
+\tilde{h}_{1}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+and
+\[
+\hat{h}_{1}=\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}
+\]
+The condition for optimality is
+\[
+p(\hat{h}_{1}-\tilde{h}_{1})+T_{0}^{b}\geq v(\hat{h}_{1})-v(\tilde{h}_{1})
+\]
+\[
+v\left(\tilde{h}_{1}\right)-p\tilde{h}_{1}+T_{0}^{b}\geq v\left(\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right)
+\]
+\[
+v\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)-p\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)+T_{0}^{b}\geq v\left(\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right)
+\]
+This defines a relation, $w_{1}^{d}(w_{0})$ such that if $w_{1}<w_{1}^{d}(w_{0})$
+it is worthwile to buy today, else if $w_{1}>w_{1}^{d}(w_{0})$ we
+should wait to tomorrow to buy, and
+\[
+v\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)-p\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)+T_{0}^{b}=v\left(\frac{1}{\gamma}+\frac{w_{1}^{d}(w_{0};T)+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{w_{1}^{d}(w_{0};T)+T_{1}^{c}}{\gamma p}\right)
+\]
+this relation is increasing in $w_{0}$:
+\[
+v'\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)-p=\left(v'\left(\frac{1}{\gamma}+\frac{w_{1}^{d}(w_{0})+T_{1}^{c}}{\gamma p}\right)-p\right)\frac{dw_{1}^{d}(w_{0})}{dw_{0}}
+\]
+\[
+\frac{dw_{1}^{d}(w_{0})}{dw_{0}}=\frac{v'\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)-p}{v'\left(\frac{1}{\gamma}+\frac{w_{1}^{d}(w_{0})+T_{1}^{c}}{\gamma p}\right)-p}>0
+\]
+
+
+\subparagraph*{Finally suppose that $w_{1}>-T_{1}^{c}$ and $w_{1}<\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}$}
+
+If purchasing in period $0$ then
+\[
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+\[
+\overline{h}_{1}=h_{0}+\frac{w_{1}+T_{1}^{c}}{\gamma p}=1+\frac{w_{0}+w_{1}+T_{1}^{c}+T_{0}^{c}}{\gamma p}
+\]
+which implies that
+\[
+V^{p}=p(1-\overline{h}_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{0}^{b}+T_{1}^{b}+v(\overline{h}_{1})
+\]
+else if not buying in period $0$ we get
+\[
+h_{0}=1
+\]
+\[
+\hat{h}_{1}=\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}
+\]
+and
+\[
+V^{n}=p(1-\hat{h}_{1})-(1-\gamma)p+w_{0}+w_{1}+T_{1}^{b}+v(\hat{h}_{1})
+\]
+Note that $\overline{h}_{1}<\hat{h}_{1}.$ This implies that the household
+will buy a house in period $0$ if
+\[
+V^{p}\geq V^{n}\Leftrightarrow v(\overline{h}_{1})-p\overline{h}_{1}+T_{0}^{b}\geq v(\hat{h}_{1})-p\hat{h}_{1}
+\]
+\[
+v\left(1+\frac{w_{0}+w_{1}+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)-p\left(1+\frac{w_{0}+w_{1}+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)+T_{0}^{b}\geq v\left(\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\right)
+\]
+Fix $w_{0}$. The LHS grows faster than the RHS. There exists a single
+$\hat{w}_{1}(w_{0})$ such that
+\[
+v\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0})+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)-p\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0})+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)+T_{0}^{b}=v\left(\frac{1}{\gamma}+\frac{\hat{w}_{1}(w_{0})+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{\hat{w}_{1}(w_{0})+T_{1}^{c}}{\gamma p}\right)
+\]
+and for $w_{1}\geq\hat{w}_{1}(w_{0})$ the household should buy, else
+it should not buy. Furthermore, useful things
+\[
+\frac{1+\hat{w}_{1}'(w_{0})}{\gamma p}\left(v'\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0})+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)-p\right)=\frac{\hat{w}_{1}'(w_{0})}{\gamma p}\left(v'\left(\frac{1}{\gamma}+\frac{\hat{w}_{1}(w_{0})+T_{1}^{c}}{\gamma p}\right)-p\right)
+\]
+\[
+\hat{w}_{1}'(w_{0})=\frac{v'\left(\frac{1}{\gamma}+\frac{\hat{w}_{1}(w_{0})+T_{1}^{c}}{\gamma p}\right)-v'\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0})+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)}{v'\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0})+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)-p}<0
+\]
+
+The transfers are complicating everything, so let me do it without
+the transfers...
+
+\paragraph{Slightly more constrained households when $T_{0}^{b}=0$}
+
+This case is nice because the household is not trading off getting
+a transfer in period zero versus having a larger house tomorrow. It
+is just about whatever maximizes the house level in period $1$.
+
+\subparagraph*{Households very constrained at time 1}
+
+Suppose that
+\[
+w_{1}\leq\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}
+\]
+If they don't buy in time $0$ they cannot buy a house larger than
+1 in time $1$. However, they can still purchase a larger house in
+period $0$
+\[
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+\[
+h_{1}=h_{0}
+\]
+
+
+\subparagraph{Households not constrained at time 1}
+
+Suppose that
+\[
+w_{1}\geq\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}
+\]
+this is the case in which the household can move to the optimal house
+at time $1$ if it does not move in period $0$
+\[
+h_{0}=1
+\]
+then
+\[
+h_{1}=h^{*}
+\]
+which is optimal. Here I assume that households such that 
+\[
+w_{1}\geq\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}
+\]
+also buy at time 0. In fact they are indifferent, since their time
+$1$ house is $h^{*}$ in any case, but assume that if
+\[
+w_{1}\geq\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}
+\]
+then
+\[
+h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+\[
+h_{1}=h^{*}
+\]
+
+
+\subparagraph*{Households slightly constrained at time 1}
+
+Suppose that
+\[
+w_{1}\geq-T_{1}^{c}
+\]
+this is the case in which the household can move to a larger house
+that $1/\gamma$ if it does move in period 0, or larger than $h_{0}=1+\frac{w_{0}+T_{0}}{\gamma p}$,
+since we are looking at the region in which
+\[
+1+\frac{w_{0}+T_{0}}{\gamma p}<\frac{1}{\gamma}\Leftrightarrow w_{0}<\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}
+\]
+then it is better not to change in period 0
+\[
+h_{0}=1
+\]
+\[
+h_{1}=\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}
+\]
+
+
+\subparagraph*{Finally the last case}
+
+Suppose that
+\[
+\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}\leq w_{1}<-T_{1}^{c}
+\]
+then if the household buys a house in period $0$ it gets
+\[
+h_{1}=h_{0}=1+\frac{w_{0}+T_{0}^{c}}{\gamma p}
+\]
+If the household does not then
+\[
+h_{1}=\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}
+\]
+Then the household buys in period $1$ if
+\[
+\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}\leq1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\Leftrightarrow w_{1}\leq\gamma p\left(1-\frac{1}{\gamma}\right)+T_{0}^{c}-T_{1}^{c}+w_{0}.
+\]
+
+
+\section*{Summary without transfers }
+
+Without transfers we get the following table and figure
+
+\includegraphics[scale=0.3]{Thresholds}
+\begin{sidewaystable}[ph]
+\centering{}%
+\begin{tabular}{|c|c|c|c|}
+\hline 
+$w_{0}$ & $w_{1}$ & $h_{0}$ & $h_{1}$\tabularnewline
+\hline 
+\hline 
+$\left(-\infty,-T_{0}^{c}\right)$ & $\left(-\infty,\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1$ & $1$\tabularnewline
+\hline 
+$\left(-\infty,-T_{0}^{c}\right)$ & $\left(\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c},\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1$ & $\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-\infty,-T_{0}^{c}\right)$ & $\left(\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c},+\infty\right)$ & $1$ & $h^{*}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(-\infty,\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c},\gamma p\left(1-\frac{1}{\gamma}\right)+T_{0}^{c}-T_{1}^{c}+w_{0}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p\left(1-\frac{1}{\gamma}\right)+T_{0}^{c}-T_{1}^{c}+w_{0},-T_{1}^{c}\right)$ & $1$ & $\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(-T_{1}^{c},\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1$ & $\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c},\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}\right)$ & $1$ & $h^{*}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}.+\infty\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $h^{*}$\tabularnewline
+\hline 
+$\left(\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c},\gamma p\left(h^{*}-1\right)-T_{0}^{c}\right)$ & $\left(-\infty,-T_{1}^{c}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c},\gamma p\left(h^{*}-1\right)-T_{0}^{c}\right)$ & $\left(-T_{1}^{c},\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c},\gamma p\left(h^{*}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}.+\infty\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $h^{*}$\tabularnewline
+\hline 
+$\left(\gamma p\left(h^{*}-1\right)-T_{0}^{c},+\infty\right)$ & $-$ & $h^{*}$ & $h^{*}$\tabularnewline
+\hline 
+\end{tabular}
+\end{sidewaystable}
+
+\newpage 
+
+Here goes a figure about what the change in $T_{0}^{c}$ does to those
+thresholds. Continuous lines are the new thresholds, after $T_{0}^{c}\uparrow$.
+
+\includegraphics[scale=0.3,bb = 0 0 200 100, draft, type=eps]{ThresholdChange.png}
+
+\section*{Summary with transfers }
+
+Without transfers we get the following table and figure where 
+\[
+w_{1}^{d}(w_{0};T):\text{ }v\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)-p\left(1+\frac{w_{0}+T_{0}^{c}}{\gamma p}\right)+T_{0}^{b}=v\left(\frac{1}{\gamma}+\frac{w_{1}^{d}(w_{0};T)+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{w_{1}^{d}(w_{0};T)+T_{1}^{c}}{\gamma p}\right)
+\]
+\begin{align*}
+\hat{w}_{1}(w_{0};T) & :\text{ \ensuremath{v\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0};T)+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)-p\left(1+\frac{w_{0}+\hat{w}_{1}(w_{0};T)+T_{1}^{c}+T_{0}^{c}}{\gamma p}\right)+T_{0}^{b}}}\\
+ & =v\left(\frac{1}{\gamma}+\frac{\hat{w}_{1}(w_{0};T)+T_{1}^{c}}{\gamma p}\right)-p\left(\frac{1}{\gamma}+\frac{\hat{w}_{1}(w_{0};T)+T_{1}^{c}}{\gamma p}\right)
+\end{align*}
+\[
+h_{1}^{c}(T_{0}^{b}):\text{ \ensuremath{v(h_{1}^{c})-ph_{1}^{c}+T_{0}^{b}=v(h^{*})-ph^{*}}}
+\]
+
+\begin{sidewaystable}[ph]
+\centering{}%
+\begin{tabular}{|c|c|c|c|}
+\hline 
+$w_{0}$ & $w_{1}$ & $h_{0}$ & $h_{1}$\tabularnewline
+\hline 
+\hline 
+$\left(-\infty,-T_{0}^{c}\right)$ & $\left(-\infty,\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1$ & $1$\tabularnewline
+\hline 
+$\left(-\infty,-T_{0}^{c}\right)$ & $\left(\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c},\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1$ & $\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-\infty,-T_{0}^{c}\right)$ & $\left(\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c},+\infty\right)$ & $1$ & $h^{*}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(-\infty,\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p\left(1-\frac{1}{\gamma}\right)-T_{1}^{c},w_{1}^{d}(w_{0};T)\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(w_{1}^{d}(w_{0};T),-T_{1}^{c}\right)$ & $1$ & $\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(-T_{1}^{c},\hat{w}_{1}(w_{0};T)\right)$ & $1$ & $\frac{1}{\gamma}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\hat{w}_{1}(w_{0};T),\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p\left(h^{*}-\frac{1}{\gamma}\right)-T_{1}^{c},\gamma p\left(h_{1}^{c}(T_{0}^{b})-1\right)-T_{0}^{c}-T_{1}^{c}-w_{0}\right)$ & $1$ & $h^{*}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p\left(h_{1}^{c}(T_{0}^{b})-1\right)-T_{0}^{c}-T_{1}^{c}-w_{0},\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(-T_{0}^{c},\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}.+\infty\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $h^{*}$\tabularnewline
+\hline 
+$\left(\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c},\gamma p\left(h^{*}-1\right)-T_{0}^{c}\right)$ & $\left(-\infty,-T_{1}^{c}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c},\gamma p\left(h^{*}-1\right)-T_{0}^{c}\right)$ & $\left(-T_{1}^{c},\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}+\frac{w_{1}+T_{1}^{c}}{\gamma p}$\tabularnewline
+\hline 
+$\left(\gamma p\left(\frac{1}{\gamma}-1\right)-T_{0}^{c},\gamma p\left(h^{*}-1\right)-T_{0}^{c}\right)$ & $\left(\gamma p(h^{*}-1)-T_{0}^{c}-T_{1}^{c}-w_{0}.+\infty\right)$ & $1+\frac{w_{0}+T_{0}^{c}}{\gamma p}$ & $h^{*}$\tabularnewline
+\hline 
+$\left(\gamma p\left(h^{*}-1\right)-T_{0}^{c},+\infty\right)$ & $-$ & $h^{*}$ & $h^{*}$\tabularnewline
+\hline 
+\end{tabular}
+\end{sidewaystable}
+
+\newpage 
+
+Here goes a figure about what the change in $T_{0}^{c}$ does to those
+thresholds. Continuous lines are the new thresholds, after $T_{0}^{c}\uparrow$.
+\end{document}

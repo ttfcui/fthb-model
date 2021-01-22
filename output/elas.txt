@@ -1,0 +1,36 @@
+Model: low_s
+0.0457161864039
+0.0
+Model: high_s
+0.0771710326384
+0.0
+Model: low_gamma
+-0.213420605642
+0.0
+Model: high_gamma
+0.159025940495
+0.0
+Model: low_alpha
+-1.39996246545
+0.0
+Model: high_alpha
+0.632821710897
+0.0
+Model: low_theta
+-0.528139317568
+0.0
+Model: high_theta
+0.44972123802
+0.0
+Model: low_rrental
+1.37946237259
+4.65200156349
+Model: high_rrental
+-2.2132528349
+0.0
+Model: assets
+0.126096193701
+0.0
+Model: durables
+0.0255069507824
+0.0

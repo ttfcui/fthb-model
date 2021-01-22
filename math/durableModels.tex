@@ -1,0 +1,161 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amstext}
+\usepackage{amssymb}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{lyxcode}
+{\par\begin{list}{}{
+\setlength{\rightmargin}{\leftmargin}
+\setlength{\listparindent}{0pt}% needed for AMS classes
+\raggedright
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\normalfont\ttfamily}%
+ \item[]}
+{\end{list}}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{lyxcode}
+\textbf{A~model~with~two~consumption~goods,~one~perishable~and~one~durable}
+
+The~consumer's~problem~in~a~general~equilibrium~setup~can~be~described~by
+
+$\max_{c,i,x}\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\bigg\{\frac{[c_{t}^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}\bigg\}$
+
+$\text{\text{s.t. \ensuremath{\ensuremath{\ensuremath{c_{t}+p_{t}(1}-\theta_{t})x_{t}+i_{t}}\leq(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}}.}}$
+
+Here~$x_{t}$~is~the~investment~in~durables,~and~$i_{t}$~the~investment~in~capital.The~transfer~$T_{t}$~satisfies~the~balanced~budget~constraint.~The~price~of~capital~is~normalized~to~1.~The~Lagrangian,~after~substituting~in~the~laws~of~motion~for~durables~and~capital,~is
+
+$\mathcal{L}=\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\bigg\{\frac{[c_{t}^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}\bigg\}+\sum_{t}\lambda_{t}\bigg[(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}-(k_{t+1}-(1-\delta_{K})k_{t})-p_{t}(1-\theta_{t})(d_{t+1}-(1-\delta)d_{t})-c_{t}\bigg]$
+
+Then~take~relevant~FOCs:
+
+$\bigg[c_{t}\bigg]\qquad\qquad\qquad\beta^{t}\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}\alpha c_{t}^{\alpha-1}d_{t}^{1-\alpha}=\lambda_{t}$
+
+$\bigg[c_{t+1}\bigg]\qquad\qquad\qquad\beta^{t+1}\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}\alpha c_{t+1}^{\alpha-1}d_{t+1}^{1-\alpha}=\lambda_{t+1}$
+
+$\bigg[d_{t+1}\bigg]\qquad\qquad\qquad\beta^{t+1}\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}+p_{t+1}(1-\theta_{t+1})(1-\delta)\lambda_{t+1}=p_{t}(1-\theta_{t})\lambda_{t}$
+
+$\bigg[k_{t+1}\bigg]\qquad\qquad\qquad\bigg[(1-\tau_{K})r_{t+1}+\delta_{K}\tau_{K}+(1-\delta_{K})\bigg]\lambda_{t+1}=\lambda_{t}\Rightarrow\Delta^{K}\lambda_{t+1}=\lambda_{t}$~
+
+$\Delta^{K}$~corresponds~to~discountK~in~the~code.~Substitute~$\big[k_{t+1}]$~into~$\big[d_{t+1}]$~to~get~
+
+$\beta^{t+1}\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}=\lambda_{t+1}\bigg[p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)\bigg]$
+
+Substitute~in~$[c_{t+1}]$~to~get
+
+$\frac{1-\alpha}{\alpha}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{1-\alpha}=\frac{1-\alpha}{\alpha}\frac{c_{t+1}}{d_{t+1}}=p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)$
+
+or
+
+$d_{t+1}=\frac{1-\alpha}{\alpha}\bigg\{ c_{t+1}/\big[p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)\big]\bigg\}$.
+
+Instead,~if~we~solve~for~$\lambda_{t}$~in~$\big[k_{t+1}]$,then~divide~$[c_{t}]$~from~$\big[c_{t+1}]$,~the~result~is
+
+$\beta\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{d_{t+1}}{c_{t+1}}\bigg)^{1-\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}=1/\Delta^{K}$
+
+or
+
+$\frac{d_{t}}{c_{t}}=\bigg\{\beta\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\Delta^{K}\bigg\}^{\frac{1}{1-\alpha}}\bigg(\frac{d_{t+1}}{c_{t+1}}\bigg).$
+
+$\bigg(\beta\Delta^{K}d_{t+1}^{-\gamma}\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}\bigg]^{1+\alpha(\gamma-1)}=d_{t}^{-\gamma}\bigg)$
+
+All~the~other~equations~in~equilibrium~are~standard.
+
+
+
+\textbf{A~model~with~one~durable~consumption~good}
+
+Now~the~consumer's~utility~function~and~constraint~is
+
+$\max_{i,x}\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\cdot\frac{d_{t}^{1-\gamma}}{1-\gamma}$
+
+$\text{\text{s.t. \ensuremath{\ensuremath{\ensuremath{p_{t}(1}-\theta_{t})x_{t}+i_{t}}\leq(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}}.}}$
+
+The~Lagrangian~is~
+
+$\mathcal{L}=\mathbb{E}_{0}\sum_{t=0}^{\infty}\beta^{t}\cdot\frac{d_{t}{}^{1-\gamma}}{1-\gamma}+\sum_{t}\lambda_{t}\bigg[(1-\tau_{H})w_{t}+(1-\tau_{K})r_{t}k_{t}+\delta_{K}\tau_{K}k_{t}+T_{t}-(k_{t+1}-(1-\delta_{K})k_{t})-p_{t}(1-\theta_{t})(d_{t+1}-(1-\delta)d_{t})\bigg]$
+
+with~FOCs
+
+$\bigg[d_{t}\bigg]\qquad\qquad\qquad\beta^{t}d_{t}^{-\gamma}+p_{t}(1-\theta_{t})(1-\delta)\lambda_{t}=p_{t-1}(1-\theta_{t-1})\lambda_{t-1}$
+
+$\bigg[d_{t+1}\bigg]\qquad\qquad\qquad\beta^{t+1}d_{t+1}^{-\gamma}+p_{t+1}(1-\theta_{t+1})(1-\delta)\lambda_{t+1}=p_{t}(1-\theta_{t})\lambda_{t}$
+
+$\bigg[k_{t+1}\bigg]\qquad\qquad\qquad\bigg[(1-\tau_{K})r_{t+1}+\delta_{K}\tau_{K}+(1-\delta_{K})\bigg]\lambda_{t+1}=\lambda_{t}\Rightarrow\Delta^{K}\lambda_{t+1}=\lambda_{t}$~
+
+Use~$\bigg[k_{t+1}\bigg]$~to~solve~for~$\lambda_{t}$~in~both~\textrm{$\bigg[d_{t}\bigg],\bigg[d_{t+1}\bigg];$}
+
+$\beta d_{t}^{-\gamma}+=\lambda_{t}[p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)];\quad\beta^{t+1}d_{t+1}^{-\gamma}=\lambda_{t}[p_{t}(1-\theta_{t})-p_{t+1}(1-\theta_{t+1})(1-\delta)/\Delta^{K}]$
+
+and~divide~to~eliminate~$\lambda_{t}$~and~obtain
+
+$d_{t}^{-\gamma}=\beta d_{t+1}^{-\gamma}\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})-p_{t+1}(1-\theta_{t+1})(1-\delta)/\Delta^{K}}\bigg]=\beta\Delta^{K}d_{t+1}^{-\gamma}\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}\bigg]$.
+
+This~is~just~the~bracketed~expression~in~the~last~section,~with~$\alpha=0.$
+
+
+
+\textbf{A~discrete~subsidy~shock~around~the~steady~state}
+
+We~assume~house~price,~subsidy~and~the~rental~cost~of~capital~are~at
+
+their~steady~state~values~$\overline{p},\overline{\theta},\text{\text{ and} }\overline{r}$respectively.~In~period~t+1,~the~subsidy
+
+shifts~to~$\theta_{t+1}>\overline{\theta}$.~Hence
+
+$\beta\Delta^{K}\frac{d_{t+1}^{-\gamma}}{d_{t}^{-\gamma}}=\bigg[\frac{\overline{p}(1-\overline{\theta)}\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}{\overline{p}(1-\overline{\theta)}(\Delta^{K}-1+\delta)}\bigg]^{1+\alpha(\gamma-1)}$
+
+If~r~and~p~are~sufficiently~inelastic~(or~exogenous),~the~numerator~is
+
+a~higher~value~because~the~negative~term~in~it~decreases.~Hence~there
+
+is~more~investment~in~durables.
+
+
+
+\textbf{The~subsidy~point~elasticity~of~demand~around~the~steady~state}
+
+Let~$G=\bigg[\frac{p_{t-1}(1-\theta_{t-1})\Delta_{-1}^{K}-p_{t}(1-\theta_{t})(1-\delta)}{p_{t}(1-\theta_{t})\Delta^{K}-p_{t+1}(1-\theta_{t+1})(1-\delta)}\bigg]$.~In~the~steady~state,~$G=1.$~However,
+
+we~can~differentiate:
+
+$\gamma\beta\Delta^{K}\bigg(\frac{\overline{d}}{\overline{d}}\bigg)^{\gamma-1}\frac{\partial d}{\partial\theta}=[1+\alpha(\gamma-1)]G^{\alpha(\gamma-1)}\cdot-\bigg[\overline{p}(1-\overline{\theta})\big(\Delta^{K}-1+\delta)\bigg]^{-1}\cdot(1-\delta)\bigg[-\frac{\partial p}{\partial d}\frac{\partial d}{\partial\theta}(1-\overline{\theta})+\overline{p}\bigg]$
+
+Cancelling~out~terms,
+
+$\gamma\beta\Delta^{K}\frac{\partial d}{\partial\theta}=[1+\alpha(\gamma-1)](1-\delta)\bigg[\overline{p}(1-\overline{\theta})\big(\Delta^{K}-1+\delta)\bigg]^{-1}\cdot\bigg[\frac{\partial p}{\partial d}\frac{\partial d}{\partial\theta}(1-\overline{\theta})-\overline{p}\bigg]$
+
+$\Rightarrow\frac{\partial d}{\partial\theta}\bigg\{[1+\alpha(\gamma-1)](1-\delta)\bigg[\overline{p}\big(\Delta^{K}-1+\delta)\bigg]^{-1}\frac{\partial p}{\partial d}-\gamma\beta\Delta^{K}\bigg\}=[1+\alpha(\gamma-1)](1-\delta)\bigg[(1-\overline{\theta)}\big(\Delta^{K}-1+\delta)\bigg]^{-1}$
+
+$\Rightarrow\frac{\partial d}{\partial\theta}=\frac{(1-\overline{\theta})^{-1}\big(\Delta^{K}-1+\delta){}^{-1}}{\bigg[\overline{p}\big(\Delta^{K}-1+\delta)\bigg]^{-1}\frac{\partial p}{\partial d}-\frac{\gamma\beta\Delta^{K}}{(1-\delta)(1+\alpha(\gamma-1))}}$
+
+$\Rightarrow\frac{\partial d}{\partial\theta}=\frac{1}{1-\overline{\theta}}\cdot\frac{\big(\Delta^{K}-1+\delta)^{-1}}{[\overline{p}(\Delta^{K}-1+\delta)]^{-1}\big(\frac{\partial d}{\partial p}\big)^{-1}-\gamma\beta\frac{\Delta^{K}}{(1-\delta)(1+\alpha(\gamma-1))}}$.
+
+Now~consider~the~percentage~change~in~housing~induced~by~the~subsidy:
+
+$\frac{\partial d}{\partial\theta}\frac{1}{\overline{d}}=\frac{1}{1-\overline{\theta}}\cdot\frac{\big(\Delta^{K}-1+\delta)^{-1}}{\bigg[(\Delta^{K}-1+\delta)^{-1}\bigg(\frac{\partial d}{\partial p}\frac{\overline{p}}{\overline{d}}\bigg)^{-1}\overline{p}^{-1}-\gamma\beta\overline{d}\frac{\Delta^{K}}{(1-\delta)(1+\alpha(\gamma-1))}\bigg]}$
+
+\emph{$\Rightarrow\frac{\partial d/\partial\theta(\overline{\theta})}{\overline{d}}=\frac{1}{1-\overline{\theta}}\cdot\bigg[[\epsilon_{\overline{d},p}(\overline{p})]^{-1}-(\overline{d})(\gamma/\nu_{2}\overline{p})(\beta\Delta^{K}\nu_{1})\bigg]^{-1},\qquad\nu_{1}=\overline{p}(\Delta^{K}-1+\delta),\nu_{2}=(1-\delta)(1+\alpha(\gamma-1)).$}
+
+If~$\Delta^{K}\approx1-\delta(\text{e.g. }r+\delta\approx0)\text{ or }\nu_{2}\gg0,\frac{\partial d/\partial\theta}{\overline{d}}\approx\frac{1}{1-\overline{\theta}}\cdot\epsilon_{\overline{d},p}(\overline{p}).$
+
+The~elasticity~is~$\epsilon_{\overline{d},\theta}(\overline{\theta})=\partial d/\partial\theta(\overline{\theta})\frac{\overline{\theta}}{\overline{d}}\approx\frac{\overline{\theta}}{1-\overline{\theta}}\cdot\epsilon_{\overline{d},p}(\overline{p}).$
+
+Suppose~$\overline{\theta}=0$,~but~a~temporary~subsidy~$\theta'$~is~implemented~and~extended~long~enough
+
+for~a~steady~state~$\overline{d}'$~to~be~reached.~Then~an~approximation~of~net~change~in
+
+investment~upon~return~to~the~original~steady~state~can~be~proposed:
+
+$\frac{\partial d/\partial\theta(\overline{\theta})}{\overline{d}}-\frac{\partial d/\partial\theta(\theta')}{\overline{d}'}=\frac{\epsilon_{\overline{d},p}(\overline{p})-\theta'\epsilon_{\overline{d},p}(\overline{p})-\epsilon_{\overline{d}',p}(p')}{1-\theta'}\approx(1+\theta')[\epsilon_{\overline{d},p}(\overline{p})-\theta'\epsilon_{\overline{d},p}(\overline{p})-\epsilon_{\overline{d}',p}(p')]$\end{lyxcode}
+
+\end{document}

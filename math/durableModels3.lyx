@@ -1,0 +1,657 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout LyX-Code
+Owner's problem:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $V_{t}(W,\mathbf{s})=\max_{c_{t},d_{t},a}u(c_{t},d_{t})+\beta\mathbb{E}_{t}\big[V_{t+1}(W',\mathbf{s'})\big]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{s.t. \ensuremath{\ensuremath{\ensuremath{c_{t}+p_{t}}d_{t}+a}\leq\mathcal{Y}(\mathbf{s})+W}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W=(1-\delta)p_{t}d_{t-1}+(1+r)a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W'=(1-\delta)p_{t+1}d_{t}+(1+r)a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+Renter's problem:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $V_{t}(W,\mathbf{s})=\max_{c_{t},d_{t},a}u(c_{t},d_{t})+\beta\mathbb{E}_{t}\big[V_{t+1}(W',\mathbf{s'})\big]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{s.t. \ensuremath{\ensuremath{\ensuremath{c_{t}+\varphi_{t}}d_{t}+a}\leq\mathcal{Y}(\mathbf{s})+W}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W=(1+r)a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W'=(1+r)a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $a\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The Owner's Lagrangian for each period, after substituting in the law of
+ motion for durables, is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}_{t}=u(c_{t},d_{t})+\beta\mathbb{E}_{t}\big[V_{t+1}(W',\mathbf{s'})\big]+\lambda_{t}\bigg[\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}-a-p_{t}d_{t}-c\bigg]+\mu[(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+This has FOCs
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[c_{t}]:\qquad u_{c}(c_{t},d_{t})=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[d_{t}]:\qquad u_{d}(c_{t},d_{t})+p_{t+1}\bigg[\beta\mathbf{\mathbb{E}}_{t}\big[V_{t+1}'(W',\mathbf{s'})\big](1-\delta)+\mu(1-\theta)(1-\delta)\bigg]=\lambda_{t}p_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[a_{t}]:\qquad(1+r)\{\beta\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[Env.]\qquad V'_{t+1}(W',\mathbf{s'})=u_{d}(c_{t+1},d_{t+1})\cdot[(1-\delta)p_{t+1}]^{-1}+\lambda_{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The Renter's Lagrangian for each period is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}_{t}=u(c_{t},d_{t})+\beta\mathbb{E}_{t}\big[V_{t+1}(W',\mathbf{s'})\big]+\tilde{\lambda}_{t}\bigg[\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}-a-\varphi_{t}d_{t}-c\bigg]+\tilde{\mu}a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+With FOCs
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[c_{t}]:\qquad u_{c}(c_{t},d_{t})=\tilde{\lambda}_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[d_{t}]:\qquad u_{d}(c_{t},d_{t})=\tilde{\lambda}_{t}\varphi_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[a_{t}]:\qquad(1+r)\{\beta\mathbb{E}\big[V'(W',\mathbf{s'})\big]+\tilde{\mu}\}=\tilde{\lambda}_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[Env.]\qquad V'(W',\mathbf{s'})=(1+r)\tilde{\lambda}_{t}$
+\end_inset
+
+S
+\end_layout
+
+\begin_layout Standard
+Suppose we want to find the effect of a temporary wealth shock on the user
+ cost, which can be thought of as a comparative static of the user cost
+ to a one-period change in wealth.
+\end_layout
+
+\begin_layout Standard
+Given the 
+\begin_inset Quotes eld
+\end_inset
+
+shadow price
+\begin_inset Quotes erd
+\end_inset
+
+ condition for homeowners (Diaz Luengo-Prado 2008, but with a change in
+ the down payment term):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}=p_{t}-p_{t+1}\bigg(\beta\mathbb{E}\bigg[\frac{\lambda_{t+1}}{\lambda_{t}}\bigg]+(1-\theta)(1-\delta)\frac{\mu_{t}}{\lambda_{t}}\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+remarking that 
+\begin_inset Formula $\lambda_{t}=\frac{\partial V_{t}}{\partial W},\lambda_{t+1}=\frac{\partial V_{t+1}}{\partial W'},$
+\end_inset
+
+ we can implicitly differentiate:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial W= & \frac{p_{t+1}}{\lambda_{t}}\bigg(\\
+ & (1-\theta)(1-\delta)\bigg(\frac{\mu_{t}}{\lambda_{t}}-1\bigg)\frac{\partial^{2}V_{t}}{\partial W^{2}}\\
+ & -\beta\mathbb{E}\bigg[\frac{(\partial^{2}V_{t+1}/\partial W'\partial W)\lambda_{t}-\lambda_{t+1}(\partial^{2}V_{t}/\partial W^{2})}{\lambda_{t}}\bigg]\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial W= & \beta\frac{p_{t+1}}{\lambda_{t}}\bigg(\frac{\partial^{2}V_{t}}{\partial W^{2}}\bigg((1-\theta)(1-\delta)\frac{1}{\beta}\bigg(\frac{\mu_{t}}{\lambda_{t}}-1\bigg)+\frac{1}{\lambda_{t}}\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]\bigg)\\
+ & -\mathbb{E}\big[\frac{\partial^{2}V_{t+1}}{\partial W'\partial W}\big]\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+noticing that 
+\begin_inset Formula 
+\begin{align*}
+\partial W'/\partial W & =1-\partial c/\partial W-\delta(\partial d/\partial W\frac{p_{t+1}}{p_{t}})=1-\partial c/\partial W-\frac{\delta}{1-\delta}(\partial W'/\partial W-(1+r)\partial a/\partial W),\\
+\Rightarrow\partial W'/\partial W & =(1-\delta)\bigg(1-\frac{\partial c}{\partial W}\bigg)+\delta(1+r)\frac{\partial a}{\partial W}\equiv K,
+\end{align*}
+
+\end_inset
+
+ we can write
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial W= & \beta\frac{p_{t+1}}{\lambda_{t}}\bigg(\frac{\partial^{2}V_{t}}{\partial W^{2}}\bigg((1-\theta)(1-\delta)\frac{1}{\beta}\bigg(\frac{\mu_{t}}{\lambda_{t}}-1\bigg)+\frac{1}{\lambda_{t}}\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]\bigg)\\
+ & -K\mathbb{E}\big[\frac{\partial^{2}V_{t+1}}{\partial W'^{2}}\big]\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial W= & -\gamma\beta p_{t+1}\bigg(\frac{\partial\ln c}{\partial W}\Gamma-\mathbb{E}[\frac{\lambda_{t+1}}{\lambda_{t}}\frac{\partial\ln c(W')}{\partial W}]\bigg)\\
+= & -\gamma\bigg(\frac{\partial\ln c}{\partial W}p_{t+1}(\Gamma+(1-\theta)(1-\delta)(1+r)^{-1}-1)+p_{t+1}(1-(1-\theta)(1-\delta)(1+r)^{-1})\frac{\partial\ln c}{\partial W}-\beta p_{t+1}\mathbb{E}[\frac{\lambda_{t+1}}{\lambda_{t}}\frac{\partial\ln c(W')}{\partial W}]\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so under partial equilibrium 
+\begin_inset Formula $(p_{t}=p_{t+1})$
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+\bigg(\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial W\bigg)W/\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)= & \gamma\varepsilon_{c,W}\biggg(1-\frac{1-\frac{\beta}{\lambda_{t}}\mathbb{E}[\lambda_{t+1}\varepsilon_{c',W}/\varepsilon_{c,W}]-\frac{1}{(1+r)}(1-\theta)(1-\delta)}{1-\frac{\beta}{\lambda_{t}}\mathbb{E}\bigg[\lambda_{t+1}\bigg]-(1-\theta)(1-\delta)\frac{\mu_{t}}{\lambda_{t}}}\biggg)\\
+\Rightarrow & \frac{\beta}{\lambda_{t}}\mathbb{E}[\lambda_{t+1}\varepsilon_{c',W}/\varepsilon_{c,W}]+\frac{1}{(1+r)}(1-\theta)(1-\delta)<\frac{\beta}{\lambda_{t}}\mathbb{E}\bigg[\lambda_{t+1}\bigg]+(1-\theta)(1-\delta)\frac{\mu_{t}}{\lambda_{t}}\\
+\Rightarrow & (1-\theta)(1-\delta)\big[(1+r)\mu_{t}-\lambda_{t}]>\beta(1+r)\mathbb{E}[\lambda_{t+1}(\frac{\varepsilon_{c',W}}{\varepsilon_{c,W}}-1)\big].
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To investigate the comparative static of a temporary down subsidy, maybe
+ look a
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{p_{t}}\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial p_{t}= & -\frac{p_{t+1}}{p_{t}^{2}}\bigg(\beta\mathbb{E}\bigg[\frac{\lambda_{t+1}}{\lambda_{t}}\bigg]+(1-\theta)(1-\delta)\frac{\mu_{t}}{\lambda_{t}}\bigg)\\
+ & +\frac{p_{t+1}}{p_{t}}\frac{1}{\lambda_{t}}\bigg((1-\theta)(1-\delta)\bigg(\frac{\mu_{t}}{\lambda_{t}}-1\bigg)\frac{\partial^{2}V_{t}}{\partial W\partial p_{t}}\\
+ & -\beta\mathbb{E}\bigg[\frac{(\partial^{2}V_{t+1}/\partial W'\partial p_{t})\lambda_{t}-\lambda_{t+1}(\partial^{2}V_{t}/\partial W\partial p_{t})}{\lambda_{t}}\bigg]\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or noticing 
+\begin_inset Formula $p_{t}$
+\end_inset
+
+ does not enter into 
+\begin_inset Formula $W'$
+\end_inset
+
+ and that 
+\begin_inset Formula $\partial W/\partial p_{t}=(1-\delta)d_{t-1}=\frac{W-(1+r)a_{t-1}}{p_{t}}$
+\end_inset
+
+, we can write
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{p_{t}}\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial p_{t}= & \beta\frac{p_{t+1}}{\lambda_{t}p_{t}^{2}}\bigg(\frac{\partial^{2}V_{t}}{\partial W^{2}}\bigg(W-(1+r)a_{t-1}\bigg)\bigg((1-\theta)(1-\delta)\frac{1}{\beta}\bigg(\frac{\mu_{t}}{\lambda_{t}}-1\bigg)\\
+ & +\frac{1}{\lambda_{t}}\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]\bigg)+\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]+\frac{(1-\theta)(1-\delta)}{\beta}\mu_{t}\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so the 
+\begin_inset Formula $-\beta\frac{p_{t+1}}{\lambda_{t}}\big(1-\partial c/\partial W-\delta(\partial d/\partial Wp_{t+1})\big)\mathbb{E}\big[\frac{\partial^{2}V_{t+1}}{\partial W'^{2}}\big]$
+\end_inset
+
+ has been replaced with 
+\begin_inset Formula $\frac{1}{p_{t}}$
+\end_inset
+
+ and the magnitude of the response is now decreasing in preexisting assets
+ (lower assets -> higher response).
+\end_layout
+
+\begin_layout Standard
+analogously,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial\bigg(\frac{u_{d}(c_{t},d_{t})}{u_{c}(c_{t},d_{t})}\bigg)/\partial W'=\beta\frac{p_{t+1}}{\lambda_{t}} & \bigg(\frac{\partial^{2}V_{t}}{\partial W^{2}}K^{-1}\\
+ & \bigg((1-\theta)(1-\delta)\frac{1}{\beta}\bigg(\frac{\mu_{t}}{\lambda_{t}}-1\bigg)+\frac{1}{\lambda_{t}}\big(\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]\\
+ & +\frac{1}{(1+r)}(1-\theta)(1-\delta)\mathbb{E}\big[V''_{t+1}(W',\mathbf{s'}\big)\big]\big)\bigg)-\mathbb{E}\big[\frac{\partial^{2}V_{t+1}}{\partial W'^{2}}\big]\bigg)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Interpretation
+\series default
+: The 
+\begin_inset Formula $(1-\theta)(1-\delta)\mu_{t}+\mathbb{E}\big[V'_{t+1}(W',\mathbf{s'})\big]$
+\end_inset
+
+ term could be thought of as the utility gains from relaxing the present
+ down constraint, augmented by the wealth
+\end_layout
+
+\begin_layout Standard
+effects of the investment in the future.
+ This term is positive and multiplication by 
+\begin_inset Formula $\frac{\partial^{2}V_{t}}{\partial W^{2}}<0$
+\end_inset
+
+ means the first term is negative.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $-\mathbb{E}\big[\frac{\partial^{2}V_{t+1}}{\partial W'\partial W}\big]$
+\end_inset
+
+ term is a cross derivative and measures how sensitive the continuation
+ value is to consumption of the wealth shock today, and the term should
+ be positive (?)
+\end_layout
+
+\begin_layout Standard
+Notice that in this world, the temporary wealth shock can be reallocated
+ between consumption, housing and savings.
+ That said, if 
+\begin_inset Formula $\mu_{t}$
+\end_inset
+
+ is sufficiently high, the shadow price
+\end_layout
+
+\begin_layout Standard
+of housing decreases in response to the shock.
+ Maybe the comparative static here is an upper bound for the changes to
+ the user cost for a subsidy explictly targeted on the down.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Preferences: 
+\begin_inset Formula $U(c,h)=\log c+\alpha\log h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Derivation of 
+\begin_inset Formula $\mu:\:\mu=\lambda/(1+r)-\beta\lambda_{t+1}=\frac{1}{c(1+r)}-\frac{1}{(1+r)c'}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Implies 
+\begin_inset Formula $1-\frac{\mu}{(1+r)\lambda}=1-\frac{1}{(1+r)^{2}}+\frac{\lambda_{t+1}/\lambda_{t}}{(1+r)^{2}}=\frac{r(2+r)+c/c'}{(1+r)^{2}}=1+\frac{c/c'-1}{(1+r)^{2}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $\mathbb{E}[\lambda_{t+1}/\lambda_{t}]=1-(1+r)\mu/\lambda\leq1,$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equivalent of the user cost comp.
+ stat.
+ for these preferences:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial(\frac{c}{d})/\partial W\cdot W & =\frac{p_{t+1}}{\alpha(1+r)}\varepsilon_{c,W}\bigg(\mathbb{E}\big[\big(\frac{c'}{c}\big)^{-1}\big(\frac{\varepsilon_{c',W'}\varepsilon_{W',W}}{\varepsilon_{c,W}}-1\big)\bigg]+(1-\theta)(1-\delta)\bigg(1+\frac{\mathbb{E}\bigg[\bigg(\frac{c'}{c}\bigg)^{-1}-1\bigg]}{(1+r)^{2}}\bigg)\bigg)\\
+ & =
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Negative income state: 
+\begin_inset Formula $c'/c$
+\end_inset
+
+ low.
+ 
+\begin_inset Formula $\varepsilon_{c',W'}$
+\end_inset
+
+ higher (level of 
+\begin_inset Formula $c$
+\end_inset
+
+ lower in next period), 
+\begin_inset Formula $\varepsilon_{W',W}$
+\end_inset
+
+ increases (smoothing) so less incentive to spend on durables today 
+\begin_inset Formula $\partial(c/d)$
+\end_inset
+
+ more -ve.
+\end_layout
+
+\begin_layout Standard
+Positive income state: 
+\begin_inset Formula $c'/c$
+\end_inset
+
+ high.
+ 
+\begin_inset Formula $\varepsilon_{c',W'}$
+\end_inset
+
+ lower (level of 
+\begin_inset Formula $c$
+\end_inset
+
+ higher in next period), 
+\begin_inset Formula $\varepsilon_{W',W}$
+\end_inset
+
+ decreases (smoothing) so more incentive to spend on durables today (don't
+ need further insurance?)
+\end_layout
+
+\begin_layout Standard
+DP constrained today: 
+\begin_inset Formula $c'/c$
+\end_inset
+
+ high so second term decreases.
+ 
+\begin_inset Formula $\varepsilon_{W',W}$
+\end_inset
+
+ decreases (since MV of relaxing constraint today increases) 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ unambiguously more on durables.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+U=\max_{T,d}\sum_{i=0}^{\infty} & \beta^{t}c_{t}+\sum_{t=T}^{\infty}\beta^{t}v(s)\\
+s.t. & \sum R^{-t}c_{t}+\sum_{i=T}R^{-t}s=W\\
+\Rightarrow & c=\frac{R-1}{R}W-\frac{R-1}{R^{1+T}}sP_{s}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+V(W)=\max & \{\max_{c}c+\beta V((1+r)W'),\frac{1}{1-\beta}v(d)\}\\
+s.t. & W'=W-c.\\
+V(j,W)=\max & \{\max_{c}c+\beta V((1+r)(W-c)),\frac{1}{1-\beta}v(W)\}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{W}((1+r)W')=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+V(j,W)\geq(1-\beta)W+\beta V(j+1,W) & \geq(1-\beta)W+\beta V(j,W)\geq(1-\beta)W+\frac{\beta}{1-\beta}v(W)\Rightarrow V(j+1,W)\geq\frac{1}{1-\beta}v(W)\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

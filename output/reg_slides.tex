@@ -1,0 +1,142 @@
+\documentclass[9pt]{beamer}
+\usepackage{tikz}
+\usepackage{booktabs}
+
+\definecolor{themecolor}{rgb}{.1, .1, .5}
+\definecolor{darkgreen}{rgb}{.1, .1, .5}
+\definecolor{myblue}{RGB}{0, 139, 188}
+
+\def \mainroot{../../../}
+\input{\mainroot/slides/fthb/local_config.tex}
+
+\mode<presentation>{}
+\usefonttheme{structuresmallcapsserif}
+\setbeamerfont{footline}{size={\fontsize{10}{12}}}
+\setbeamertemplate{footline}[frame number]{}
+\setbeamertemplate{navigation symbols}{}
+
+\title{FTHB model regressions}
+\author{Berger, Cui, Turner, and Zwick \\ (DRAFT)}
+
+\def \sdir{stata}
+\def \mdir{matlab}
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+{
+    \setbeamercolor{background canvas}{bg=themecolor}
+\frame{
+        \Large \color{white} \textbf{Model setup}
+    \addtocounter{framenumber}{-1}
+}
+}
+
+\begin{frame}{Defined parameters}
+\textbf{Note:} The entire model is standardized to median household income
+ in the 1998-2004 SCF (About ~\$67,000 in 2013 dollars)
+\begin{itemize}
+        \item $1-\alpha = 0.859:$ Cobb-Douglas parameter, share of expenditure
+                in perishable consumption (i.e. $\alpha$ share in durables)
+        \item $\gamma = 2:$ Intertemporal elasticity of substitution
+        \item $r = 2.4\%:$ rate of return on the safe asset
+        \item $r_{borrow} = r + 0.8\%$ interest rate on borrowing (if
+                $q \leq (1-\theta)*h*p$)
+        \item $\delta = 2.2\%:$ Depreciation rate of hdurable
+        \item $F = 6\%:$ total fixed cost on adjusting durable stock
+        \item $\underline{s} = 0.8:$ share of the fixed cost borne by the
+                seller (i.e. she pays $\underline{s}F$)
+        \item $\theta = 20\%$: Required down payment on durable
+        \item $\rho_z = 0.91$: Persistence of AR(1) income process
+        \item $\sigma_z = 0.20$: S.d. of shocks to income process
+        \item $\epsilon = 2.5$: Price elasticity of supply for the representative
+               housing firm
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Calibrated parameters}
+        \textbf{Note:} Unlikely that all the parameters below will be
+        calibrated.
+\begin{itemize}
+        \item $\beta = 0.915:$ Discount rate.
+        \item $\phi = 0.26\%:$ Rental housing markup (added onto user cost of housing
+                yields the rental price as a fraction of housing)
+        \item $\phi_{ret} = 0.065\% : $ Rental housing markup in retirement.
+        \item $h_{min} = 0.78:$ Minimum size for an owned house (no limits exist on
+                renting)
+        \item $\Xi = 2.00 :$ A lump sum transfer at retirement equal to a proportion
+                of labour income before retirement
+        \item $\Psi = 3.60:$ Multiplicative factor on bequest utility (seems large,
+               but maybe bequests are also defined differently?)
+       \item  $\omega:$ Disutility of rental housing ($=1$ for owned housing)
+       \item  $\underline{b}:$ Reference value for bequests: affects marginal
+               utility of a unit increase in bequests.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algorithmic details}
+\begin{itemize}
+        \item Search space over 120 uneven grid points for voluntary equity,
+              $q = a + (1-\theta)*h*p$, 90 grid points for $h$
+      \item 9 grid points for income process (Tauchen '86 discretization),
+              with a range of $\pm 2.5$ the unconditional s.d
+              of the AR(1)
+      \item  38 working periods, 25 retirement periods. Correspond to ages
+              22-84 on data
+      \item A steady-state general equilibrium is found by minimizing the
+              deviation between the \textbf{average} excess demand for housing
+              (see Kaplan, Mitman, Violante, eq. 6) and the average new
+              construction supply. \newline
+              The minimizing price is found using Brent's method, with
+              a liberal convergence threshold. However, the minimum deviation
+              still usually reaches less than 1E-2.
+\end{itemize}
+\end{frame}
+
+{
+    \setbeamercolor{background canvas}{bg=themecolor}
+\frame{
+        \Large \color{white} \textbf{Regression Tables, Baseline Model}
+    \addtocounter{framenumber}{-1}
+}
+}
+
+\begin{frame}{Policy downscaling, inframarginal}
+   \footnotesize \input{reg_ddiff_infra_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Policy downscaling, marginal}
+   \footnotesize \input{reg_ddiff_marg_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Timing margin, marginal}
+   \tiny \input{reg_pullforward_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Extensive margin reversion (T+1), inframarginal}
+   \tiny \input{reg_fwdchoice_0_1_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Extensive margin reversion (T+1), marginal}
+   \tiny \input{reg_fwdchoice_1_1_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Extensive margin reversion (T+2), inframarginal}
+   \tiny \input{reg_fwdchoice_0_2_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Extensive margin reversion (T+2), marginal}
+   \tiny \input{reg_fwdchoice_1_2_experiment_monetary_nodown}
+\end{frame}
+\begin{frame}{Extensive margin reversion (T+3), inframarginal}
+   \tiny \input{reg_fwdchoice_0_3_experiment_monetary_nodown}
+\end{frame}
+
+\begin{frame}{Extensive margin reversion (T+3), marginal}
+   \tiny \input{reg_fwdchoice_1_3_experiment_monetary_nodown}
+\end{frame}
+\end{document}

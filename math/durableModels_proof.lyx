@@ -1,0 +1,1079 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout LyX-Code
+
+\series bold
+A model with two consumption goods, one perishable and one durable
+\end_layout
+
+\begin_layout LyX-Code
+The consumer's problem in a general equilibrium setup is recursively described
+ by
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $V(W,\mathbf{s})=\max_{c,d_{t},a_{t},W'}\frac{[c^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{s.t. \ensuremath{\ensuremath{\ensuremath{c+p_{t}(1}-\zeta_{t})d_{t}+a_{t}}\leq(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W=(1-\delta)p_{t}d_{t-1}+(1+r)a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W'=(1-\delta)p_{t+1}d_{t}+(1+r)a_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a_{t}\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Here 
+\begin_inset Formula $d_{t}$
+\end_inset
+
+ is the stock of durables/housing possessed, and 
+\begin_inset Formula $a$
+\end_inset
+
+ the stock a risk-free bond.
+\end_layout
+
+\begin_layout LyX-Code
+The transfer 
+\begin_inset Formula $T$
+\end_inset
+
+ satisfies the balanced budget constraint, though is superfluous in the
+ analysis.
+\end_layout
+
+\begin_layout LyX-Code
+The variable 
+\begin_inset Formula $\zeta_{t}$
+\end_inset
+
+ indicates if a price subsidy is applied for period 
+\begin_inset Formula $t.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+CLAIM 1: 
+\series default
+If the optimal choice of 
+\begin_inset Formula $a_{t}$
+\end_inset
+
+ is interior, a representation of the
+\end_layout
+
+\begin_layout LyX-Code
+optimal intertemporal durables choice rule is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\log d_{t+1} & = & \bigg[\frac{\alpha(1-\gamma)-1}{\gamma}\bigg]\log\dot{p}_{t+1}+\alpha(1-\gamma)\log\bigg(d_{t}[(1-\zeta_{t+1})\dot{R}-\dot{p}_{t+2}]^{\frac{1}{\gamma}}\bigg)\\
+ &  & -[\alpha(1-\gamma)-1]\log\bigg(d_{t}[(1-\zeta_{t})\dot{R}-\dot{p}_{t+1}]^{\frac{1}{\gamma}}\bigg)+\frac{1}{\gamma}\log\beta+\frac{1}{\gamma}\log\frac{1-\alpha}{\alpha},
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where 
+\begin_inset Formula $\dot{R}=(1+r)/(1-\delta)>1,$
+\end_inset
+
+ 
+\begin_inset Formula $\dot{p}_{t}=p_{t}/p_{t-1}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+A model with one durable consumption good
+\end_layout
+
+\begin_layout LyX-Code
+Now the consumer's utility function and constraint is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $V(W,\mathbf{s})=\max_{d_{t},a,W'}\frac{d_{t}{}^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{s.t. \ensuremath{\ensuremath{\ensuremath{p_{t}(1}-\zeta_{t})d_{t}+a}\leq(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W=(1-\delta)p_{t}d_{t-1}+(1+r)a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W'=(1-\delta)p_{t+1}d_{t}+(1+r)a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+CLAIM 2: 
+\series default
+If the optimal choice of 
+\begin_inset Formula $a_{t}$
+\end_inset
+
+ is interior, a representation the
+\end_layout
+
+\begin_layout LyX-Code
+optimal intertemporal durables choice rule is
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\log d_{t+1} & = & -\frac{1}{\gamma}\log\dot{p}_{t+1}+\log\bigg(d_{t}[(1-\zeta_{t})\dot{R}-\dot{p}_{t+1}]^{\frac{1}{\gamma}}\bigg)+\frac{1}{\gamma}\log\beta.\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+This is a special case of the equation with two goods, except 
+\begin_inset Formula $\alpha=0$
+\end_inset
+
+ and the 
+\begin_inset Formula $\log\frac{1-\alpha}{\alpha}$
+\end_inset
+
+ term is gone.
+\end_layout
+
+\begin_layout LyX-Code
+This is less of a special case than at first glance: if the same sequence
+ of 
+\begin_inset Formula ${\zeta_{t}}$
+\end_inset
+
+ is used in the
+\end_layout
+
+\begin_layout LyX-Code
+two models above and house price remains constant, the growth rate of durable
+ investment
+\end_layout
+
+\begin_layout LyX-Code
+will be identical up to the constant 
+\begin_inset Formula $\log\frac{1-\alpha}{\alpha}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Analytical solution to temporary tax credit responses
+\end_layout
+
+\begin_layout LyX-Code
+So far, the dynamics for house prices have not been pinned down.
+ Assume house prices follow the law of motion
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $d_{t+1}=(1-\delta)d_{t}+\psi_{1}\bigg(\frac{1}{p_{t+1}\psi_{1}\psi_{2}}\bigg)^{\frac{\psi_{2}}{\psi_{2}-1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where 
+\begin_inset Formula $\psi_{2}=\frac{\varepsilon}{1+\varepsilon}$
+\end_inset
+
+, and 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ the underlying housing supply elasticity.
+ In log-linear form the equation
+\end_layout
+
+\begin_layout LyX-Code
+can be expressed as
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+ &  & \log\bigg(\frac{d_{t+1}}{d_{t}}-(1-\delta)\bigg)+\log d_{t}=\log\psi_{1}-\frac{\psi_{2}}{\psi_{2}-1}\log\psi_{1}\psi_{2}-\frac{\psi_{2}}{\psi_{2}-1}\log p_{t+1}\\
+ & \Rightarrow & \frac{\psi_{2}}{\psi_{2}-1}\log\dot{p}_{t+1}=-\log\dot{d}_{t}-\log\bigg(\dot{d}_{t+1}-(1-\delta)\bigg)+\log\bigg(\dot{d_{t}}-(1-\delta)\bigg).
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+CLAIM 3.
+ 
+\series default
+The optimal rational expectations path of durables and prices in the one-good
+ case,
+\end_layout
+
+\begin_layout LyX-Code
+in response to a temporary policy, is approximated to first order by the
+ systems of equations
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\bigg(1+\dot{D_{1}}/\varepsilon\bigg)\log d_{t+1} & \approx & \frac{\dot{D}_{2}}{\gamma\varepsilon}\log\dot{d}_{t}+\frac{1}{\gamma}\log\beta\\
+ & + & \log\bigg(d_{t}^{(1+\dot{D}_{1}/\varepsilon)}\bigg[(1-\zeta_{t})\dot{R}-1-\frac{\dot{D_{1}}}{\varepsilon}\log\dot{d}_{t+1}+\frac{\dot{D_{2}}}{\varepsilon}\log\dot{d}_{t}\bigg]^{\frac{1}{\gamma}}\bigg)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where 
+\begin_inset Formula $\dot{D}_{1}=[1/\sqrt{\dot{d}_{t+1}}+(1-\delta)],\:\dot{D}_{2}=[1/\sqrt{\dot{d}_{t}}-\delta],$
+\end_inset
+
+ for 
+\begin_inset Formula $t=0,\ldots,T$
+\end_inset
+
+ and the boundary conditions 
+\begin_inset Formula $\log d_{0}=\overline{d},\log d_{T}=\overline{d},\:\overline{d}$
+\end_inset
+
+ being a steady state value.
+\end_layout
+
+\begin_layout LyX-Code
+Solving this system by backwards induction reproduces a 
+\begin_inset Quotes eld
+\end_inset
+
+full reversal
+\begin_inset Quotes erd
+\end_inset
+
+ result.
+\end_layout
+
+\begin_layout LyX-Code
+Let 
+\begin_inset Formula $\zeta_{T^{*}}>0.$
+\end_inset
+
+ For 
+\begin_inset Formula $t>T^{*}$
+\end_inset
+
+ where 
+\begin_inset Formula $\zeta_{t}=0,$
+\end_inset
+
+ the dynamics are unaltered from the steady-state value, so 
+\begin_inset Formula $\log d_{t}$
+\end_inset
+
+ remains constant.
+\end_layout
+
+\begin_layout LyX-Code
+At 
+\begin_inset Formula $t=T^{*}$
+\end_inset
+
+That 
+\begin_inset Formula $\log d_{t+1}=\overline{d}$
+\end_inset
+
+ is already known.
+ However, a negative shock in 
+\begin_inset Formula $\zeta_{t}$
+\end_inset
+
+ brings down the value of the final
+\end_layout
+
+\begin_layout LyX-Code
+term.
+ To compensate, the 
+\begin_inset Formula $d_{t}$
+\end_inset
+
+ term must increase, causing both increases in 
+\begin_inset Formula $\log\dot{d}_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $-\log\dot{d}_{t+1}$
+\end_inset
+
+.
+ Heuristically I claim
+\end_layout
+
+\begin_layout LyX-Code
+both of these positive terms dampen the 
+\begin_inset Formula $\zeta_{t}$
+\end_inset
+
+ term, and in addition the 
+\begin_inset Formula $d_{t}^{(1+\dot{D}_{1}/\varepsilon)}$
+\end_inset
+
+ grows as well.
+ Additional increases 
+\end_layout
+
+\begin_layout LyX-Code
+due to the 
+\begin_inset Formula $\frac{\dot{D}_{2}}{\gamma\varepsilon}\log\dot{d}_{t}$
+\end_inset
+
+ term is small because 
+\begin_inset Formula $1/\gamma\varepsilon$
+\end_inset
+
+ is small.
+\end_layout
+
+\begin_layout LyX-Code
+Let 
+\begin_inset Formula $t=T^{*}-1.$
+\end_inset
+
+ It is known that 
+\begin_inset Formula $\log d_{t+1}$
+\end_inset
+
+ has increased, so 
+\begin_inset Formula $d_{0}$
+\end_inset
+
+ falls (???) to compensate for LHS through
+\end_layout
+
+\begin_layout LyX-Code
+the 
+\begin_inset Formula $-\log d_{t}$
+\end_inset
+
+ terms [...]
+\end_layout
+
+\begin_layout LyX-Code
+An analogous expression holds for the case with two goods.
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+CLAIM 4.
+ 
+\series default
+The optimal rational expectations path of durables and prices in the two-good
+ case,
+\end_layout
+
+\begin_layout LyX-Code
+in response to a temporary policy, is approximated to first order by the
+ systems of equations
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\bigg(1+[1+\alpha(\gamma-1)]\frac{\dot{D_{1}}}{\varepsilon}\bigg)\log d_{t+1} & \approx & \bigg[\frac{1+\alpha(\gamma-1)}{\gamma}\bigg]\frac{1-\delta}{\varepsilon}\log\dot{d}_{t}+\frac{1}{\gamma}\log\beta+\frac{1}{\gamma}\log\frac{1-\alpha}{\alpha}\\
+ & + & [1+\alpha(\gamma-1)]\log\bigg(d_{t}^{(1+\dot{D_{1}}/\varepsilon)}\bigg[(1-\zeta_{t})\dot{R}-1-\frac{\dot{D_{1}}}{\varepsilon}\log\dot{d}_{t+1}+\frac{\dot{D}_{2}}{\varepsilon}\log\dot{d}_{t}\bigg]^{\frac{1}{\gamma}}\bigg)\\
+ & - & \alpha(\gamma-1)\log\bigg(d_{t}^{(1+\dot{D_{1}}/\varepsilon)}\bigg[(1-\zeta_{t+1})\dot{R}-1-\frac{\dot{D_{1}}}{\varepsilon}\log\dot{d}_{t+2}+\frac{\dot{D}_{2}}{\varepsilon}\log\dot{d}_{t+1}\bigg]^{\frac{1}{\gamma}}\bigg).
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+To argue along previous lines, while the 
+\begin_inset Formula $\alpha(\gamma-1)$
+\end_inset
+
+ term amplifies response to the temporary price subsidy,
+\end_layout
+
+\begin_layout LyX-Code
+the fall of the 
+\begin_inset Formula $\log\dot{d}{}_{t+1}$
+\end_inset
+
+term when 
+\begin_inset Formula $t=1$
+\end_inset
+
+ is no longer uninfluential as before.
+\end_layout
+
+\begin_layout LyX-Code
+In the log term on the third line, 
+\begin_inset Formula $\log\dot{d}{}_{t+1}$
+\end_inset
+
+ can now cause a significant increase in the log term's value,
+\end_layout
+
+\begin_layout LyX-Code
+hence decreasing the LHS value even further.
+\end_layout
+
+\begin_layout LyX-Code
+In other words, there is no need for 
+\begin_inset Formula $\log d{}_{t+1}$
+\end_inset
+
+ to decrease as much as before to balance the negative shock in 
+\begin_inset Formula $\zeta_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+[More intuitive explanation involves retaining the price growth terms: in
+ the two-good case agents
+\end_layout
+
+\begin_layout LyX-Code
+are more forward looking regarding prices, maybe because people now have
+ the ability to
+\end_layout
+
+\begin_layout LyX-Code
+substitute back into consumption.
+\end_layout
+
+\begin_layout LyX-Code
+If more forward looking, then naturally the reversal is more gradual because
+ the price
+\end_layout
+
+\begin_layout LyX-Code
+will rise back to its steady-state value, and waiting to sell durable stock
+ earns more revenue.
+\end_layout
+
+\begin_layout LyX-Code
+Is this latter part an 
+\begin_inset Quotes eld
+\end_inset
+
+income effect?
+\begin_inset Quotes erd
+\end_inset
+
+]
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Proof of Claim 1.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+The Lagrangian is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}=\frac{[c^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})+\lambda_{t}\bigg[(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T-a_{t}-p_{t}(1-\zeta_{t})d_{t}-c\bigg]+\mu[(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a_{t}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Then take relevant FOCs:
+\begin_inset Formula 
+\begin{eqnarray*}
+\bigg[c\bigg] & \qquad\qquad\qquad & \big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}\alpha c^{\alpha-1}d^{1-\alpha}=\lambda_{t}\\
+\bigg[d_{t}\bigg] &  & \big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}(1-\alpha)c^{\alpha}d^{-\alpha}+p_{t+1}\{\beta V'(W',\mathbf{s'})(1-\delta)+\mu(1-\theta)(1-\delta)\}=p_{t}(1-\zeta_{t})\lambda_{t}\\
+\bigg[a_{t}\bigg] &  & (1+r)\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\Rightarrow\Delta^{K}\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\\{}
+[Env.] &  & V'(W',\mathbf{s'})=\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}\cdot[(1-\delta)p_{t+1}]^{-1}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute 
+\begin_inset Formula $\big[a]$
+\end_inset
+
+ into 
+\begin_inset Formula $\big[d_{t}]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}(1-\alpha)c^{\alpha}d^{-\alpha}-\theta(1-\delta)p_{t+1}\mu=\lambda_{t}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Divide over 
+\begin_inset Formula $[c]$
+\end_inset
+
+ gets
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{1-\alpha}{\alpha}\frac{c}{d}-\mu\theta(1-\delta)p_{t+1}/\lambda_{t}=p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $[Env.]$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ into 
+\begin_inset Formula $[a]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Delta^{K}\{\beta\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}\cdot[(1-\delta)p_{t+1}]^{-1}+\mu\}=-\lambda$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+and dividing over 
+\begin_inset Formula $[c]$
+\end_inset
+
+ gets
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}+\mu/\lambda_{t}=1/\Delta^{K}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Since optimal 
+\begin_inset Formula $a_{t}$
+\end_inset
+
+ is assumed to be interior, 
+\begin_inset Formula $\mu=0$
+\end_inset
+
+ and conditions become
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+c=\frac{\alpha}{1-\alpha}d[p_{t}(1-\zeta_{t})-\frac{1-\delta}{\Delta^{K}}p_{t+1}] & \quad\quad\quad & (1^{*})\\
+\frac{d_{t+1}}{c_{t+1}}=\bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\Delta^{K}\bigg\}^{\frac{1}{\alpha}}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{\frac{1-\alpha}{\alpha}} &  & (2^{*})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+Substituting 
+\begin_inset Formula $(1^{*})$
+\end_inset
+
+ into 
+\begin_inset Formula $(2^{*})$
+\end_inset
+
+ yields
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+1 & = & \bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\bigg[\frac{p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)}{p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)}\bigg]^{-\alpha\gamma}\bigg[\frac{d_{t+1}}{d_{t}}\bigg]^{-\gamma}\Delta^{K}\bigg\}^{\frac{1}{\alpha}}\bigg\{\frac{p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)}{(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta))^{-(1-\alpha)/\alpha}}\bigg\}\\
+ & \Rightarrow & \bigg\{\frac{(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta))^{\alpha(1-\gamma)-1}}{(p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta))^{\alpha(1-\gamma)}}\bigg\}=\bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\bigg[\frac{d_{t+1}}{d_{t}}\bigg]^{-\gamma}\Delta^{K}\bigg\}\\
+ & \Rightarrow & \frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)p_{t+1}]}\bigg(\frac{d_{t+1}}{d_{t}}\bigg)^{-\gamma}\\
+ &  & =[p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)]^{\alpha(1-\gamma)-1}[p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)]^{-\alpha(1-\gamma)}.
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+The last equation can be log-linearised into
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\gamma\log\bigg(\frac{d_{t+1}}{d_{t}}\bigg) & = & \alpha(1-\gamma)\log\bigg(p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)\bigg)\\
+ &  & -[\alpha(1-\gamma)-1]\log\bigg(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)\bigg)+\log\bigg(\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)p_{t+1}]}\bigg),
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+dividing by 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ and factoring out 
+\begin_inset Formula $p_{t},p_{t+1}$
+\end_inset
+
+ in the log expressions yields the formula.
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Proof of Claim 2.
+\end_layout
+
+\begin_layout LyX-Code
+The Lagrangian is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}=\frac{d_{t}^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})+\lambda_{t}\bigg[(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T-a-p_{t}(1-\zeta_{t})d_{t}\bigg]+\mu[(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+with FOCs
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\bigg[d_{t}\bigg] & \qquad\qquad\qquad & d_{t}^{-\gamma}+p_{t+1}\{\beta V'(W',\mathbf{s'})(1-\delta)+\mu(1-\theta)(1-\delta)\}=p_{t}(1-\zeta_{t})\lambda_{t}\\
+\bigg[a_{t}\bigg] &  & (1+r)\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\Rightarrow\Delta^{K}\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\\{}
+[Env.] &  & V'(W',\mathbf{s'})=d_{t+1}^{-\gamma}\cdot[(1-\delta)p_{t+1}]^{-1}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute 
+\begin_inset Formula $\big[a]$
+\end_inset
+
+ into 
+\begin_inset Formula $\big[d_{t}]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $d_{t}^{-\gamma}-\theta(1-\delta)p_{t+1}\mu=\lambda_{t}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $[Env.]$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ into 
+\begin_inset Formula $[a]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Delta^{K}\{\beta d_{t+1}^{-\gamma}\cdot[(1-\delta)p_{t+1}]^{-1}+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Assuming 
+\begin_inset Formula $\mu=0$
+\end_inset
+
+ again, dividing the above expression yields
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{d_{t+1}^{-\gamma}}{d_{t}^{-\gamma}}\cdot\beta[(1-\delta)p_{t+1}]^{-1}=\frac{1}{\Delta^{K}}\bigg[p_{t}(1-\zeta_{t})-p_{t+1}/\dot{R}\bigg]^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+which reduces to
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\beta\Delta^{K}}{(1-\delta)p_{t+1}}d_{t+1}^{-\gamma}=[p_{t}(1-\zeta_{t})-p_{t+1}/\dot{R}]^{-1}d_{t}^{-\gamma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where 
+\begin_inset Formula $\dot{R}=(1+r)/(1-\delta).$
+\end_inset
+
+ The last equation can be log-linearised into
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\bigg(\frac{d_{t+1}}{d_{t}}\bigg)=\log\bigg(p_{t}(1-\zeta_{t})-p_{t+1}/\dot{R}\bigg)+\log\bigg(\frac{\beta\dot{R}}{p_{t+1}}\bigg)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+Dividing by 
+\begin_inset Formula $\gamma,$
+\end_inset
+
+ moving 
+\begin_inset Formula $\log d_{t},$
+\end_inset
+
+ factoring out 
+\begin_inset Formula $p_{t},\dot{R}$
+\end_inset
+
+ in the log expression yields the formula.
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Proof of Claim 3.
+\end_layout
+
+\begin_layout LyX-Code
+From the expression 
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\psi_{2}}{\psi_{2}-1}\log\dot{p}_{t+1}=-\log\dot{d}_{t}-\log\bigg(\dot{d}_{t+1}-(1-\delta)\bigg)+\log\bigg(\dot{d_{t}}-(1-\delta)\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+which comes from subtracting laws of motion for price in successive periods,
+\end_layout
+
+\begin_layout LyX-Code
+the following two first-order approximations can be made:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\psi_{2}}{1-\psi_{2}}\log\dot{p}_{t+1}\approx\log\dot{d}_{t+1}+(1-\delta)[1/\dot{d}_{t}-1/\dot{d}_{t+1}]\approx\log\dot{d}_{t+1}+(1-\delta)[(1-\log\dot{d}_{t}+\log^{2}\dot{d}_{t}/2)-(1-\log\dot{d}_{t+1}+\log^{2}\dot{d}_{t+1}/2)]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The first approximation is the Taylor expansion of the log terms around
+ 
+\begin_inset Formula $\dot{d}_{t}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout LyX-Code
+cancelling terms along the way and switching sign.
+ The second approximation
+\end_layout
+
+\begin_layout LyX-Code
+uses, for 
+\begin_inset Formula $x\rightarrow0,\:1/(1+x)\approx1/(1-(-\log(1+x)))\approx1-\log(1+x)+\log(1+x)^{2}/2+\mathcal{O}(\log(1+x)^{3}).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Then,
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{\psi_{2}}{1-\psi_{2}}\log\dot{p}_{t+1} & \approx & \log\dot{d}_{t+1}+(1-\delta)[\log\dot{d}_{t+1}-\log^{2}\dot{d}_{t+1}/2-\log\dot{d}_{t}+\log^{2}\dot{d}_{t}/2]\\
+ & = & [(1-\delta)+(1-\log\dot{d}_{t+1}/2)]\log\dot{d}_{t+1}-[(1-\log\dot{d}_{t}/2)-\delta]\log\dot{d}_{t}\\
+ & \approx & [1/\sqrt{\dot{d}_{t+1}}+(1-\delta)]\log\dot{d}_{t+1}-[1/\sqrt{\dot{d}_{t}}-\delta]\log\dot{d}_{t}\\
+ & = & [1/\sqrt{\dot{d}_{t+1}}+(1-\delta)](\log d_{t+1}-\log d_{t})-[1/\sqrt{\dot{d}_{t}}-\delta]\log\dot{d}_{t}.
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Finally, 
+\begin_inset Formula $\dot{p}_{t}$
+\end_inset
+
+ is approximated as 
+\begin_inset Formula $1+\log\dot{p}_{t}.$
+\end_inset
+
+ Both equalities are used in the substitution.
+\end_layout
+
+\begin_layout LyX-Code
+Finally, 
+\begin_inset Formula $\frac{\psi_{2}}{1-\psi_{2}}=\frac{\varepsilon}{1+\varepsilon}/\frac{1}{1+\varepsilon}=\varepsilon.$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

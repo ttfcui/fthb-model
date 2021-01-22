@@ -1,0 +1,897 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:/Users/ttfcui/Documents/student-debt-fthb/code/model/output/stata/xp_12212016.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}23 Feb 2017, 14:09:34
+{txt}
+{com}. 
+. * Number of linear splines for age (heterog. effects of shocks by age)
+. local spline_n 5 
+{txt}
+{com}.  
+. * TC processed the raw output file from the model into CSV form, with other
+. * fixtures (see xp_12212016.py)
+. import delimited $dboxdatadir/fthb.csv, clear
+{res}{text}(15 vars, 304,000 obs)
+
+{com}. 
+. xtset id age
+{res}{txt}{col 8}panel variable:  {res}id (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}age, 2 to 39
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. by id: gen owning = (rent[_n] == 0 & rent[_n-1] == 1)
+{txt}
+{com}. by id: gen rerenting = (rent[_n] == 1 & rent[_n-1] == 0)
+{txt}
+{com}. order owning rerenting, after(age)
+{txt}
+{com}. 
+. foreach var in income_val assets {c -(}
+{txt}  2{com}.     by id: gen `var'_chg = `var' - `var'_l
+{txt}  3{com}. {c )-}
+{txt}(8,000 missing values generated)
+(8,000 missing values generated)
+
+{com}. rename income_val_chg income_chg
+{res}{txt}
+{com}. mkspline agebin `spline_n' = age
+{txt}
+{com}. 
+. * Preliminary binscatters to see if a linear model fits (assuming LPM)
+. local depvar owning
+{txt}
+{com}. binscatter `depvar' income_chg, control(age income_val_l) reportreg // Model 1
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   296,000
+{txt}{hline 13}{c +}{hline 34}   F(1, 295998)    = {res}   645.25
+{txt}       Model {c |} {res} 20.9647555         1  20.9647555   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9617.21808   295,998  .032490821   {txt}R-squared       ={res}    0.0022
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0022
+{txt}       Total {c |} {res} 9638.18283   295,999  .032561538   {txt}Root MSE        =   {res} .18025
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    __000003{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}__000002 {c |}{col 14}{res}{space 2}  .043175{col 26}{space 2} .0016997{col 37}{space 1}   25.40{col 46}{space 3}0.000{col 54}{space 4} .0398437{col 67}{space 3} .0465064
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0334822{col 26}{space 2} .0003315{col 37}{space 1}  100.99{col 46}{space 3}0.000{col 54}{space 4} .0328324{col 67}{space 3}  .034132
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. binscatter `depvar' income_chg, control(c.age##c.income_val_l) reportreg // Model 2
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   296,000
+{txt}{hline 13}{c +}{hline 34}   F(1, 295998)    = {res}   585.87
+{txt}       Model {c |} {res} 18.7828544         1  18.7828544   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9489.70482   295,998   .03206003   {txt}R-squared       ={res}    0.0020
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0020
+{txt}       Total {c |} {res} 9508.48767   295,999  .032123378   {txt}Root MSE        =   {res} .17905
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    __000003{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}__000002 {c |}{col 14}{res}{space 2} .0408761{col 26}{space 2} .0016888{col 37}{space 1}   24.20{col 46}{space 3}0.000{col 54}{space 4} .0375662{col 67}{space 3} .0441861
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0334991{col 26}{space 2} .0003293{col 37}{space 1}  101.72{col 46}{space 3}0.000{col 54}{space 4} .0328536{col 67}{space 3} .0341446
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. binscatter `depvar' income_chg, control(agebin? income_val_l) reportreg // Model 3
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   296,000
+{txt}{hline 13}{c +}{hline 34}   F(1, 295998)    = {res}   646.16
+{txt}       Model {c |} {res} 20.9547798         1  20.9547798   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9599.19269   295,998  .032429924   {txt}R-squared       ={res}    0.0022
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0022
+{txt}       Total {c |} {res} 9620.14747   295,999  .032500608   {txt}Root MSE        =   {res} .18008
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    __000003{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}__000002 {c |}{col 14}{res}{space 2} .0431719{col 26}{space 2} .0016984{col 37}{space 1}   25.42{col 46}{space 3}0.000{col 54}{space 4} .0398431{col 67}{space 3} .0465006
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0334822{col 26}{space 2} .0003312{col 37}{space 1}  101.08{col 46}{space 3}0.000{col 54}{space 4}  .032833{col 67}{space 3} .0341314
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. binscatter `depvar' income_chg, control(agebin? c.age##(c.income_val_l)) reportreg // Model 4
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   296,000
+{txt}{hline 13}{c +}{hline 34}   F(1, 295998)    = {res}   572.84
+{txt}       Model {c |} {res} 18.2877947         1  18.2877947   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9449.65041   295,998   .03192471   {txt}R-squared       ={res}    0.0019
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0019
+{txt}       Total {c |} {res} 9467.93821   295,999  .031986386   {txt}Root MSE        =   {res} .17867
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    __000003{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}__000002 {c |}{col 14}{res}{space 2} .0403432{col 26}{space 2} .0016856{col 37}{space 1}   23.93{col 46}{space 3}0.000{col 54}{space 4} .0370395{col 67}{space 3} .0436469
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0335031{col 26}{space 2} .0003286{col 37}{space 1}  101.94{col 46}{space 3}0.000{col 54}{space 4} .0328589{col 67}{space 3} .0341472
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. binscatter `depvar' income_chg, control(agebin? c.age##(c.income_val_l*)) reportreg // Model 5
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   288,000
+{txt}{hline 13}{c +}{hline 34}   F(1, 287998)    = {res}   583.51
+{txt}       Model {c |} {res} 18.6935515         1  18.6935515   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9226.35793   287,998  .032036188   {txt}R-squared       ={res}    0.0020
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0020
+{txt}       Total {c |} {res} 9245.05148   287,999  .032100985   {txt}Root MSE        =   {res} .17899
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    __000003{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}__000002 {c |}{col 14}{res}{space 2} .0411808{col 26}{space 2} .0017048{col 37}{space 1}   24.16{col 46}{space 3}0.000{col 54}{space 4} .0378394{col 67}{space 3} .0445221
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}   .03407{col 26}{space 2} .0003336{col 37}{space 1}  102.12{col 46}{space 3}0.000{col 54}{space 4} .0334161{col 67}{space 3} .0347239
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. binscatter `depvar' income_chg, control(agebin? c.agebin?##(c.income_val_l)) reportreg // Model 6
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   296,000
+{txt}{hline 13}{c +}{hline 34}   F(1, 295998)    = {res}   550.44
+{txt}       Model {c |} {res}  17.448245         1   17.448245   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9382.78659   295,998  .031698818   {txt}R-squared       ={res}    0.0019
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0019
+{txt}       Total {c |} {res} 9400.23483   295,999  .031757657   {txt}Root MSE        =   {res} .17804
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    __000003{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}__000002 {c |}{col 14}{res}{space 2} .0394101{col 26}{space 2} .0016798{col 37}{space 1}   23.46{col 46}{space 3}0.000{col 54}{space 4} .0361178{col 67}{space 3} .0427024
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}   .03351{col 26}{space 2} .0003275{col 37}{space 1}  102.33{col 46}{space 3}0.000{col 54}{space 4} .0328681{col 67}{space 3} .0341518
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * %< Testing out different binary choice models
+. local model1 income_chg age income_val_l
+{txt}
+{com}. local model2 income_chg c.age##c.income_val_l
+{txt}
+{com}. local model3 income_chg agebin? income_val_l
+{txt}
+{com}. local model4 income_chg agebin? income_val_l*
+{txt}
+{com}. local model5 income_chg agebin? c.age##(c.income_val_l)
+{txt}
+{com}. local model6 income_chg agebin? c.age##(c.income_val_l*)
+{txt}
+{com}. local model7 income_chg agebin? c.agebin?##(c.income_val_l)
+{txt}
+{com}. local model8 income_chg agebin? c.age##(c.assets_l)
+{txt}
+{com}. local model9 income_chg agebin? c.age##(c.income_val_l c.assets_l)
+{txt}
+{com}. 
+. forv k=1/9 {c -(}
+{txt}  2{com}.     display "MODEL `k': `model`k''"
+{txt}  3{com}.     *probit `depvar' `model`k'', vce(cluster id) difficult
+.     logit `depvar' `model`k'', vce(cluster id) difficult
+{txt}  4{com}.     reg `depvar' `model`k'', vce(cluster id)
+{txt}  5{com}. {c )-}
+MODEL 1: income_chg age income_val_l
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-43040.636}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-42998.525}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-42998.369}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-42998.369}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}   2342.42
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-42998.369{txt}{col 49}Pseudo R2{col 67}= {res}    0.0166
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      owning{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}income_chg {c |}{col 14}{res}{space 2} 1.131223{col 26}{space 2} .0488739{col 37}{space 1}   23.15{col 46}{space 3}0.000{col 54}{space 4} 1.035432{col 67}{space 3} 1.227014
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0257803{col 26}{space 2} .0009346{col 37}{space 1}  -27.58{col 46}{space 3}0.000{col 54}{space 4}-.0276121{col 67}{space 3}-.0239485
+{txt}income_val_l {c |}{col 14}{res}{space 2}  .403357{col 26}{space 2} .0172437{col 37}{space 1}   23.39{col 46}{space 3}0.000{col 54}{space 4} .3695599{col 67}{space 3} .4371541
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  -3.2889{col 26}{space 2}  .023678{col 37}{space 1} -138.90{col 46}{space 3}0.000{col 54}{space 4}-3.335308{col 67}{space 3}-3.242492
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(3, 7999)        =  {res}   763.83
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0051
+                                                {txt}Root MSE          =    {res} .18025
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      owning{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}income_chg {c |}{col 14}{res}{space 2}  .043175{col 26}{space 2} .0020295{col 37}{space 1}   21.27{col 46}{space 3}0.000{col 54}{space 4} .0391967{col 67}{space 3} .0471534
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0008077{col 26}{space 2} .0000278{col 37}{space 1}  -29.09{col 46}{space 3}0.000{col 54}{space 4}-.0008621{col 67}{space 3}-.0007533
+{txt}income_val_l {c |}{col 14}{res}{space 2}  .015204{col 26}{space 2} .0006312{col 37}{space 1}   24.09{col 46}{space 3}0.000{col 54}{space 4} .0139667{col 67}{space 3} .0164412
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0352914{col 26}{space 2} .0008909{col 37}{space 1}   39.61{col 46}{space 3}0.000{col 54}{space 4}  .033545{col 67}{space 3} .0370377
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 2: income_chg c.age##c.income_val_l
+
+{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res: -42053.56}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-41116.305}  
+Iteration 3:{space 3}log pseudolikelihood = {res: -41103.17}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-41103.159}  
+Iteration 5:{space 3}log pseudolikelihood = {res:-41103.159}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}4{txt}){col 67}= {res}   5563.47
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-41103.159{txt}{col 49}Pseudo R2{col 67}= {res}    0.0599
+
+{txt}{ralign 86:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 21}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 22}{c |}{col 34}    Robust
+{col 1}              owning{col 22}{c |}      Coef.{col 34}   Std. Err.{col 46}      z{col 54}   P>|z|{col 62}     [95% Con{col 75}f. Interval]
+{hline 21}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}income_chg {c |}{col 22}{res}{space 2} 1.187409{col 34}{space 2} .0522204{col 45}{space 1}   22.74{col 54}{space 3}0.000{col 62}{space 4} 1.085059{col 75}{space 3} 1.289759
+{txt}{space 17}age {c |}{col 22}{res}{space 2} .1163914{col 34}{space 2} .0022548{col 45}{space 1}   51.62{col 54}{space 3}0.000{col 62}{space 4}  .111972{col 75}{space 3} .1208107
+{txt}{space 8}income_val_l {c |}{col 22}{res}{space 2} 3.071221{col 34}{space 2} .0512342{col 45}{space 1}   59.94{col 54}{space 3}0.000{col 62}{space 4} 2.970804{col 75}{space 3} 3.171638
+{txt}{space 20} {c |}
+c.age#c.income_val_l {c |}{col 22}{res}{space 2}-.1513006{col 34}{space 2} .0023684{col 45}{space 1}  -63.88{col 54}{space 3}0.000{col 62}{space 4}-.1559426{col 75}{space 3}-.1466586
+{txt}{space 20} {c |}
+{space 15}_cons {c |}{col 22}{res}{space 2}-5.865541{col 34}{space 2} .0547006{col 45}{space 1} -107.23{col 54}{space 3}0.000{col 62}{space 4}-5.972752{col 75}{space 3}-5.758329
+{txt}{hline 21}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(4, 7999)        =  {res}  1704.10
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0183
+                                                {txt}Root MSE          =    {res} .17905
+
+{txt}{ralign 86:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 21}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 22}{c |}{col 34}    Robust
+{col 1}              owning{col 22}{c |}      Coef.{col 34}   Std. Err.{col 46}      t{col 54}   P>|t|{col 62}     [95% Con{col 75}f. Interval]
+{hline 21}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}income_chg {c |}{col 22}{res}{space 2} .0408761{col 34}{space 2} .0020291{col 45}{space 1}   20.15{col 54}{space 3}0.000{col 62}{space 4} .0368986{col 75}{space 3} .0448537
+{txt}{space 17}age {c |}{col 22}{res}{space 2} .0034475{col 34}{space 2} .0000687{col 45}{space 1}   50.15{col 54}{space 3}0.000{col 62}{space 4} .0033128{col 75}{space 3} .0035822
+{txt}{space 8}income_val_l {c |}{col 22}{res}{space 2} .1161145{col 34}{space 2} .0019691{col 45}{space 1}   58.97{col 54}{space 3}0.000{col 62}{space 4} .1122546{col 75}{space 3} .1199744
+{txt}{space 20} {c |}
+c.age#c.income_val_l {c |}{col 22}{res}{space 2}-.0045575{col 34}{space 2} .0000696{col 45}{space 1}  -65.45{col 54}{space 3}0.000{col 62}{space 4} -.004694{col 75}{space 3} -.004421
+{txt}{space 20} {c |}
+{space 15}_cons {c |}{col 22}{res}{space 2}-.0565763{col 34}{space 2}  .001772{col 45}{space 1}  -31.93{col 54}{space 3}0.000{col 62}{space 4}-.0600499{col 75}{space 3}-.0531027
+{txt}{hline 21}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 3: income_chg agebin? income_val_l
+
+{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-42852.651}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-42772.128}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-42771.949}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-42771.949}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}7{txt}){col 67}= {res}   3556.89
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-42771.949{txt}{col 49}Pseudo R2{col 67}= {res}    0.0218
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      owning{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}income_chg {c |}{col 14}{res}{space 2} 1.133219{col 26}{space 2} .0488432{col 37}{space 1}   23.20{col 46}{space 3}0.000{col 54}{space 4} 1.037488{col 67}{space 3}  1.22895
+{txt}{space 5}agebin1 {c |}{col 14}{res}{space 2}-.0361928{col 26}{space 2} .0069975{col 37}{space 1}   -5.17{col 46}{space 3}0.000{col 54}{space 4}-.0499076{col 67}{space 3}-.0224779
+{txt}{space 5}agebin2 {c |}{col 14}{res}{space 2}-.0926993{col 26}{space 2} .0065099{col 37}{space 1}  -14.24{col 46}{space 3}0.000{col 54}{space 4}-.1054584{col 67}{space 3}-.0799402
+{txt}{space 5}agebin3 {c |}{col 14}{res}{space 2} -.017139{col 26}{space 2} .0072109{col 37}{space 1}   -2.38{col 46}{space 3}0.017{col 54}{space 4}-.0312722{col 67}{space 3}-.0030059
+{txt}{space 5}agebin4 {c |}{col 14}{res}{space 2} .0261001{col 26}{space 2} .0072445{col 37}{space 1}    3.60{col 46}{space 3}0.000{col 54}{space 4}  .011901{col 67}{space 3} .0402991
+{txt}{space 5}agebin5 {c |}{col 14}{res}{space 2} .0140118{col 26}{space 2}   .00821{col 37}{space 1}    1.71{col 46}{space 3}0.088{col 54}{space 4}-.0020796{col 67}{space 3} .0301032
+{txt}income_val_l {c |}{col 14}{res}{space 2}  .467378{col 26}{space 2}  .016816{col 37}{space 1}   27.79{col 46}{space 3}0.000{col 54}{space 4} .4344192{col 67}{space 3} .5003368
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-3.112739{col 26}{space 2} .0494348{col 37}{space 1}  -62.97{col 46}{space 3}0.000{col 54}{space 4} -3.20963{col 67}{space 3}-3.015849
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(7, 7999)        =  {res}   456.19
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0070
+                                                {txt}Root MSE          =    {res} .18008
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      owning{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}income_chg {c |}{col 14}{res}{space 2} .0431719{col 26}{space 2} .0020205{col 37}{space 1}   21.37{col 46}{space 3}0.000{col 54}{space 4} .0392112{col 67}{space 3} .0471326
+{txt}{space 5}agebin1 {c |}{col 14}{res}{space 2}-.0018367{col 26}{space 2} .0003412{col 37}{space 1}   -5.38{col 46}{space 3}0.000{col 54}{space 4}-.0025056{col 67}{space 3}-.0011678
+{txt}{space 5}agebin2 {c |}{col 14}{res}{space 2}-.0032155{col 26}{space 2} .0002267{col 37}{space 1}  -14.19{col 46}{space 3}0.000{col 54}{space 4}-.0036598{col 67}{space 3}-.0027712
+{txt}{space 5}agebin3 {c |}{col 14}{res}{space 2} -.000311{col 26}{space 2} .0001898{col 37}{space 1}   -1.64{col 46}{space 3}0.101{col 54}{space 4}-.0006829{col 67}{space 3}  .000061
+{txt}{space 5}agebin4 {c |}{col 14}{res}{space 2}  .000653{col 26}{space 2} .0001841{col 37}{space 1}    3.55{col 46}{space 3}0.000{col 54}{space 4} .0002922{col 67}{space 3} .0010138
+{txt}{space 5}agebin5 {c |}{col 14}{res}{space 2} .0004247{col 26}{space 2} .0002261{col 37}{space 1}    1.88{col 46}{space 3}0.060{col 54}{space 4}-.0000186{col 67}{space 3}  .000868
+{txt}income_val_l {c |}{col 14}{res}{space 2} .0175567{col 26}{space 2} .0006166{col 37}{space 1}   28.47{col 46}{space 3}0.000{col 54}{space 4} .0163479{col 67}{space 3} .0187655
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0483595{col 26}{space 2} .0025052{col 37}{space 1}   19.30{col 46}{space 3}0.000{col 54}{space 4} .0434486{col 67}{space 3} .0532704
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 4: income_chg agebin? income_val_l*
+
+{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-42994.964}  
+Iteration 1:{space 3}log pseudolikelihood = {res: -41248.06}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-40750.094}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-40748.374}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-40748.374}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   288,000
+{txt}{col 49}Wald chi2({res}8{txt}){col 67}= {res}   6411.84
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-40748.374{txt}{col 49}Pseudo R2{col 67}= {res}    0.0523
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}       owning{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      z{col 47}   P>|z|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}income_chg {c |}{col 15}{res}{space 2} 1.187093{col 27}{space 2} .0501537{col 38}{space 1}   23.67{col 47}{space 3}0.000{col 55}{space 4} 1.088793{col 68}{space 3} 1.285392
+{txt}{space 6}agebin1 {c |}{col 15}{res}{space 2}-.1119529{col 27}{space 2} .0090277{col 38}{space 1}  -12.40{col 47}{space 3}0.000{col 55}{space 4}-.1296469{col 68}{space 3} -.094259
+{txt}{space 6}agebin2 {c |}{col 15}{res}{space 2} -.058435{col 27}{space 2} .0067942{col 38}{space 1}   -8.60{col 47}{space 3}0.000{col 55}{space 4}-.0717514{col 68}{space 3}-.0451185
+{txt}{space 6}agebin3 {c |}{col 15}{res}{space 2}-.0223739{col 27}{space 2} .0071819{col 38}{space 1}   -3.12{col 47}{space 3}0.002{col 55}{space 4}-.0364502{col 68}{space 3}-.0082977
+{txt}{space 6}agebin4 {c |}{col 15}{res}{space 2} .0299043{col 27}{space 2} .0072583{col 38}{space 1}    4.12{col 47}{space 3}0.000{col 55}{space 4} .0156783{col 68}{space 3} .0441304
+{txt}{space 6}agebin5 {c |}{col 15}{res}{space 2} .0108443{col 27}{space 2} .0082431{col 38}{space 1}    1.32{col 47}{space 3}0.188{col 55}{space 4}-.0053119{col 68}{space 3} .0270004
+{txt}{space 1}income_val_l {c |}{col 15}{res}{space 2} 2.506643{col 27}{space 2} .0485476{col 38}{space 1}   51.63{col 47}{space 3}0.000{col 55}{space 4} 2.411492{col 68}{space 3} 2.601795
+{txt}income_val_l2 {c |}{col 15}{res}{space 2}-2.559766{col 27}{space 2} .0551955{col 38}{space 1}  -46.38{col 47}{space 3}0.000{col 55}{space 4}-2.667947{col 68}{space 3}-2.451584
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2} -2.19182{col 27}{space 2} .0637529{col 38}{space 1}  -34.38{col 47}{space 3}0.000{col 55}{space 4}-2.316773{col 68}{space 3}-2.066866
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+Linear regression                               Number of obs     = {res}   288,000
+                                                {txt}F(8, 7999)        =  {res}   710.99
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0169
+                                                {txt}Root MSE          =    {res} .18038
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}       owning{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}income_chg {c |}{col 15}{res}{space 2} .0434513{col 27}{space 2} .0020004{col 38}{space 1}   21.72{col 47}{space 3}0.000{col 55}{space 4} .0395301{col 68}{space 3} .0473726
+{txt}{space 6}agebin1 {c |}{col 15}{res}{space 2}-.0068189{col 27}{space 2} .0005014{col 38}{space 1}  -13.60{col 47}{space 3}0.000{col 55}{space 4}-.0078017{col 68}{space 3} -.005836
+{txt}{space 6}agebin2 {c |}{col 15}{res}{space 2} -.001721{col 27}{space 2} .0002381{col 38}{space 1}   -7.23{col 47}{space 3}0.000{col 55}{space 4}-.0021877{col 68}{space 3}-.0012543
+{txt}{space 6}agebin3 {c |}{col 15}{res}{space 2}-.0004978{col 27}{space 2} .0001879{col 38}{space 1}   -2.65{col 47}{space 3}0.008{col 55}{space 4}-.0008662{col 68}{space 3}-.0001294
+{txt}{space 6}agebin4 {c |}{col 15}{res}{space 2} .0007648{col 27}{space 2} .0001828{col 38}{space 1}    4.18{col 47}{space 3}0.000{col 55}{space 4} .0004065{col 68}{space 3}  .001123
+{txt}{space 6}agebin5 {c |}{col 15}{res}{space 2} .0003318{col 27}{space 2} .0002245{col 38}{space 1}    1.48{col 47}{space 3}0.139{col 55}{space 4}-.0001082{col 68}{space 3} .0007718
+{txt}{space 1}income_val_l {c |}{col 15}{res}{space 2} .0909229{col 27}{space 2} .0019575{col 38}{space 1}   46.45{col 47}{space 3}0.000{col 55}{space 4} .0870858{col 68}{space 3} .0947601
+{txt}income_val_l2 {c |}{col 15}{res}{space 2}-.0832621{col 27}{space 2} .0018176{col 38}{space 1}  -45.81{col 47}{space 3}0.000{col 55}{space 4}-.0868251{col 68}{space 3}-.0796991
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2} .0956838{col 27}{space 2} .0038848{col 38}{space 1}   24.63{col 47}{space 3}0.000{col 55}{space 4} .0880686{col 68}{space 3}  .103299
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 5: income_chg agebin? c.age##(c.income_val_l)
+
+{txt}note: age omitted because of collinearity
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-42633.139}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-40963.888}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-40951.758}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-40951.743}  
+Iteration 5:{space 3}log pseudolikelihood = {res:-40951.743}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}8{txt}){col 67}= {res}   7362.12
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-40951.743{txt}{col 49}Pseudo R2{col 67}= {res}    0.0634
+
+{txt}{ralign 86:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 21}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 22}{c |}{col 34}    Robust
+{col 1}              owning{col 22}{c |}      Coef.{col 34}   Std. Err.{col 46}      z{col 54}   P>|z|{col 62}     [95% Con{col 75}f. Interval]
+{hline 21}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}income_chg {c |}{col 22}{res}{space 2} 1.178634{col 34}{space 2} .0522494{col 45}{space 1}   22.56{col 54}{space 3}0.000{col 62}{space 4} 1.076227{col 75}{space 3} 1.281041
+{txt}{space 13}agebin1 {c |}{col 22}{res}{space 2} .0412391{col 34}{space 2} .0075101{col 45}{space 1}    5.49{col 54}{space 3}0.000{col 62}{space 4} .0265196{col 75}{space 3} .0559585
+{txt}{space 13}agebin2 {c |}{col 22}{res}{space 2} .0735653{col 34}{space 2} .0072545{col 45}{space 1}   10.14{col 54}{space 3}0.000{col 62}{space 4} .0593466{col 75}{space 3} .0877839
+{txt}{space 13}agebin3 {c |}{col 22}{res}{space 2} .1364502{col 34}{space 2}  .007508{col 45}{space 1}   18.17{col 54}{space 3}0.000{col 62}{space 4} .1217348{col 75}{space 3} .1511657
+{txt}{space 13}agebin4 {c |}{col 22}{res}{space 2} .1460049{col 34}{space 2} .0073209{col 45}{space 1}   19.94{col 54}{space 3}0.000{col 62}{space 4} .1316562{col 75}{space 3} .1603536
+{txt}{space 13}agebin5 {c |}{col 22}{res}{space 2} .1055595{col 34}{space 2} .0083661{col 45}{space 1}   12.62{col 54}{space 3}0.000{col 62}{space 4} .0891623{col 75}{space 3} .1219568
+{txt}{space 17}age {c |}{col 22}{res}{space 2}        0{col 34}{txt}  (omitted)
+{space 8}income_val_l {c |}{col 22}{res}{space 2} 2.996689{col 34}{space 2} .0500887{col 45}{space 1}   59.83{col 54}{space 3}0.000{col 62}{space 4} 2.898517{col 75}{space 3} 3.094861
+{txt}{space 20} {c |}
+c.age#c.income_val_l {c |}{col 22}{res}{space 2}-.1415365{col 34}{space 2} .0022629{col 45}{space 1}  -62.55{col 54}{space 3}0.000{col 62}{space 4}-.1459716{col 75}{space 3}-.1371014
+{txt}{space 20} {c |}
+{space 15}_cons {c |}{col 22}{res}{space 2} -5.23735{col 34}{space 2} .0701308{col 45}{space 1}  -74.68{col 54}{space 3}0.000{col 62}{space 4}-5.374804{col 75}{space 3}-5.099896
+{txt}{hline 21}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}note: age omitted because of collinearity{p_end}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(8, 7999)        =  {res}   907.69
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0225
+                                                {txt}Root MSE          =    {res} .17868
+
+{txt}{ralign 86:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 21}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 22}{c |}{col 34}    Robust
+{col 1}              owning{col 22}{c |}      Coef.{col 34}   Std. Err.{col 46}      t{col 54}   P>|t|{col 62}     [95% Con{col 75}f. Interval]
+{hline 21}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}income_chg {c |}{col 22}{res}{space 2} .0403432{col 34}{space 2}  .002015{col 45}{space 1}   20.02{col 54}{space 3}0.000{col 62}{space 4} .0363933{col 75}{space 3} .0442931
+{txt}{space 13}agebin1 {c |}{col 22}{res}{space 2}-.0002311{col 34}{space 2} .0003267{col 45}{space 1}   -0.71{col 54}{space 3}0.479{col 62}{space 4}-.0008716{col 75}{space 3} .0004094
+{txt}{space 13}agebin2 {c |}{col 22}{res}{space 2} .0013126{col 34}{space 2} .0002248{col 45}{space 1}    5.84{col 54}{space 3}0.000{col 62}{space 4}  .000872{col 75}{space 3} .0017533
+{txt}{space 13}agebin3 {c |}{col 22}{res}{space 2} .0050599{col 34}{space 2} .0002013{col 45}{space 1}   25.13{col 54}{space 3}0.000{col 62}{space 4} .0046652{col 75}{space 3} .0054546
+{txt}{space 13}agebin4 {c |}{col 22}{res}{space 2} .0059059{col 34}{space 2} .0002019{col 45}{space 1}   29.26{col 54}{space 3}0.000{col 62}{space 4} .0055102{col 75}{space 3} .0063016
+{txt}{space 13}agebin5 {c |}{col 22}{res}{space 2} .0050718{col 34}{space 2} .0002438{col 45}{space 1}   20.81{col 54}{space 3}0.000{col 62}{space 4}  .004594{col 75}{space 3} .0055496
+{txt}{space 17}age {c |}{col 22}{res}{space 2}        0{col 34}{txt}  (omitted)
+{space 8}income_val_l {c |}{col 22}{res}{space 2} .1307499{col 34}{space 2} .0020922{col 45}{space 1}   62.50{col 54}{space 3}0.000{col 62}{space 4} .1266487{col 75}{space 3} .1348511
+{txt}{space 20} {c |}
+c.age#c.income_val_l {c |}{col 22}{res}{space 2}-.0050513{col 34}{space 2} .0000741{col 45}{space 1}  -68.17{col 54}{space 3}0.000{col 62}{space 4}-.0051966{col 75}{space 3}-.0049061
+{txt}{space 20} {c |}
+{space 15}_cons {c |}{col 22}{res}{space 2}-.0302441{col 34}{space 2} .0028254{col 45}{space 1}  -10.70{col 54}{space 3}0.000{col 62}{space 4}-.0357827{col 75}{space 3}-.0247056
+{txt}{hline 21}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 6: income_chg agebin? c.age##(c.income_val_l*)
+
+{txt}note: age omitted because of collinearity
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-42994.964}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-42340.812}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-39163.701}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-39084.173}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-39083.959}  
+Iteration 5:{space 3}log pseudolikelihood = {res:-39083.959}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   288,000
+{txt}{col 49}Wald chi2({res}10{txt}){col 67}= {res}   8433.36
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-39083.959{txt}{col 49}Pseudo R2{col 67}= {res}    0.0910
+
+{txt}{ralign 87:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               owning{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      z{col 55}   P>|z|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}income_chg {c |}{col 23}{res}{space 2} 1.239219{col 35}{space 2} .0532295{col 46}{space 1}   23.28{col 55}{space 3}0.000{col 63}{space 4} 1.134891{col 76}{space 3} 1.343547
+{txt}{space 14}agebin1 {c |}{col 23}{res}{space 2}-.0252521{col 35}{space 2} .0095398{col 46}{space 1}   -2.65{col 55}{space 3}0.008{col 63}{space 4}-.0439499{col 76}{space 3}-.0065544
+{txt}{space 14}agebin2 {c |}{col 23}{res}{space 2} .1023832{col 35}{space 2} .0075412{col 46}{space 1}   13.58{col 55}{space 3}0.000{col 63}{space 4} .0876027{col 76}{space 3} .1171637
+{txt}{space 14}agebin3 {c |}{col 23}{res}{space 2} .1328481{col 35}{space 2} .0074952{col 46}{space 1}   17.72{col 55}{space 3}0.000{col 63}{space 4} .1181579{col 76}{space 3} .1475383
+{txt}{space 14}agebin4 {c |}{col 23}{res}{space 2} .1524557{col 35}{space 2} .0073743{col 46}{space 1}   20.67{col 55}{space 3}0.000{col 63}{space 4} .1380024{col 76}{space 3} .1669091
+{txt}{space 14}agebin5 {c |}{col 23}{res}{space 2} .1052977{col 35}{space 2} .0083378{col 46}{space 1}   12.63{col 55}{space 3}0.000{col 63}{space 4} .0889558{col 76}{space 3} .1216396
+{txt}{space 18}age {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 9}income_val_l {c |}{col 23}{res}{space 2}  3.83875{col 35}{space 2} .1174122{col 46}{space 1}   32.69{col 55}{space 3}0.000{col 63}{space 4} 3.608627{col 76}{space 3} 4.068874
+{txt}{space 8}income_val_l2 {c |}{col 23}{res}{space 2}-1.175327{col 35}{space 2} .1229316{col 46}{space 1}   -9.56{col 55}{space 3}0.000{col 63}{space 4}-1.416269{col 76}{space 3}-.9343856
+{txt}{space 21} {c |}
+{space 1}c.age#c.income_val_l {c |}{col 23}{res}{space 2}-.0690245{col 35}{space 2} .0058343{col 46}{space 1}  -11.83{col 55}{space 3}0.000{col 63}{space 4}-.0804596{col 76}{space 3}-.0575894
+{txt}{space 21} {c |}
+c.age#c.income_val_l2 {c |}{col 23}{res}{space 2}-.0813444{col 35}{space 2} .0063859{col 46}{space 1}  -12.74{col 55}{space 3}0.000{col 63}{space 4}-.0938606{col 76}{space 3}-.0688282
+{txt}{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2}-4.409696{col 35}{space 2} .0796844{col 46}{space 1}  -55.34{col 55}{space 3}0.000{col 63}{space 4}-4.565874{col 76}{space 3}-4.253517
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}note: age omitted because of collinearity{p_end}
+
+Linear regression                               Number of obs     = {res}   288,000
+                                                {txt}F(10, 7999)       =  {res}   920.99
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0320
+                                                {txt}Root MSE          =    {res} .17899
+
+{txt}{ralign 87:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               owning{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}income_chg {c |}{col 23}{res}{space 2} .0411808{col 35}{space 2} .0019942{col 46}{space 1}   20.65{col 55}{space 3}0.000{col 63}{space 4} .0372716{col 76}{space 3} .0450899
+{txt}{space 14}agebin1 {c |}{col 23}{res}{space 2}-.0042616{col 35}{space 2} .0004849{col 46}{space 1}   -8.79{col 55}{space 3}0.000{col 63}{space 4}-.0052121{col 76}{space 3} -.003311
+{txt}{space 14}agebin2 {c |}{col 23}{res}{space 2} .0022647{col 35}{space 2} .0002378{col 46}{space 1}    9.52{col 55}{space 3}0.000{col 63}{space 4} .0017986{col 76}{space 3} .0027309
+{txt}{space 14}agebin3 {c |}{col 23}{res}{space 2} .0044511{col 35}{space 2}  .000202{col 46}{space 1}   22.03{col 55}{space 3}0.000{col 63}{space 4} .0040551{col 76}{space 3} .0048472
+{txt}{space 14}agebin4 {c |}{col 23}{res}{space 2} .0055037{col 35}{space 2} .0002053{col 46}{space 1}   26.80{col 55}{space 3}0.000{col 63}{space 4} .0051012{col 76}{space 3} .0059063
+{txt}{space 14}agebin5 {c |}{col 23}{res}{space 2} .0045462{col 35}{space 2} .0002457{col 46}{space 1}   18.50{col 55}{space 3}0.000{col 63}{space 4} .0040645{col 76}{space 3} .0050279
+{txt}{space 18}age {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 9}income_val_l {c |}{col 23}{res}{space 2} .2547565{col 35}{space 2} .0060185{col 46}{space 1}   42.33{col 55}{space 3}0.000{col 63}{space 4} .2429586{col 76}{space 3} .2665543
+{txt}{space 8}income_val_l2 {c |}{col 23}{res}{space 2}-.1430903{col 35}{space 2} .0058102{col 46}{space 1}  -24.63{col 55}{space 3}0.000{col 63}{space 4}-.1544798{col 76}{space 3}-.1317008
+{txt}{space 21} {c |}
+{space 1}c.age#c.income_val_l {c |}{col 23}{res}{space 2}-.0074196{col 35}{space 2}   .00022{col 46}{space 1}  -33.73{col 55}{space 3}0.000{col 63}{space 4}-.0078507{col 76}{space 3}-.0069884
+{txt}{space 21} {c |}
+c.age#c.income_val_l2 {c |}{col 23}{res}{space 2} .0028257{col 35}{space 2} .0002153{col 46}{space 1}   13.13{col 55}{space 3}0.000{col 63}{space 4} .0024037{col 76}{space 3} .0032477
+{txt}{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} .0133581{col 35}{space 2} .0040339{col 46}{space 1}    3.31{col 55}{space 3}0.001{col 63}{space 4} .0054506{col 76}{space 3} .0212656
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 7: income_chg agebin? c.agebin?##(c.income_val_l)
+
+{txt}note: agebin1 omitted because of collinearity
+note: agebin2 omitted because of collinearity
+note: agebin3 omitted because of collinearity
+note: agebin4 omitted because of collinearity
+note: agebin5 omitted because of collinearity
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-41263.771}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-40748.631}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-40718.475}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-40718.233}  
+Iteration 5:{space 3}log pseudolikelihood = {res:-40718.233}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}12{txt}){col 67}= {res}   8460.36
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-40718.233{txt}{col 49}Pseudo R2{col 67}= {res}    0.0687
+
+{txt}{ralign 90:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 25}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 26}{c |}{col 38}    Robust
+{col 1}                  owning{col 26}{c |}      Coef.{col 38}   Std. Err.{col 50}      z{col 58}   P>|z|{col 66}     [95% Con{col 79}f. Interval]
+{hline 25}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 14}income_chg {c |}{col 26}{res}{space 2} 1.188068{col 38}{space 2} .0521846{col 49}{space 1}   22.77{col 58}{space 3}0.000{col 66}{space 4} 1.085788{col 79}{space 3} 1.290347
+{txt}{space 17}agebin1 {c |}{col 26}{res}{space 2} .3954639{col 38}{space 2} .0200595{col 49}{space 1}   19.71{col 58}{space 3}0.000{col 66}{space 4} .3561481{col 79}{space 3} .4347797
+{txt}{space 17}agebin2 {c |}{col 26}{res}{space 2} .0099174{col 38}{space 2}  .011987{col 49}{space 1}    0.83{col 58}{space 3}0.408{col 66}{space 4}-.0135766{col 79}{space 3} .0334114
+{txt}{space 17}agebin3 {c |}{col 26}{res}{space 2} .0804752{col 38}{space 2}   .01289{col 49}{space 1}    6.24{col 58}{space 3}0.000{col 66}{space 4} .0552111{col 79}{space 3} .1057392
+{txt}{space 17}agebin4 {c |}{col 26}{res}{space 2}  .072606{col 38}{space 2} .0139172{col 49}{space 1}    5.22{col 58}{space 3}0.000{col 66}{space 4} .0453288{col 79}{space 3} .0998831
+{txt}{space 17}agebin5 {c |}{col 26}{res}{space 2}  .292576{col 38}{space 2} .0152794{col 49}{space 1}   19.15{col 58}{space 3}0.000{col 66}{space 4} .2626289{col 79}{space 3}  .322523
+{txt}{space 17}agebin1 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin2 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin3 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin4 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin5 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 12}income_val_l {c |}{col 26}{res}{space 2} 5.412911{col 38}{space 2} .1428032{col 49}{space 1}   37.90{col 58}{space 3}0.000{col 66}{space 4} 5.133022{col 79}{space 3}   5.6928
+{txt}{space 24} {c |}
+c.agebin1#c.income_val_l {c |}{col 26}{res}{space 2}-.4672729{col 38}{space 2} .0173492{col 49}{space 1}  -26.93{col 58}{space 3}0.000{col 66}{space 4}-.5012767{col 79}{space 3} -.433269
+{txt}{space 24} {c |}
+c.agebin2#c.income_val_l {c |}{col 26}{res}{space 2}-.0824976{col 38}{space 2} .0097122{col 49}{space 1}   -8.49{col 58}{space 3}0.000{col 66}{space 4}-.1015332{col 79}{space 3}-.0634621
+{txt}{space 24} {c |}
+c.agebin3#c.income_val_l {c |}{col 26}{res}{space 2}-.0953964{col 38}{space 2} .0104371{col 49}{space 1}   -9.14{col 58}{space 3}0.000{col 66}{space 4}-.1158526{col 79}{space 3}-.0749402
+{txt}{space 24} {c |}
+c.agebin4#c.income_val_l {c |}{col 26}{res}{space 2}-.0448265{col 38}{space 2}   .01195{col 49}{space 1}   -3.75{col 58}{space 3}0.000{col 66}{space 4}-.0682481{col 79}{space 3}-.0214049
+{txt}{space 24} {c |}
+c.agebin5#c.income_val_l {c |}{col 26}{res}{space 2}-.3822471{col 38}{space 2} .0157818{col 49}{space 1}  -24.22{col 58}{space 3}0.000{col 66}{space 4}-.4131789{col 79}{space 3}-.3513153
+{txt}{space 24} {c |}
+{space 19}_cons {c |}{col 26}{res}{space 2}-7.842656{col 38}{space 2}  .164196{col 49}{space 1}  -47.76{col 58}{space 3}0.000{col 66}{space 4}-8.164474{col 79}{space 3}-7.520838
+{txt}{hline 25}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}note: agebin1 omitted because of collinearity{p_end}
+{p 0 6 2}note: agebin2 omitted because of collinearity{p_end}
+{p 0 6 2}note: agebin3 omitted because of collinearity{p_end}
+{p 0 6 2}note: agebin4 omitted because of collinearity{p_end}
+{p 0 6 2}note: agebin5 omitted because of collinearity{p_end}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(12, 7999)       =  {res}   705.13
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0294
+                                                {txt}Root MSE          =    {res} .17804
+
+{txt}{ralign 90:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 25}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 26}{c |}{col 38}    Robust
+{col 1}                  owning{col 26}{c |}      Coef.{col 38}   Std. Err.{col 50}      t{col 58}   P>|t|{col 66}     [95% Con{col 79}f. Interval]
+{hline 25}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 14}income_chg {c |}{col 26}{res}{space 2} .0394101{col 38}{space 2} .0020048{col 49}{space 1}   19.66{col 58}{space 3}0.000{col 66}{space 4} .0354801{col 79}{space 3} .0433401
+{txt}{space 17}agebin1 {c |}{col 26}{res}{space 2}  .020421{col 38}{space 2} .0007452{col 49}{space 1}   27.40{col 58}{space 3}0.000{col 66}{space 4} .0189601{col 79}{space 3} .0218818
+{txt}{space 17}agebin2 {c |}{col 26}{res}{space 2} .0039193{col 38}{space 2} .0004222{col 49}{space 1}    9.28{col 58}{space 3}0.000{col 66}{space 4} .0030917{col 79}{space 3} .0047469
+{txt}{space 17}agebin3 {c |}{col 26}{res}{space 2}  .001424{col 38}{space 2} .0003332{col 49}{space 1}    4.27{col 58}{space 3}0.000{col 66}{space 4} .0007708{col 79}{space 3} .0020773
+{txt}{space 17}agebin4 {c |}{col 26}{res}{space 2} .0019468{col 38}{space 2} .0003909{col 49}{space 1}    4.98{col 58}{space 3}0.000{col 66}{space 4} .0011806{col 79}{space 3} .0027131
+{txt}{space 17}agebin5 {c |}{col 26}{res}{space 2} .0051463{col 38}{space 2} .0005719{col 49}{space 1}    9.00{col 58}{space 3}0.000{col 66}{space 4} .0040252{col 79}{space 3} .0062674
+{txt}{space 17}agebin1 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin2 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin3 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin4 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 17}agebin5 {c |}{col 26}{res}{space 2}        0{col 38}{txt}  (omitted)
+{space 12}income_val_l {c |}{col 26}{res}{space 2} .3547483{col 38}{space 2} .0077705{col 49}{space 1}   45.65{col 58}{space 3}0.000{col 66}{space 4} .3395161{col 79}{space 3} .3699805
+{txt}{space 24} {c |}
+c.agebin1#c.income_val_l {c |}{col 26}{res}{space 2}-.0315256{col 38}{space 2} .0010465{col 49}{space 1}  -30.12{col 58}{space 3}0.000{col 66}{space 4}-.0335771{col 79}{space 3}-.0294741
+{txt}{space 24} {c |}
+c.agebin2#c.income_val_l {c |}{col 26}{res}{space 2} -.006593{col 38}{space 2} .0005095{col 49}{space 1}  -12.94{col 58}{space 3}0.000{col 66}{space 4}-.0075918{col 79}{space 3}-.0055942
+{txt}{space 24} {c |}
+c.agebin3#c.income_val_l {c |}{col 26}{res}{space 2}-.0017134{col 38}{space 2} .0002755{col 49}{space 1}   -6.22{col 58}{space 3}0.000{col 66}{space 4}-.0022535{col 79}{space 3}-.0011733
+{txt}{space 24} {c |}
+c.agebin4#c.income_val_l {c |}{col 26}{res}{space 2}-.0012671{col 38}{space 2} .0002644{col 49}{space 1}   -4.79{col 58}{space 3}0.000{col 66}{space 4}-.0017855{col 79}{space 3}-.0007487
+{txt}{space 24} {c |}
+c.agebin5#c.income_val_l {c |}{col 26}{res}{space 2}-.0049993{col 38}{space 2} .0003869{col 49}{space 1}  -12.92{col 58}{space 3}0.000{col 66}{space 4}-.0057577{col 79}{space 3}-.0042409
+{txt}{space 24} {c |}
+{space 19}_cons {c |}{col 26}{res}{space 2}-.2046151{col 38}{space 2} .0054583{col 49}{space 1}  -37.49{col 58}{space 3}0.000{col 66}{space 4}-.2153147{col 79}{space 3}-.1939155
+{txt}{hline 25}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 8: income_chg agebin? c.age##(c.assets_l)
+
+{txt}note: age omitted because of collinearity
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-41342.682}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-40852.965}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-40849.524}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-40849.522}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}8{txt}){col 67}= {res}   4113.59
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-40849.522{txt}{col 49}Pseudo R2{col 67}= {res}    0.0657
+
+{txt}{ralign 82:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}          owning{col 18}{c |}      Coef.{col 30}   Std. Err.{col 42}      z{col 50}   P>|z|{col 58}     [95% Con{col 71}f. Interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income_chg {c |}{col 18}{res}{space 2} 1.166087{col 30}{space 2} .0596443{col 41}{space 1}   19.55{col 50}{space 3}0.000{col 58}{space 4} 1.049186{col 71}{space 3} 1.282987
+{txt}{space 9}agebin1 {c |}{col 18}{res}{space 2} .0605357{col 30}{space 2} .0072514{col 41}{space 1}    8.35{col 50}{space 3}0.000{col 58}{space 4} .0463233{col 71}{space 3} .0747482
+{txt}{space 9}agebin2 {c |}{col 18}{res}{space 2}-.0599316{col 30}{space 2} .0063033{col 41}{space 1}   -9.51{col 50}{space 3}0.000{col 58}{space 4}-.0722859{col 71}{space 3}-.0475773
+{txt}{space 9}agebin3 {c |}{col 18}{res}{space 2}-.0503127{col 30}{space 2} .0070255{col 41}{space 1}   -7.16{col 50}{space 3}0.000{col 58}{space 4}-.0640826{col 71}{space 3}-.0365429
+{txt}{space 9}agebin4 {c |}{col 18}{res}{space 2}-.0017844{col 30}{space 2} .0073269{col 41}{space 1}   -0.24{col 50}{space 3}0.808{col 58}{space 4}-.0161449{col 71}{space 3} .0125761
+{txt}{space 9}agebin5 {c |}{col 18}{res}{space 2}-.0038792{col 30}{space 2} .0083416{col 41}{space 1}   -0.47{col 50}{space 3}0.642{col 58}{space 4}-.0202284{col 71}{space 3}   .01247
+{txt}{space 13}age {c |}{col 18}{res}{space 2}        0{col 30}{txt}  (omitted)
+{space 8}assets_l {c |}{col 18}{res}{space 2} 1.852295{col 30}{space 2} .0520381{col 41}{space 1}   35.60{col 50}{space 3}0.000{col 58}{space 4} 1.750303{col 71}{space 3} 1.954288
+{txt}{space 16} {c |}
+c.age#c.assets_l {c |}{col 18}{res}{space 2}  -.04979{col 30}{space 2} .0014167{col 41}{space 1}  -35.15{col 50}{space 3}0.000{col 58}{space 4}-.0525666{col 71}{space 3}-.0470133
+{txt}{space 16} {c |}
+{space 11}_cons {c |}{col 18}{res}{space 2} -3.22253{col 30}{space 2} .0519519{col 41}{space 1}  -62.03{col 50}{space 3}0.000{col 58}{space 4}-3.324354{col 71}{space 3}-3.120707
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}note: age omitted because of collinearity{p_end}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(8, 7999)        =  {res}   866.87
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0186
+                                                {txt}Root MSE          =    {res} .17903
+
+{txt}{ralign 82:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}          owning{col 18}{c |}      Coef.{col 30}   Std. Err.{col 42}      t{col 50}   P>|t|{col 58}     [95% Con{col 71}f. Interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income_chg {c |}{col 18}{res}{space 2} .0325132{col 30}{space 2} .0019516{col 41}{space 1}   16.66{col 50}{space 3}0.000{col 58}{space 4} .0286876{col 71}{space 3} .0363388
+{txt}{space 9}agebin1 {c |}{col 18}{res}{space 2} .0020523{col 30}{space 2}  .000336{col 41}{space 1}    6.11{col 50}{space 3}0.000{col 58}{space 4} .0013936{col 71}{space 3}  .002711
+{txt}{space 9}agebin2 {c |}{col 18}{res}{space 2}-.0027262{col 30}{space 2} .0002174{col 41}{space 1}  -12.54{col 50}{space 3}0.000{col 58}{space 4}-.0031523{col 71}{space 3}-.0023001
+{txt}{space 9}agebin3 {c |}{col 18}{res}{space 2}-.0016774{col 30}{space 2} .0001841{col 41}{space 1}   -9.11{col 50}{space 3}0.000{col 58}{space 4}-.0020383{col 71}{space 3}-.0013165
+{txt}{space 9}agebin4 {c |}{col 18}{res}{space 2}-.0007333{col 30}{space 2} .0001856{col 41}{space 1}   -3.95{col 50}{space 3}0.000{col 58}{space 4}-.0010971{col 71}{space 3}-.0003695
+{txt}{space 9}agebin5 {c |}{col 18}{res}{space 2}-.0003645{col 30}{space 2} .0002383{col 41}{space 1}   -1.53{col 50}{space 3}0.126{col 58}{space 4}-.0008315{col 71}{space 3} .0001026
+{txt}{space 13}age {c |}{col 18}{res}{space 2}        0{col 30}{txt}  (omitted)
+{space 8}assets_l {c |}{col 18}{res}{space 2} .0483405{col 30}{space 2} .0007774{col 41}{space 1}   62.18{col 50}{space 3}0.000{col 58}{space 4} .0468166{col 71}{space 3} .0498644
+{txt}{space 16} {c |}
+c.age#c.assets_l {c |}{col 18}{res}{space 2}-.0012549{col 30}{space 2} .0000269{col 41}{space 1}  -46.58{col 50}{space 3}0.000{col 58}{space 4}-.0013077{col 71}{space 3} -.001202
+{txt}{space 16} {c |}
+{space 11}_cons {c |}{col 18}{res}{space 2}  .050834{col 30}{space 2}  .002384{col 41}{space 1}   21.32{col 50}{space 3}0.000{col 58}{space 4} .0461607{col 71}{space 3} .0555073
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}MODEL 9: income_chg agebin? c.age##(c.income_val_l c.assets_l)
+
+{txt}note: age omitted because of collinearity
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-43723.655}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-42935.889}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-37530.234}  
+Iteration 3:{space 3}log pseudolikelihood = {res: -37354.26}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-37353.439}  
+Iteration 5:{space 3}log pseudolikelihood = {res:-37353.439}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}   296,000
+{txt}{col 49}Wald chi2({res}10{txt}){col 67}= {res}  10530.27
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-37353.439{txt}{col 49}Pseudo R2{col 67}= {res}    0.1457
+
+{txt}{ralign 86:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 21}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 22}{c |}{col 34}    Robust
+{col 1}              owning{col 22}{c |}      Coef.{col 34}   Std. Err.{col 46}      z{col 54}   P>|z|{col 62}     [95% Con{col 75}f. Interval]
+{hline 21}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}income_chg {c |}{col 22}{res}{space 2} 1.383879{col 34}{space 2} .0560563{col 45}{space 1}   24.69{col 54}{space 3}0.000{col 62}{space 4} 1.274011{col 75}{space 3} 1.493747
+{txt}{space 13}agebin1 {c |}{col 22}{res}{space 2} .2282767{col 34}{space 2} .0091307{col 45}{space 1}   25.00{col 54}{space 3}0.000{col 62}{space 4} .2103808{col 75}{space 3} .2461726
+{txt}{space 13}agebin2 {c |}{col 22}{res}{space 2} .1031789{col 34}{space 2} .0074912{col 45}{space 1}   13.77{col 54}{space 3}0.000{col 62}{space 4} .0884964{col 75}{space 3} .1178614
+{txt}{space 13}agebin3 {c |}{col 22}{res}{space 2} .1590684{col 34}{space 2} .0074554{col 45}{space 1}   21.34{col 54}{space 3}0.000{col 62}{space 4} .1444561{col 75}{space 3} .1736808
+{txt}{space 13}agebin4 {c |}{col 22}{res}{space 2} .1727106{col 34}{space 2} .0076586{col 45}{space 1}   22.55{col 54}{space 3}0.000{col 62}{space 4} .1577001{col 75}{space 3} .1877211
+{txt}{space 13}agebin5 {c |}{col 22}{res}{space 2} .1124962{col 34}{space 2} .0084839{col 45}{space 1}   13.26{col 54}{space 3}0.000{col 62}{space 4} .0958681{col 75}{space 3} .1291242
+{txt}{space 17}age {c |}{col 22}{res}{space 2}        0{col 34}{txt}  (omitted)
+{space 8}income_val_l {c |}{col 22}{res}{space 2} 4.291989{col 34}{space 2} .0922117{col 45}{space 1}   46.54{col 54}{space 3}0.000{col 62}{space 4} 4.111257{col 75}{space 3} 4.472721
+{txt}{space 12}assets_l {c |}{col 22}{res}{space 2} 2.112888{col 34}{space 2}  .063093{col 45}{space 1}   33.49{col 54}{space 3}0.000{col 62}{space 4} 1.989228{col 75}{space 3} 2.236548
+{txt}{space 20} {c |}
+c.age#c.income_val_l {c |}{col 22}{res}{space 2}-.1937557{col 34}{space 2} .0031645{col 45}{space 1}  -61.23{col 54}{space 3}0.000{col 62}{space 4} -.199958{col 75}{space 3}-.1875534
+{txt}{space 20} {c |}
+{space 4}c.age#c.assets_l {c |}{col 22}{res}{space 2}-.0525399{col 34}{space 2} .0016712{col 45}{space 1}  -31.44{col 54}{space 3}0.000{col 62}{space 4}-.0558154{col 75}{space 3}-.0492643
+{txt}{space 20} {c |}
+{space 15}_cons {c |}{col 22}{res}{space 2}-7.126066{col 34}{space 2} .1275698{col 45}{space 1}  -55.86{col 54}{space 3}0.000{col 62}{space 4}-7.376098{col 75}{space 3}-6.876034
+{txt}{hline 21}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}note: age omitted because of collinearity{p_end}
+
+Linear regression                               Number of obs     = {res}   296,000
+                                                {txt}F(10, 7999)       =  {res}   991.55
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0521
+                                                {txt}Root MSE          =    {res} .17595
+
+{txt}{ralign 86:(Std. Err. adjusted for {res:8,000} clusters in id)}
+{hline 21}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 22}{c |}{col 34}    Robust
+{col 1}              owning{col 22}{c |}      Coef.{col 34}   Std. Err.{col 46}      t{col 54}   P>|t|{col 62}     [95% Con{col 75}f. Interval]
+{hline 21}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}income_chg {c |}{col 22}{res}{space 2} .0425833{col 34}{space 2} .0019571{col 45}{space 1}   21.76{col 54}{space 3}0.000{col 62}{space 4} .0387469{col 75}{space 3} .0464197
+{txt}{space 13}agebin1 {c |}{col 22}{res}{space 2} .0053209{col 34}{space 2} .0003142{col 45}{space 1}   16.94{col 54}{space 3}0.000{col 62}{space 4}  .004705{col 75}{space 3} .0059368
+{txt}{space 13}agebin2 {c |}{col 22}{res}{space 2} .0036573{col 34}{space 2} .0002242{col 45}{space 1}   16.31{col 54}{space 3}0.000{col 62}{space 4} .0032178{col 75}{space 3} .0040968
+{txt}{space 13}agebin3 {c |}{col 22}{res}{space 2} .0053264{col 34}{space 2} .0001897{col 45}{space 1}   28.08{col 54}{space 3}0.000{col 62}{space 4} .0049546{col 75}{space 3} .0056982
+{txt}{space 13}agebin4 {c |}{col 22}{res}{space 2} .0063294{col 34}{space 2} .0002013{col 45}{space 1}   31.44{col 54}{space 3}0.000{col 62}{space 4} .0059348{col 75}{space 3}  .006724
+{txt}{space 13}agebin5 {c |}{col 22}{res}{space 2} .0058989{col 34}{space 2} .0002488{col 45}{space 1}   23.71{col 54}{space 3}0.000{col 62}{space 4} .0054112{col 75}{space 3} .0063867
+{txt}{space 17}age {c |}{col 22}{res}{space 2}        0{col 34}{txt}  (omitted)
+{space 8}income_val_l {c |}{col 22}{res}{space 2} .1960114{col 34}{space 2}  .003449{col 45}{space 1}   56.83{col 54}{space 3}0.000{col 62}{space 4} .1892504{col 75}{space 3} .2027724
+{txt}{space 12}assets_l {c |}{col 22}{res}{space 2} .0736079{col 34}{space 2} .0012188{col 45}{space 1}   60.39{col 54}{space 3}0.000{col 62}{space 4} .0712188{col 75}{space 3}  .075997
+{txt}{space 20} {c |}
+c.age#c.income_val_l {c |}{col 22}{res}{space 2}-.0072992{col 34}{space 2}   .00011{col 45}{space 1}  -66.33{col 54}{space 3}0.000{col 62}{space 4}-.0075149{col 75}{space 3}-.0070835
+{txt}{space 20} {c |}
+{space 4}c.age#c.assets_l {c |}{col 22}{res}{space 2}-.0018051{col 34}{space 2} .0000319{col 45}{space 1}  -56.54{col 54}{space 3}0.000{col 62}{space 4}-.0018677{col 75}{space 3}-.0017426
+{txt}{space 20} {c |}
+{space 15}_cons {c |}{col 22}{res}{space 2}-.0905197{col 34}{space 2} .0035769{col 45}{space 1}  -25.31{col 54}{space 3}0.000{col 62}{space 4}-.0975313{col 75}{space 3}-.0835081
+{txt}{hline 21}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. exit
+
+{txt}end of do-file
+
+
+{com}. sum owning
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}owning {c |}{res}    304,000    .0329112    .1784044          0          1
+
+{com}. sum rerenting
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 3}rerenting {c |}{res}    304,000    .0113191    .1057875          0          1
+
+{com}. do "C:\Users\ttfcui\DOCUME~1\AppData\Local\Temp\VIU2D8F.tmp.do"
+{txt}
+{com}. 
+. capture program drop trim_tails
+{txt}
+{com}. program define trim_tails
+{txt}  1{com}.     syntax varlist, level(real)
+{txt}  2{com}.     foreach x of varlist `varlist' {c -(}
+{txt}  3{com}.         rename `x' `x'_ut
+{txt}  4{com}.         winsor `x'_ut, generate(`x'_w) p(`level')
+{txt}  5{com}.         gen `x' = cond(`x'_w == `x'_ut, `x'_ut, .)
+{txt}  6{com}.     {c )-}
+{txt}  7{com}. end
+{txt}
+{com}. 
+. 
+. * Number of linear splines for age (heterog. effects of shocks by age)
+. local spline_n 5 
+{txt}
+{com}. local endage = 61
+{txt}
+{com}. 
+. use "$dboxdir\data\psid\c_TC.dta", clear
+{txt}
+{com}. keep if age < `endage' & age > 20
+{txt}(42,023 observations deleted)
+
+{com}. tempfile orig depvar const_wgt
+{txt}
+{com}. save `orig'
+{txt}file C:\Users\ttfcui\DOCUME~1\AppData\Local\Temp\ST_1k000001.tmp saved
+
+{com}. by id: egen own_c = total(own)
+{txt}
+{com}. by id: egen all_obs = count(own)
+{txt}
+{com}. keep if own_c > 0 & own_c != all_obs & !missing(housevalue)
+{txt}(30,063 observations deleted)
+
+{com}. by id: gen owning = (rent[_n-1] > 0 & own == 1)
+{txt}
+{com}. by id: gen rerenting = (housevalue[_n-1] >0 & own==0)
+{txt}
+{com}. keep id year *ing
+{txt}
+{com}. save `depvar'
+{txt}file C:\Users\ttfcui\DOCUME~1\AppData\Local\Temp\ST_1k000002.tmp saved
+
+{com}. 
+. use `orig', clear
+{txt}
+{com}. keep id year weight
+{txt}
+{com}. drop if missing(weight)
+{txt}(5,104 observations deleted)
+
+{com}. by id: gen const_wgt = weight[_N]
+{txt}
+{com}. save `const_wgt'
+{txt}file C:\Users\ttfcui\DOCUME~1\AppData\Local\Temp\ST_1k000003.tmp saved
+
+{com}. 
+. use `orig', clear
+{txt}
+{com}. merge 1:1 id year using `depvar'
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          30,063
+{txt}{col 9}from master{col 30}{res}          30,063{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          13,748{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _m
+{txt}
+{com}. merge 1:1 id year using `const_wgt'
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,104
+{txt}{col 9}from master{col 30}{res}           5,104{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          38,707{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. replace owning = 0 if missing(owning) & year != 1997
+{txt}(26,532 real changes made)
+
+{com}. replace rerenting = 0 if missing(rerenting) & year != 1997
+{txt}(26,532 real changes made)
+
+{com}. by id: egen const_weight = max(const_wgt)
+{txt}(119 missing values generated)
+
+{com}. drop const_wgt
+{txt}
+{com}. order owning rerenting, after(year)
+{txt}
+{com}. order const_weight, after(weight)
+{txt}
+{com}. 
+. svyset id [pw=const_weight]
+
+      {txt}pweight:{col 16}{res}const_weight
+          {txt}VCE:{col 16}{res}linearized
+  {txt}Single unit:{col 16}{res}missing
+     {txt}Strata 1:{col 16}<one>
+         SU 1:{col 16}{res}id
+        {txt}FPC 1:{col 16}<zero>
+{p2colreset}{...}
+
+{com}. 
+. svy: mean income
+{txt}(running mean on estimation sample)
+{res}
+{txt}Survey: Mean estimation
+
+{col 1}Number of strata{col 18}= {res}      1{txt}{col 35}Number of obs{col 51}= {res}    43,692
+{txt}{col 1}Number of PSUs{col 18}= {res} 10,627{txt}{col 35}Population size{col 51}={res}    861,922
+{txt}{col 35}Design df{col 51}= {res}    10,626
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 14}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 14}{c |}       Mean{col 26}   Std. Err.{col 38}     [95% Con{col 51}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 14}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} 43829.83{col 26}{space 2} 887.4718{col 37}{space 5} 42090.21{col 51}{space 3} 45569.44
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 14}{hline 12}
+
+{com}. matrix b = e(b)
+{txt}
+{com}. scalar income_mean = b[1,1]
+{txt}
+{com}. 
+. foreach var in income assets {c -(}
+{txt}  2{com}.     by id: gen `var'_chg = (`var' - L2.`var')/income_mean
+{txt}  3{com}.     *by id: gen `var'_chg = (`var' - L2.`var')/L2.`var'
+.     trim_tails `var'_chg, level(.01)
+{txt}  4{com}.     by id: gen `var'_val_l = L2.`var'/income_mean
+{txt}  5{com}.     by id: gen `var'_val_l2 = L4.`var'/income_mean
+{txt}  6{com}. {c )-}
+{txt}(11,705 missing values generated)
+{res}{txt}(12,347 missing values generated)
+(11,705 missing values generated)
+(19,978 missing values generated)
+(17,593 missing values generated)
+{res}{txt}(18,117 missing values generated)
+(17,073 missing values generated)
+(24,824 missing values generated)
+
+{com}. mkspline agebin `spline_n' = age
+{txt}
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. sum owning
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}owning {c |}{res}     40,280    .0701589    .2554178          0          1
+
+{com}. sum rerenting
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 3}rerenting {c |}{res}     40,280     .078575    .2690776          0          1
+
+{com}. do "C:\Users\ttfcui\Documents\student-debt-fthb\code\model\do\xp_02150217.do"
+{txt}
+{com}. /*******************************************************************************
+>     Title: xp_02152017.do
+>     Purpose: Testing out auxiliary equations on real (PSID) data?
+>     Author: TC, DB
+>     Date: 2016-03-31
+> 
+> *******************************************************************************/
+. 
+. capture log c
+{smcl}
+{com}{sf}{ul off}

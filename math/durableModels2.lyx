@@ -1,0 +1,1242 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout LyX-Code
+
+\series bold
+A model with two consumption goods, one perishable and one durable
+\end_layout
+
+\begin_layout LyX-Code
+The consumer's problem in a general equilibrium setup is recursively described
+ by
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $V(W,\mathbf{s})=\max_{c,d_{t},a,W'}\frac{[c^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{s.t. \ensuremath{\ensuremath{\ensuremath{c+p_{t}(1}-\zeta_{t})d_{t}+a}\leq(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W=(1-\delta)p_{t}d_{t-1}+(1+r)a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W'=(1-\delta)p_{t+1}d_{t}+(1+r)a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+For simplicity, idiosyncratic uncertainty is abstracted out.
+\end_layout
+
+\begin_layout LyX-Code
+Here 
+\begin_inset Formula $d_{t}$
+\end_inset
+
+ is the stock of durables/housing possessed, and 
+\begin_inset Formula $a$
+\end_inset
+
+ the stock a risk-free bond.
+\end_layout
+
+\begin_layout LyX-Code
+The transfer 
+\begin_inset Formula $T$
+\end_inset
+
+ satisfies the balanced budget constraint (?)
+\end_layout
+
+\begin_layout LyX-Code
+The variable 
+\begin_inset Formula $\zeta_{t}$
+\end_inset
+
+ indicates if a price subsidy is applied for period 
+\begin_inset Formula $t.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The Lagrangian for each period, after substituting in the law of motion
+ for durables, is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}=\frac{[c^{\alpha}d_{t}^{1-\alpha}]^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})+\lambda_{t}\bigg[(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T-a-p_{t}(1-\zeta_{t})d_{t}-c\bigg]+\mu[(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Then take relevant FOCs:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[c\bigg]\qquad\qquad\qquad\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}\alpha c^{\alpha-1}d^{1-\alpha}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[d_{t}\bigg]\qquad\qquad\qquad\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}(1-\alpha)c^{\alpha}d^{-\alpha}+p_{t+1}\{\beta V'(W',\mathbf{s'})(1-\delta)+\mu(1-\theta)(1-\delta)\}=p_{t}(1-\zeta_{t})\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[a\bigg]\qquad\qquad\qquad(1+r)\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\Rightarrow\Delta^{K}\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[Env.]\qquad\qquad\qquad V'(W',\mathbf{s'})=\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}\cdot[(1-\delta)p_{t+1}]^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute 
+\begin_inset Formula $\big[a]$
+\end_inset
+
+ into 
+\begin_inset Formula $\big[d_{t}]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}(1-\alpha)c^{\alpha}d^{-\alpha}-\theta(1-\delta)p_{t+1}\mu=\lambda_{t}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Divide over 
+\begin_inset Formula $[c]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{1-\alpha}{\alpha}\frac{c}{d}-\mu\theta(1-\delta)p_{t+1}/\lambda_{t}=p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+By 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $[Env.]$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ (?) 
+\begin_inset Formula $[a]$
+\end_inset
+
+ can be expressed as
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Delta^{K}\{\beta\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}(1-\alpha)c_{t+1}^{\alpha}d_{t+1}^{-\alpha}\cdot[(1-\delta)p_{t+1}]^{-1}+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+and dividing over 
+\begin_inset Formula $[c]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}+\mu/\lambda_{t}=1/\Delta^{K}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+if the down payment constraint is slack 
+\begin_inset Formula $(\mu=0)$
+\end_inset
+
+ or collateralized borrowing is not possible 
+\begin_inset Formula $(\theta=1)$
+\end_inset
+
+ then conditions become
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $c=\frac{\alpha}{1-\alpha}d[p_{t}(1-\zeta_{t})-\frac{1-\delta}{\Delta^{K}}p_{t+1}]$
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{d_{t+1}}{c_{t+1}}=\bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\Delta^{K}\bigg\}^{\frac{1}{\alpha}}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{\frac{1-\alpha}{\alpha}}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substituting the two equations yields
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $1=\bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\bigg[\frac{p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)}{p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)}\bigg]^{-\alpha\gamma}\bigg[\frac{d_{t+1}}{d_{t}}\bigg]^{-\gamma}\Delta^{K}\bigg\}^{\frac{1}{\alpha}}\bigg\{\frac{p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)}{(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta))^{-(1-\alpha)/\alpha}}\bigg\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+or
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg\{\frac{(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta))^{1+\alpha(\gamma-1)}}{(p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta))^{\alpha(\gamma-1)}}\bigg\}=\bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\bigg[\frac{d_{t+1}}{d_{t}}\bigg]^{-\gamma}\Delta^{K}\bigg\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+or
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)p_{t+1}]}d_{t+1}^{-\gamma}=[p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)]^{1+\alpha(\gamma-1)}[p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)]^{-\alpha(\gamma-1)}d_{t}^{-\gamma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+[Log-linearised]
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\bigg(\frac{d_{t+1}}{d_{t}}\bigg)=\alpha(\gamma-1)\log\bigg(p_{t+1}(1-\zeta_{t+1})\Delta^{K}-p_{t+2}(1-\delta)\bigg)-[1+\alpha(\gamma-1)]\log\bigg(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)\bigg)+\log\bigg(\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)p_{t+1}]}\bigg).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\dot{d}_{t+1}=[1+\alpha(\gamma-1)]\log\dot{p}_{t+1}+\alpha(\gamma-1)\log\bigg((1-\zeta_{t+1})\Delta^{K}-\dot{p}_{t+2}(1-\delta)\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\quad\quad\quad\quad\quad-[1+\alpha(\gamma-1)]\log\bigg((1-\zeta_{t})\Delta^{K}-\dot{p}_{t+1}(1-\delta)\bigg)+\log\frac{\beta\Delta^{K}}{1-\delta}+\log\frac{1-\alpha}{\alpha},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where 
+\begin_inset Formula $\dot{p}_{t}=p_{t}/p_{t-1},\dot{d}_{t}=d_{t}/d_{t-1}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+A model with one durable consumption good
+\end_layout
+
+\begin_layout LyX-Code
+Now the consumer's utility function and constraint is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $V(W,\mathbf{s})=\max_{d_{t},a,W'}\frac{d_{t}{}^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\text{s.t. \ensuremath{\ensuremath{\ensuremath{p_{t}(1}-\zeta_{t})d_{t}+a}\leq(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W=(1-\delta)p_{t}d_{t-1}+(1+r)a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $W'=(1-\delta)p_{t+1}d_{t}+(1+r)a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a\geq0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The Lagrangian is
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\mathcal{L}=\frac{d_{t}^{1-\gamma}}{1-\gamma}+\beta V(W',\mathbf{s'})+\lambda_{t}\bigg[(1-\tau_{H})\mathcal{Y}(\mathbf{s})+(1+r)a_{t-1}+p_{t}(1-\delta)d_{t-1}+T-a-p_{t}(1-\zeta_{t})d_{t}\bigg]+\mu[(1-\theta)(1-\delta)p_{t+1}d_{t}+(1+r)a]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+with FOCs
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[d_{t}\bigg]\qquad\qquad\qquad d_{t}^{-\gamma}+p_{t+1}\{\beta V'(W',\mathbf{s'})(1-\delta)+\mu(1-\theta)(1-\delta)\}=p_{t}(1-\zeta_{t})\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[a\bigg]\qquad\qquad\qquad(1+r)\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\Rightarrow\Delta^{K}\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $[Env.]\qquad\qquad\qquad V'(W',\mathbf{s'})=d_{t+1}^{-\gamma}\cdot[(1-\delta)p_{t+1}]^{-1}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout LyX-Code
+Substitute 
+\begin_inset Formula $\big[a]$
+\end_inset
+
+ into 
+\begin_inset Formula $\big[d_{t}]$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $d_{t}^{-\gamma}-\theta(1-\delta)p_{t+1}\mu=\lambda_{t}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+By 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $[Env.]$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ (?) 
+\begin_inset Formula $[a]$
+\end_inset
+
+ can be expressed as
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Delta^{K}\{\beta d_{t+1}^{-\gamma}\cdot[(1-\delta)p_{t+1}]^{-1}+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Assuming 
+\begin_inset Formula $\mu=0$
+\end_inset
+
+ again, dividing the above expression yields
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{d_{t+1}^{-\gamma}}{d_{t}^{-\gamma}}\cdot\beta[(1-\delta)p_{t+1}]^{-1}=\frac{1}{\Delta^{K}}\bigg[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+which reduces to
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\beta\Delta^{K}}{(1-\delta)p_{t+1}}d_{t+1}^{-\gamma}=[p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)]d_{t}^{-\gamma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+[Log-linearised]
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\bigg(\frac{d_{t+1}}{d_{t}}\bigg)=-\log\bigg(p_{t}(1-\zeta_{t})\Delta^{K}-p_{t+1}(1-\delta)\bigg)+\log\bigg(\frac{\beta\Delta^{K}}{(1-\delta)p_{t+1}}\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\dot{d}_{t+1}=\log\dot{p}_{t+1}-\log\bigg((1-\zeta_{t})\Delta^{K}-\dot{p}_{t+1}(1-\delta)\bigg)+\log\frac{\beta\Delta^{K}}{1-\delta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+This is a special case of the equation with two goods, except 
+\begin_inset Formula $\alpha=0$
+\end_inset
+
+ and the 
+\begin_inset Formula $\log\frac{1-\alpha}{\alpha}$
+\end_inset
+
+ term is removed.
+\end_layout
+
+\begin_layout LyX-Code
+Note that, if the same sequence of 
+\begin_inset Formula ${\zeta_{t}}$
+\end_inset
+
+ is used in the two models above and house price
+\end_layout
+
+\begin_layout LyX-Code
+remains constant, the growth rate of durable investment will be identical
+ up to the
+\end_layout
+
+\begin_layout LyX-Code
+constant 
+\begin_inset Formula $\log\frac{1-\alpha}{\alpha}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+Taking a first-order Taylor expansion, we have the approximate equation
+ for the two-good case
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\dot{d}_{t+1}\approx[1+\alpha(\gamma-1)]\log\dot{p}_{t+1}+\alpha(\gamma-1)\log\bigg((1-\zeta_{t+1})\Delta^{K}\bigg)-\alpha(\gamma-1)\frac{\dot{p}_{t+2}(1-\delta)}{(1-\zeta_{t+1})\Delta^{K}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\quad\quad\quad\quad\quad-[1+\alpha(\gamma-1)]\log\bigg((1-\zeta_{t})\Delta^{K}\bigg)+[1+\alpha(\gamma-1)]\frac{\dot{p}_{t+1}(1-\delta)}{(1-\zeta_{t})\Delta^{K}}+\log\frac{\beta\Delta^{K}}{1-\delta}+\log\frac{1-\alpha}{\alpha},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+and for the one-good case
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\gamma\log\dot{d}_{t+1}\approx\log\dot{p}_{t+1}-\log\bigg((1-\zeta_{t})\Delta^{K}\bigg)+\frac{\dot{p}_{t+1}(1-\delta)}{(1-\zeta_{t})\Delta^{K}}+\log\frac{\beta\Delta^{K}}{1-\delta}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Analytical solution to temporary tax credit responses
+\end_layout
+
+\begin_layout LyX-Code
+Assume house prices follow the law of motion
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $d_{t+1}=(1-\delta)d_{t}+\psi_{1}\bigg(\frac{1}{p_{t+1}\psi_{1}\psi_{2}}\bigg)^{\frac{\psi_{2}}{\psi_{2}-1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where 
+\begin_inset Formula $\psi_{2}=\frac{\varepsilon}{1+\varepsilon}$
+\end_inset
+
+, and 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ the underlying housing supply elasticity.
+ In log-linear form the equation
+\end_layout
+
+\begin_layout LyX-Code
+can be expressed as
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\log\bigg(\frac{d_{t+1}}{d_{t}}-(1-\delta)\bigg)+\log d_{t}=\log\psi_{1}-\frac{\psi_{2}}{\psi_{2}-1}\log\psi_{1}\psi_{2}-\frac{\psi_{2}}{\psi_{2}-1}\log p_{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Simplify into
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\psi_{2}}{\psi_{2}-1}\log\dot{p}_{t+1}=-\log\dot{d}_{t}-\log\bigg(\dot{d}_{t+1}-(1-\delta)\bigg)+\log\bigg(\dot{d_{t}}-(1-\delta)\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Taking some first-order Taylor expansions for 
+\begin_inset Formula $\log x$
+\end_inset
+
+ and 
+\begin_inset Formula $1/(1-x)$
+\end_inset
+
+, we have the approximate system
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\psi_{2}}{1-\psi_{2}}\log\dot{p}_{t+1}\approx\log\dot{d}_{t+1}+(1-\delta)[1/\dot{d}_{t+1}-1/\dot{d}_{t}]\approx\log\dot{d}_{t+1}+(1-\delta)[(1-\log\dot{d}_{t+1})-(1-\log\dot{d}_{t})]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\quad\quad\quad\quad\quad\quad=\log\dot{d}_{t+1}-(1-\delta)[\log\dot{d}_{t+1}-\log\dot{d}_{t}]=\delta\dot{d}_{t+1}+(1-\delta)\log\dot{d}_{t}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Plugging into the one-good case, 
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(\gamma-\frac{1-\psi_{2}}{\psi_{2}}\delta)\log\dot{d}_{t+1}=-\frac{1-\psi_{2}}{\psi_{2}}(1-\delta)\log\dot{d}_{t}-\log\bigg((1-\zeta_{t})\Delta^{K}\bigg)+\frac{\dot{p}_{t+1}(1-\delta)}{(1-\zeta_{t})\Delta^{K}}+\log\frac{\beta\Delta^{K}}{1-\delta}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+This expression finally shows intuition for 
+\begin_inset Quotes eld
+\end_inset
+
+full reversal
+\begin_inset Quotes erd
+\end_inset
+
+ in the one-good case.
+\end_layout
+
+\begin_layout LyX-Code
+Assume 
+\begin_inset Formula $\zeta_{0}=0,\zeta_{1}>0,\zeta_{t}=0$
+\end_inset
+
+ thereafter.
+ A temporary policy shock implies the difference
+\end_layout
+
+\begin_layout LyX-Code
+equation above has boundary conditions 
+\begin_inset Formula $\log\dot{d}_{0}=0,\log\dot{d}_{T}=0,\log\dot{p}_{0}=0,\log\dot{p}_{T}=0.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+If 
+\begin_inset Formula $T=2,$
+\end_inset
+
+ in 
+\begin_inset Formula $t=1$
+\end_inset
+
+, 
+\begin_inset Formula $\zeta_{t}>0,$
+\end_inset
+
+ so 
+\begin_inset Formula $\log\bigg((1-\zeta_{t})\Delta^{K}\bigg)<0$
+\end_inset
+
+ leading to a positive growth rate.
+\end_layout
+
+\begin_layout LyX-Code
+However, since 
+\begin_inset Formula $\log d_{t+1}=0$
+\end_inset
+
+, the rise is counteracted by the fall in 
+\begin_inset Formula $-\frac{1-\psi_{2}}{\psi_{2}}(1-\delta)\log\dot{d}_{t},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+i.e.
+ 
+\begin_inset Formula $\log\dot{d}_{t}$
+\end_inset
+
+ increases.
+ This rise is fed into 
+\begin_inset Formula $\dot{p}_{1}$
+\end_inset
+
+ but only marginally due to how small
+\end_layout
+
+\begin_layout LyX-Code
+depreciation is usually, so  
+\begin_inset Formula $\frac{\dot{p}_{t+1}(1-\delta)}{(1-\zeta_{t})\Delta^{K}}+\log\frac{\beta\Delta^{K}}{1-\delta}\approx-\log\Delta^{K}+\log\Delta^{K}$
+\end_inset
+
+ cancels out.
+\end_layout
+
+\begin_layout LyX-Code
+If 
+\begin_inset Formula $T=3$
+\end_inset
+
+, in 
+\begin_inset Formula $t=2,\zeta_{t}=2$
+\end_inset
+
+ so 
+\begin_inset Formula $\log\bigg((1-\zeta_{t})\Delta^{K}\bigg)+\frac{\dot{p}_{t+1}(1-\delta)}{(1-\zeta_{t})\Delta^{K}}+\log\frac{\beta\Delta^{K}}{1-\delta}\approx\log\Delta^{K}$
+\end_inset
+
+, which is small.
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\log\dot{p}_{T}=0$
+\end_inset
+
+ necessitates 
+\begin_inset Formula $\log\dot{d_{2}}$
+\end_inset
+
+ being small.
+\end_layout
+
+\begin_layout LyX-Code
+In 
+\begin_inset Formula $t=2$
+\end_inset
+
+, 
+\begin_inset Formula $\log\dot{d}_{2}$
+\end_inset
+
+ being close to zero collapses the model to the two-period case.
+\end_layout
+
+\begin_layout LyX-Code
+The dynamics of the two-good case is similar to the one-good case.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+[...]
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+PAST SCRATCHWORK
+\end_layout
+
+\begin_layout LyX-Code
+If the down payment constraint is not slack, notice from 
+\begin_inset Formula $\bigg[Env.\bigg]\text{ and }\bigg[a_{t}\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $-\mu/\lambda=\beta V'(W')/\lambda-1/\Delta^{K}=\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}-1/\Delta^{K}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+and from 
+\begin_inset Formula $\bigg[Env.\bigg]\text{ and }\bigg[d_{t}\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $-\theta(1-\delta)p_{t+1}\mu=\lambda_{t}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}-\frac{1-\alpha}{\alpha}\frac{c}{d}]\Rightarrow\mu/\lambda_{t}=[-\theta(1-\delta)p_{t+1}]^{-1}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}-\frac{1-\alpha}{\alpha}\frac{c}{d}].$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute the top expression into the intratemporal condition:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{1-\alpha}{\alpha}\frac{c}{d}-\theta(1-\delta)p_{t+1}/\Delta^{K}+\theta\beta\frac{1-\alpha}{\alpha}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha} & = & p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}\\
+\frac{1-\alpha}{\alpha}\frac{c}{d}\bigg[1+\theta\beta\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{c_{t}}\bigg)^{\alpha}\bigg(\frac{d_{t+1}}{d_{t}}\bigg)^{-\alpha}\bigg] & = & p_{t}(1-\zeta_{t})-(1-\theta)(1-\delta)\frac{p_{t+1}}{\Delta^{K}}\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Substitute the bottom expression into the intertemporal condition:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula 
+\begin{eqnarray*}
+\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}+[-\theta(1-\delta)p_{t+1}]^{-1}[p_{t}(1-\zeta_{t})-(1-\delta)\frac{p_{t+1}}{\Delta^{K}}-\frac{1-\alpha}{\alpha}\frac{c}{d}] & = & \frac{1}{\Delta^{K}}\\{}
+[-\theta(1-\delta)p_{t+1}]^{-1}\Delta^{K}\bigg(-\theta\beta\frac{1-\alpha}{\alpha}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha}+p_{t}(1-\zeta_{t})-(1-\delta)p_{t+1}/\Delta^{K}-\frac{1-\alpha}{\alpha}\frac{c}{d}\bigg) & = & 1\\{}
+[-\theta(1-\delta)p_{t+1}]^{-1}\Delta^{K}\bigg(-\theta\beta\frac{1-\alpha}{\alpha}\frac{c}{d}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{c_{t}}\bigg)^{\alpha}\bigg(\frac{d_{t+1}}{d_{t}}\bigg)^{-\alpha}+p_{t}(1-\zeta_{t})-(\theta+1-\theta)(1-\delta)p_{t+1}/\Delta^{K}-\frac{1-\alpha}{\alpha}\frac{c}{d}\bigg) & = & 1\\
+\bigg(1+\frac{1}{\theta}\bigg)\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\bigg(\frac{c_{t+1}}{d_{t+1}}\bigg)^{\alpha}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{1-\alpha} & = & 1+\frac{1}{\theta}\bigg(\frac{\Delta^{K}}{1-\delta}\frac{p_{t}(1-\zeta_{t})}{p_{t+1}}-1\bigg)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+This expression can be plugged back into the intratemporal:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\biggg[\frac{1-\alpha}{\alpha}+\frac{\theta p_{t+1}}{\dot{R}}\bigg(\frac{1+A/\theta}{1+1/\theta}\bigg)\biggg]\frac{c}{d}=p_{t}(1-\zeta_{t})-(1-\theta)(1-\delta)\frac{p_{t+1}}{\dot{R}},\:A=\bigg((1-\zeta_{t})\dot{R}/\dot{p}_{t+1}-1\bigg)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+If the down payment constraint is not slack, then substitute for 
+\begin_inset Formula $\mu$
+\end_inset
+
+ by plugging 
+\begin_inset Formula $\bigg[Env.\bigg]\text{ in }\bigg[d_{t}\bigg]$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}(1-\alpha)c^{\alpha}d^{-\alpha}+\theta(1-\delta)p_{t+1}\beta V'(W',\mathbf{s'})=\lambda_{t}[p_{t}(1-\zeta_{t})-(1-\theta)(1-\delta)\frac{p_{t+1}}{\Delta^{K}}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+then the intratemporal and intertemporal conditions become
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $c=\frac{\alpha}{1-\alpha}d\bigg[p_{t}(1-\zeta_{t})-\frac{1-\delta}{\Delta^{K}}p_{t+1}+(1-\delta)\theta p_{t+1}\big[(\Delta^{K})^{-1}-\beta V'(W',\mathbf{s}')/\lambda_{t}]\bigg]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{d_{t+1}}{c_{t+1}}=\bigg\{\beta\frac{1-\alpha}{\alpha[(1-\delta)p_{t+1}]}\frac{\big[c_{t+1}^{\alpha}d_{t+1}^{1-\alpha}\big]^{-\gamma}}{\big[c_{t}^{\alpha}d_{t}^{1-\alpha}\big]^{-\gamma}}\Delta^{K}\bigg[\beta V'(W',\mathbf{s'})/\lambda_{t}\bigg]^{-1}\bigg\}^{\frac{1}{\alpha}}\bigg(\frac{c_{t}}{d_{t}}\bigg)^{\frac{1-\alpha}{\alpha}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+The point here is that down payment constraints have an 
+\emph on
+ambiguous
+\emph default
+ effect on the 
+\begin_inset Formula $\frac{c}{d}$
+\end_inset
+
+ value relative to unconstrained people (it depends on if 
+\begin_inset Formula $(\Delta^{K})^{-1}\lessgtr\beta V'(W',\mathbf{s}')/\lambda_{t}$
+\end_inset
+
+ and both terms are positive).
+ It is possible for down payment constrained people to purchase 
+\emph on
+more 
+\emph default
+housing today relative to counterfactual people without down constraints.
+\end_layout
+
+\begin_layout LyX-Code
+Suppose the agent only rents housing every period, so 
+\begin_inset Formula $d_{t}$
+\end_inset
+
+ does not enter into 
+\begin_inset Formula $W'$
+\end_inset
+
+.
+ Then, the FOCs are
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[d_{t}\bigg]\qquad\qquad\qquad\big[c^{\alpha}d^{1-\alpha}\big]^{-\gamma}(1-\alpha)c^{\alpha}d^{-\alpha}=p_{t}(1-\zeta_{t})\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[a\bigg]\qquad\qquad\qquad(1+r)\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}\Rightarrow\Delta^{K}\{\beta V'(W',\mathbf{s'})+\mu\}=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\bigg[W'\bigg]\qquad\qquad\qquad\beta V'(W',\mathbf{s'})+(1+r)\mu=\lambda_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Then 
+\begin_inset Formula $[d_{t}]$
+\end_inset
+
+ divided over 
+\begin_inset Formula $[c]$
+\end_inset
+
+ yields
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{1-\alpha}{\alpha}\frac{c}{d}+=p_{t}(1-\zeta_{t})\Rightarrow c=\frac{\alpha}{1-\alpha}d[p_{t}(1-\zeta_{t})]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Expressions for the subsidy semielasticity of housing
+\end_layout
+
+\begin_layout LyX-Code
+In steady state, and shifting time one period back, this would be equal
+ to
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}d_{t}^{-\gamma}=[\overline{p}(1-\overline{\zeta})\Delta^{K}-p_{t}(1-\delta)]^{1+\nu_{1}}[(1-\zeta_{t})\Delta^{K}-\frac{p_{t+1}}{p_{t}}(1-\delta)]^{-\nu_{1}}p_{t}^{1-\nu_{1}}\overline{d}^{-\gamma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+with 
+\begin_inset Formula $p_{t}=\overline{p},\quad\zeta_{t}=\overline{\zeta},\quad d_{t}=\overline{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu_{1}=\alpha(\gamma-1).$
+\end_inset
+
+ To simplify notation, the above can be rewritten
+\backslash
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}d_{t}^{-\gamma}=G(\overline{p}(1-\overline{\zeta}),\:p_{t}){}^{1+\nu_{1}}G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}}){}^{-\nu_{1}}p_{t}^{1-\nu_{1}}\overline{d}^{-\gamma}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+Differentiate 
+\begin_inset Formula $d_{t}$
+\end_inset
+
+ with respect to 
+\begin_inset Formula $\zeta_{t}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $-\gamma\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}\bigg(\frac{\overline{d}}{\overline{d}}\bigg)^{\gamma-1}\frac{\partial d}{\partial\zeta}=\biggg\{(1+\nu_{1})G(\overline{p}(1-\overline{\zeta}),\:p_{t})^{\nu_{1}}G_{2}(\overline{p}(1-\overline{\zeta}),\:p_{t})G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}}){}^{-\nu_{1}}p_{t}^{1-\nu_{1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $-\nu_{1}G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}}){}^{-(1+\nu_{1})}[dG]G(\overline{p}(1-\overline{\zeta}),\:p_{t}){}^{1+\nu_{1}}p_{t}^{1-\nu_{1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $+(1-\nu_{1})p_{t}^{-\nu_{1}}\frac{\partial p_{t}}{\partial\zeta}G(\overline{p}(1-\overline{\zeta}),\:p_{t}){}^{1+\nu_{1}}G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}}){}^{-\nu_{1}}\biggg\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow-\gamma\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}\frac{\partial d}{\partial\zeta}=\bigg[G(\overline{p}(1-\overline{\zeta}),\:p_{t})/G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}})\bigg]^{\nu_{1}}p_{t}^{-\nu_{1}}\biggg\{$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $-(1+\nu_{1})(1-\delta)p_{t}-\nu_{1}p_{t}\bigg[G(\overline{p}(1-\overline{\zeta}),\:p_{t})/G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}})\bigg]\bigg[dG\bigg]+(1-\nu_{1})\frac{\partial p_{t}}{\partial\zeta}G(\overline{p}(1-\overline{\zeta}),\:p_{t})\biggg\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+where
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $dG=-\bigg[\Delta^{K}+(1-\delta)\bigg(\frac{\partial p_{t+1}}{\partial\zeta}p_{t}^{-1}-\frac{p_{t+1}}{p_{t}^{2}}\frac{\partial p_{t}}{\partial\zeta}\bigg)\bigg].$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+[Irrelevance re.
+ 
+\begin_inset Formula $p_{t+1}$
+\end_inset
+
+,
+\begin_inset Formula $G(\overline{p}(1-\overline{\zeta}),\:p_{t})/G(1-\zeta_{t},\:\frac{p_{t+1}}{p_{t}})=p_{t}$
+\end_inset
+
+]
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $(1+\nu_{1})(1-\delta)p_{t}=\nu_{1}p_{t}^{2}\bigg[\Delta^{K}+(1-\delta)\frac{1}{p_{t}}\frac{\partial p_{t}}{\partial\zeta}\bigg]+(1-\nu_{1})\frac{\partial p_{t}}{\partial\zeta}G(\overline{p}(1-\overline{\zeta}),\:p_{t})+\gamma\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}\frac{\partial d}{\partial\zeta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow p_{t}[(1+\nu_{1})(1-\delta)-\nu_{1}p_{t}\Delta^{K}]=\bigg[\nu_{1}(1-\delta)\frac{\partial p_{t}}{\partial d}+(1-\nu_{1})\frac{\partial p_{t}}{\partial d}G(\overline{p}(1-\overline{\zeta}),\:p_{t})+\gamma\frac{\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}\bigg]\frac{\partial d}{\partial\zeta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow\frac{\partial d}{\partial\zeta}=\frac{(1+\nu_{1})(1-\delta)-\nu_{1}\Delta^{K}}{\nu_{1}(1-\delta)\frac{\partial p_{t}}{\partial d}\frac{1}{p_{t}}+(1-\nu_{1})((1-\overline{\zeta})\Delta^{K}-(1-\delta))\frac{\partial p_{t}}{\partial d}+p_{t}^{-1}\frac{\gamma\beta\Delta^{K}(1-\alpha)}{\alpha[(1-\delta)]}}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\Rightarrow\frac{\partial d/\partial\zeta}{\overline{d}}=\frac{(1-\delta)+\nu_{1}(1-\delta-p_{t}\Delta^{K})}{(1-\delta)\nu_{1}\bigg[\frac{\partial d}{\partial p_{t}}\frac{p_{t}}{\overline{d}}\bigg]^{-1}+\overline{d}\bigg[\frac{\partial p_{t}}{\partial d}(1-\nu_{1})((1-\overline{\zeta})\Delta^{K}-(1-\delta))+(\nu_{2}p_{t})^{-1}\bigg]},\qquad\nu_{2}=\frac{\alpha(1-\delta)}{\gamma\beta\Delta^{K}(1-\alpha)};$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+or
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\partial d/\partial\zeta}{\overline{d}}=\frac{(1-\delta)-\nu_{1}(\overline{p}\Delta^{K}-(1-\delta))}{(1-\delta)\nu_{1}(\epsilon_{\overline{d}}(\overline{p}))^{-1}+\overline{d}\bigg[\frac{\partial p_{t}}{\partial d}(1-\nu_{1})((1-\overline{\zeta})\Delta^{K}-(1-\delta))+(\nu_{2}\overline{p})^{-1}\bigg]},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+[Small user cost assumption]
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\partial d/\partial\zeta}{\overline{d}}\approx\bigg[(1-\delta)-\nu_{1}(\overline{p}\Delta^{K}-(1-\delta))\bigg]\bigg[\frac{\epsilon_{\overline{d}}(\overline{p})/(1-\delta)\nu_{1}\cdot\nu_{2}\overline{p}/\overline{d}}{(\overline{d}\epsilon_{\overline{d}}(\overline{p})+(1-\delta)\nu_{1}\nu_{2}\overline{p})/(1-\delta)\nu_{1}\overline{d}}\bigg]=\bigg[1-\frac{\nu_{1}(\overline{p}\Delta^{K}-(1-\delta))}{(1-\delta)}\bigg]\bigg[\frac{(1-\delta)\nu_{2}}{\epsilon_{\overline{d}}(\overline{p})(\overline{d}/\overline{p})+(1-\delta)\nu_{1}\nu_{2}}\bigg]\epsilon_{\overline{d}}(\overline{p}).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+[
+\begin_inset Formula $\overline{d}$
+\end_inset
+
+ insignificant/starter home]
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\frac{\partial d/\partial\zeta}{\overline{d}}\approx\bigg[1-\frac{\nu_{1}(\overline{p}\Delta^{K}-(1-\delta))}{(1-\delta)}\bigg]\nu_{1}^{-1}\epsilon_{\overline{d}}(\overline{p})=\bigg[1+\nu_{1}^{-1}-\frac{\overline{p}\Delta^{K}}{(1-\delta)}\bigg]\epsilon_{\overline{d}}(\overline{p}).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+[
+\begin_inset Formula $\alpha\rightarrow0$
+\end_inset
+
+,or the case where consumption is only in durables]
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\lim_{\alpha\rightarrow0}\frac{\partial d/\partial\zeta}{\overline{d}}\approx\lim_{\alpha\rightarrow0}\frac{(1-\delta)}{\gamma\beta\Delta^{K}}\frac{(1-\delta)(1-\alpha)^{-2}}{\partial^{2}p/\partial\alpha\partial d}\epsilon_{\overline{d}}(\overline{p})=\frac{(1-\delta)^{2}}{\gamma\beta\Delta^{K}}\bigg[\frac{\partial^{2}p}{\partial\alpha\partial d}(\overline{d},0)\bigg]^{-1}\epsilon_{\overline{d}}(\overline{p}).$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
