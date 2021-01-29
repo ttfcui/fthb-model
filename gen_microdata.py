@@ -16,6 +16,7 @@ from model.model_iterate import lifecycle_iterate
 from sys import argv
 import numpy as np
 from pandas import merge, DataFrame, read_table, concat, to_numeric
+import pdb
 # Useful functions for data processing
 def ageTrim(dat, end=39):
     try:
@@ -69,23 +70,28 @@ def merge2(mdir='model', tretire=39, end=39):
     cols[0:2] = ['id', 'age']
     data.columns = cols
     data['age'] += 1  # to reconcile age with other datasets
-    data = data.loc[(data['age'] <= end)]
+    data = data.loc[(data['age'] <= tretire)]
 
     pullforward = data.loc[data[2] == 1]
-    agent, dates = np.where(pullforward == -1)
-    pullforward.loc[:, 'pullforward'] = np.nan
-    pullforward.loc[:, 'pullforward'].iloc[np.unique(agent)] = (
-        pullforward.iloc[np.unique(agent), :-1].idxmin(axis=1) - 2)
+    if not pullforward.empty:  # Policy eliciting *some* takers
+        agent, dates = np.where(pullforward == -1)
+        pullforward.loc[:, 'pullforward'] = np.nan
+        pullforward.loc[:, 'pullforward'].iloc[np.unique(agent)] = (
+            pullforward.iloc[np.unique(agent), :-1].idxmin(axis=1) - 2)
 
-    pullforward_ext = (pullforward.loc[pullforward['pullforward'].isnull()]
-                       .drop([2], axis=1))
-    pullforward.loc[pullforward['pullforward'].isnull(),
-                    'pullforward'] = tretire + 1
+        pullforward_ext = (pullforward.loc[pullforward['pullforward'].isnull()]
+                           .drop([2], axis=1))
+        pullforward.loc[pullforward['pullforward'].isnull(),
+                        'pullforward'] = end + 1
+    else:
+        pullforward = DataFrame([np.nan]*len(data.index),
+                                columns=['pullforward'], index=data.index)
 
-    for i in xrange(tretire, 2, -1):
+    for i in xrange(end, 2, -1):
         data.iloc[:, i] = data.iloc[:, 2:i+1].sum(axis=1)
 
-    posext = data.loc[data[tretire] > 0]
+    posext = data.loc[data[end] > 0]
+    if not posext.empty:  # *Some* extensive margin movement
     posext = merge(posext, pullforward[['pullforward']], left_index=True,
                    right_index=True, how='left')
     posext.loc[:, 'posext'] = np.nan
@@ -93,14 +99,23 @@ def merge2(mdir='model', tretire=39, end=39):
         indices = np.where(rowval[2:] == 1)[0]
         posext.loc[row, 'posext'] = indices[np.argmax(indices > posext.loc
                                                       [row, 'pullforward'])]
-    negext = data.loc[data[tretire] < 0]
+    else:
+        posext = None
+
+    negext = data.loc[data[end] < 0]
+    if not negext.empty:
     negext = merge(negext, pullforward[['pullforward']], left_index=True,
                    right_index=True, how='left')
     negext.loc[:, 'negext'] = ((negext == -1).idxmax(axis=1)) - 2
+    else:
+        negext = None
 
-    merged = merge(pullforward[['pullforward']], posext[['posext']],
+    merged = pullforward[['pullforward']]
+    if posext is not None:
+        merged = merge(merged, posext[['posext']],
                    how='outer', left_index=True, right_index=True)
-    merged = merge(merged, negext[['negext']], how='outer',
+    if negext is not None:
+        merged = merge(merged, negext[['negext']], how='outer',
                    left_index=True, right_index=True)
     merged = merge(data[['id', 'age']], merged,
                    left_index=True, right_index=True)
@@ -201,12 +216,18 @@ def merge4(view, futVar):
 
 if __name__ == '__main__':
     print('Creating master data file: \n \n')
-    merged1 = merge1()
+    merged = merge1()
+    try:
+        print('num periods {}'.format(argv[4]))
+        merged2 = merge2(end=int(float(argv[4])))
+    except:
     merged2 = merge2()
     merged3 = merge3(argv[2], float(argv[3]))
 
-    merged_adj = merge(merged1, merged2, how='left', on=['id', 'age'])
-    merged = merge(merged3, merged_adj, how='left', on=['id', 'age', 'model'])
+    if merged2 is not None:
+        merged = merge(merged, merged2, how='left', on=['id', 'age'])
+    if merged3 is not None:
+        merged = merge(merged3, merged, how='left', on=['id', 'age', 'model'])
     for varname in ['C', 'H_own', 'H_rent', 'V']:
          lagsleads = (lifecycle_iterate.readModel('transition_lagsleads')
                       .appended.sort_values(['id', 'age', 'variable']))

@@ -112,6 +112,25 @@ class lifecycle_iterate:
             with open('%s%s.txt' % (self.dir, file), access) as newfile:
                 newfile.close()
 
+    def batchSubCheck(self, proc):
+        from time import sleep
+        # In this setup, the proc submits a batch job to a node.
+        # How do we tell when the batch is done? The script ends
+        # by echoing an output to a file.
+        out, err = proc.communicate()
+        self.processing = True
+        while self.processing:
+            try:
+                with open(self.own_path, 'r+') as outFile:
+                    outLines = outFile.readlines()
+                    if re.match('Done!', outLines[0]):
+                        self.processing = False
+                        remove(self.own_path)
+            except Exception as e:
+                print(str(e))
+            sleep(10.0)
+
+
     def execSh(self, thread=40, **kwargs):
         """ Executes a shell script that compiles the Fortran code
             and executes it. Of the 10+ output files, those in
@@ -124,41 +143,33 @@ class lifecycle_iterate:
                 could be downgraded to 8 on a laptop.
             **kwargs['model']: Optional name ascribed to the model, used
                 to distinguish output files.
+            **kwargs['stop_model']: If specified and is True, the model is
+                never run (but files in model dir could still be moved)
         """
         from subprocess import Popen, PIPE
         from os import makedirs, chdir, remove
         from time import sleep
         from os.path import exists
         from shutil import copyfile
-        own_path = self.dir + 'sbatch_out.txt'
+        from subprocess import call
+
+        self.own_path = self.dir + 'sbatch_out.txt'
         try:
-            remove(own_path)
+            remove(self.own_path)
         except:
             pass
+
+        if 'stop_model' not in kwargs:
         print('################################################# \n'
                '#   FORTRAN CODE RUNNING... \n'
                '#################################################')
         proc = Popen(['sbatch', self.mainD + 'lifecycle_build.sh',
                       '%d' % thread], stdout=PIPE, stderr=PIPE)
-        out, err = proc.communicate()
-
-        # In this setup, the proc submits a batch job to a node.
-        # How do we tell when the batch is done? The script ends
-        # by echoing an output to a file.
-        self.processing = True
-        print(err)
-        print(out)
-        while self.processing:
-            try:
-                with open(own_path, 'r+') as outFile:
-                    outLines = outFile.readlines()
-                    if re.match('Done!', outLines[0]):
-                        self.processing = False
-                        remove(own_path)
-            except Exception as e:
-                print(str(e))
-            sleep(10.0)
+            self.batchSubCheck(proc)
         copyfile(self.dir + 'model_log.txt', self.dir + 'model_log_prev.txt')
+        else:
+            print('Model was not executed')
+
         # If crunching several models in a loop
         try:
             print('#   Moving files...')

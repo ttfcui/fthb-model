@@ -1,11 +1,10 @@
-#!/usr/bin/python
+#!/opt/apps/rhel7/Python-2.7.11/bin/python
 
 """ Title: gen_propensity.py
     Purpose: Create a high N, low-variable dataset used to calculate
     conditional purchase probability.
     Author: TC, DB
     Date: 2018-11-13
-
 """
 
 from model.model_iterate import lifecycle_iterate
@@ -24,6 +23,9 @@ def ageTrim(dat, end=39):
 
 readfunc = lifecycle_iterate.appendModels
 # Call relevant model output files
+# TODO: the policy functions for the non-policy takers in this file
+# are kind of a ruse, since if they choose differently in a policy
+# sim while not buying a house they're not recorded in any file.
 orig_col = ['id', 'age', 'nextDurables', 'nextAssets', 'consumption', 'durTime',
             'durables', 'assets', 'income', 'income_l', 'income_val', 'rent', 'moved', 'model']
 view1 = (ageTrim(readfunc('fthb', model=[argv[1]]))[orig_col])
@@ -98,6 +100,8 @@ def prop2(theta, hprice):
     # Short-term homeownership reversion
     viewVar.loc[:, idx['owner_pol1', 'H_own']] = (viewVar.loc
         [:, idx['var_pol1', 'H_own']] > 0).astype(int) 
+    viewVar.loc[:, idx['owner_pol3', 'H_own']] = (viewVar.loc
+        [:, idx['var_pol3', 'H_own']] > 0).astype(int)
     # Long-term homeownership reversion (9 years after)
     viewVar.loc[:, idx['owner_pol9', 'H_own']] = (viewVar.loc
         [:, idx['var_pol9', 'H_own']] > 0).astype(int) 
@@ -105,12 +109,12 @@ def prop2(theta, hprice):
     # Short, medium term leveraging?
     # TODO: missing the price level in the house value term.
     viewVar.loc[:, idx['leverage_pol1', 'H_own']] = (viewVar.loc[:,
-        idx['var_pol1', 'Q']] - (1.0-theta)*hprice*viewVar.loc[:,
+        idx['var_pol1', 'Q']] - (1.0-theta)*np.exp(hprice)*viewVar.loc[:,
         idx['var_pol1', 'H_own']])/viewVar.loc[:,idx['var_pol1', 'H_own']]
     viewVar.loc[:, idx['leverage_pol3', 'H_own']] = (viewVar.loc[:,
-        idx['var_pol3', 'Q']] - (1.0-theta)*hprice*viewVar.loc[:,
+        idx['var_pol3', 'Q']] - (1.0-theta)*np.exp(hprice)*viewVar.loc[:,
         idx['var_pol3', 'H_own']])/viewVar.loc[:,idx['var_pol3', 'H_own']]
-    viewOut = viewVar.loc[:, idx[['id', 'age', 'owner_pol1', 'owner_pol9',
+    viewOut = viewVar.loc[:, idx[['id', 'age', 'owner_pol1', 'owner_pol3', 'owner_pol9',
                           'leverage_pol1', 'leverage_pol3'], 'H_own']]
     viewOut.columns = viewOut.columns.droplevel(1)
     return viewOut

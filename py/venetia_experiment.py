@@ -1,4 +1,4 @@
-#!/usr/bin/python
+
 
 """ Title: experiment_programs.py
     Purpose: Master file for running FTHB model subsidy experiments.
@@ -12,28 +12,43 @@ from model.model_iterate import lifecycle_iterate
 from subprocess import call
 from os import remove
 from shutil import rmtree
-
+import pdb
 # Parameters of interest in model (preset or calibrated)
+"""
+algDict = {'agridsize': 120, 'Dgridsize': 55, 'zgridsize': 19,
+           'hpnodes(1)': 0.1000}
+commonParamsDict = {'beta2': 0.94, 'elasticity': 3.5, 'F': 0.26, 'unempprob': 0.0,
+                    'F2': 0.18, 'psi': 5.0, 'ret_wealth': 0.03, 'tax1': 0.175,
+                    'r': 0.01,  'rborrow': 0.02, 'rho_z': 0.91, 'sigma_z': 0.21, 'rentUtil': 0.9,
+                    'balancer': -0.0000, 'numhouseholds': 30000, 'ss_only': '.FALSE.', 'print_micro': '.TRUE.'}
+fthbParamsDict = {'EligYrsR': 99, 'EligYrsF': 3, 'delta': 0.022, 'movprob': 0.015,
+                  'movprobR': 0.000, 'thetamatlab': 0.2, 'elasticity2': 0.759,
+                  'rentPrem': 0.1, 'Dmin': 1.88, 'polEnd': 1}
+
+carsParamsDict = {'EligYrsR': 3, 'EligYrsF': 99, 'rentPrem': 9.9, 'Dmin': 0.15,
+                  'elasticity2': 0.95, 'delta': 0.125, 'rentPremRetire': 9.9,
+                  'scrapped': 1.0, 'adjTransfer': 0.06, 'Eta_transfer': 1.00,
+                  'polEnd': 1, 'custom_start': '.TRUE.'}
+"""
 
 algDict = {'agridsize': 100, 'Dgridsize': 45, 'zgridsize': 19,
             'hpnodes(1)': 0.1000}
-commonParamsDict = {'beta2': 0.94, 'elasticity': 2.5, 'unempprob': 0.0,
+commonParamsDict = {'beta2': 0.94, 'elasticity': 2.5, 'F': 0.06, 'unempprob': 0.0,
                      'psi': 2.5, 'ret_wealth': 0.03, 'tax1': 0.175,
-                     'r': 0.01,  'rborrow': 0.02, 'rho_z': 0.91, 'sigma_z': 0.21, 'rentUtil': 1.00,
+                     'r': 0.01,  'rborrow': 0.02, 'rho_z': 0.91, 'sigma_z': 0.30, 'rentUtil': 1.00,
                      'balancer': -0.0000, 'numhouseholds': 10000, 'ss_only': '.FALSE.', 'print_micro': '.TRUE.'}
 fthbParamsDict = {'EligYrsR': 99, 'EligYrsF': 3, 'delta': 0.022, 'movprob': 0.015,
                    'F2': 0.2, 'movprobR': 0.000, 'thetamatlab': 0.2, 'elasticity2': 0.759,
-                   'rentPrem': 0.01, 'Dmin': 1.1, 'polEnd': 1, 'dtau': 0.01, 'F': 0.06}
+                   'rentPrem': 0.01, 'Dmin': 1.1, 'polEnd': 1, 'dtau': 0.01}
 carsParamsDict = {'EligYrsR': 3, 'EligYrsF': 99, 'rentPrem': 99.9, 'Dmin': 0.15,
-                   'F2': 0.00, 'elasticity2': 0.95, 'delta': 0.3, 'rentPremRetire': 99.9,
+                   'F2': 0.0, 'elasticity2': 0.95, 'delta': 0.125, 'rentPremRetire': 1.0,
                    'scrapped': 1.0, 'adjTransfer': 0.06, 'Eta_transfer': 1.00,
-                   'polEnd': 1, 'hptransLength': 1, 'custom_start': '.TRUE.', 'F':0.0}
+                   'polEnd': 1} # 'custom_start': '.TRUE.'}
 
-# Manual override of calibrated parameters
 commonParamsDict['beta2'] = 0.95
 fthbParamsDict['rentPrem'] = 0.01
 commonParamsDict['rentUtil'] = 1
-commonParamsDict['F2'] = 0.24
+commonParamsDict['F2'] = 0.0
 commonParamsDict['elasticity'] = 3.0
 
 def genParams(polParamsDict, polDict, **kwargs):
@@ -83,10 +98,10 @@ def simFTHB(polSpecList, maint, **kwargs):
         **gen_props: Runs the takeup propensity script given in
             gen_propensity.py.
     """
+    #pdb.set_trace()
     for model, value, prop in polSpecList:
         modelDict = genParams(fthbParamsDict, {'adjTransfer': value,
                               'Eta_transfer': prop, 'maint': maint,}, **kwargs)
-
         if 'transLen' in kwargs:
             modelDict.update({'hptransLength': kwargs['transLen'], 'pe_start': '.FALSE.', 'ge_start': '.TRUE.'})
 
@@ -106,9 +121,9 @@ def simFTHB(polSpecList, maint, **kwargs):
         try:
             modelPol.matlabPlot(model=[model], end=kwargs['transLen'])
         except:
-        modelPol.matlabPlot(model=[model])
+            modelPol.matlabPlot(model=[model])
 
-        if value == 0.0 and 'override' not in kwargs:
+        if value == 0.0:
             print('No Policy Simulated')
             continue
 
@@ -122,7 +137,7 @@ def simFTHB(polSpecList, maint, **kwargs):
 
 
 # CARS simulation template
-def simCARS(polSpecList, maint, keepTransition=False, **kwargs):
+def simCARS(polSpecList, maint, **kwargs):
     """ A wrapper for CARS-like simulated policies, where temporary subsidies
         stimulate existing car owners to accelerate their car replacement
         decisions.
@@ -142,7 +157,6 @@ def simCARS(polSpecList, maint, keepTransition=False, **kwargs):
         modelDict = genParams(carsParamsDict, {'thetamatlab': valueT,
                               'downflag': valueD, 'scrapvalue': scrapV,
                               'maint': maint}, **kwargs)
-
         if 'transLen' in kwargs:
             modelDict.update({'hptransLength': kwargs['transLen'], 'pe_start': '.FALSE.', 'ge_start': '.TRUE.'})
         statsList = ['%f' % modelDict['delta'], '%f' % modelDict['Dmin'],
@@ -162,7 +176,7 @@ def simCARS(polSpecList, maint, keepTransition=False, **kwargs):
         try:
             modelPol.matlabPlot(pol='Return', model=[model], end=kwargs['transLen'])
         except:
-        modelPol.matlabPlot(pol='Return', model=[model])
+            modelPol.matlabPlot(pol='Return', model=[model])
 
         if modelDict['adjTransfer'] == 0.0:
             print('No Policy Simulated')
@@ -176,7 +190,6 @@ def simCARS(polSpecList, maint, keepTransition=False, **kwargs):
         if 'gen_props' in kwargs:
             call(['python', 'gen_propensity.py', model, 'Repeat'] + propsList)
         # Disk space management (this transition file is massive)
-        if not keepTransition:
         remove('output/%s/transition_fthb_%s.txt' % (model, model))
 
 

@@ -1,4 +1,3 @@
-#!/usr/bin/python
 
 from scipy.optimize import minimize, brute
 from model.model_iterate import lifecycle_iterate
@@ -9,6 +8,23 @@ import numpy as np
 
 """ Wrapper functions for moment calculations """
 # %<
+
+def fill_df(df, start, end):
+    """
+    Replaces null rows with rows of count 0, e.g.:
+    item    count   --> item   count
+    0       5           0       5
+    1       10          1       10
+    3       10          2       0
+                        3       10
+    PARAMS:
+    - <pd.DataFrame>: dataframe of dimension (2,)
+    - <int> nrows: largest item (corresponds to final row)
+    """
+    import pandas as pd
+    df2 = pd.DataFrame([0]*len(range(start, end+1)), index=range(start,end+1)).T.squeeze()
+    df = df.combine(df2, np.maximum, fill_value=0)
+    return df
 
 def momOut_allHH(data, workmax):
     """ Generates moments computed over all simulated agents (+ renters
@@ -32,7 +48,7 @@ def momOut_allHH(data, workmax):
     mediansOwn = data.loc[data['adjust'] == 2, 'nextDurables'].median()
 
     adjcounts = data['adjust'].value_counts().sort_index()
-
+    adjcounts = fill_df(adjcounts, 0, 2)
     # Moments 1, 2, 3: Median net worth to income ratio, the
     # ratio of average owned house size to average income, and
     # two statistics about turnover - HH who adjust and all HH. 
@@ -52,6 +68,16 @@ def momOut_FTHBs(data):
         data: A preloaded output file from the last model run, namely
         the "dist_fthb.txt" file.
     """
+    def get_gradient(dat1, dat2):
+        import sys
+        if dat1 == 0:
+            print('dat1 = 0')
+            return 99999999
+        elif dat2 == 0:
+            print('dat2 = 0')
+            return -99999999
+        else:
+            return (np.log(dat1) - np.log(dat2))
 
     assert 'ageBought' in data.columns  # ensures this is dist_fthb file
     dataMom = data.loc[data['ageBought'] <= 39]
@@ -59,17 +85,26 @@ def momOut_FTHBs(data):
     # Moments 1 : Median FTHB Age
     mediansF = dataMom.median()['ageBought']
 
-    # 28-30 pooled net 23-25 pooled
+    # 28-30 pooled net 23-25 pooled (upward gradient)
     ageagg = dataMom.groupby('ageBought')['id'].count()
-    print(ageagg)
-    calibinfo_mom1 = (np.log(ageagg.loc[6:9].mean()) -
-                      np.log(ageagg.loc[1:4].mean()))
+    #print(ageagg)
+    try:
+        ageagg = fill_df(ageagg, 2, 39)
+        #print(ageagg)
+    except:
+        pass
+    calibinfo_mom1 = get_gradient(ageagg.loc[8:10].mean(),
+                                  ageagg.loc[3:5].mean())
+    # 33-35 pooled net 28-30 pooled (downward gradient)
+    calibinfo_mom_down = get_gradient(ageagg.loc[13:15].mean(),
+                                      ageagg.loc[8:10].mean())
 
     # FTHB income distribution stats
-    incdist = dataMom['income_val'].describe()
+    # 1.8 is normalization (120K/67.25K, denom being unity in model)
+    dataTrunc = dataMom[dataMom['income_val'] <= 1.8]
+    incdist = dataTrunc['income_val'].describe()
     calibinfo_mom2 = incdist.loc[['50%', '75%']].values.flatten()
-
-    return np.concatenate(([calibinfo_mom1, mediansF],
+    return np.concatenate(([mediansF, calibinfo_mom1, calibinfo_mom_down],
 			    calibinfo_mom2, [float(data.shape[0])]))
 
 
@@ -163,14 +198,10 @@ def momOut_9mom(csvDir, **kwargs):
                 'dist_fthb', model=[kwargs['model']]).appended)
     else:
         view2 = lifecycle_iterate.readModel('dist_fthb').appended
-    mom2 = np.reshape(momOut_FTHBs(view2), (-1, 5))
-    # A moment is constructed here, share of FTHBs among all transactions
-    mom1h = mom2[0,-1]/mom1[0,-2]
-    mom1 = np.delete(mom1, [2, 3], axis=1)
-    mom2 = np.delete(mom2, [4], axis=1)
+    mom2 = np.reshape(momOut_FTHBs(view2), (-1, 6))
     print(mom2)
     print(mom1)
-    mom1 = np.reshape(np.append(mom1, mom1h), (-1, 3))
+    netWorthRatio = np.array([mom1[:1,0]])
     print('Processed all FTHB moments')
 
     lifeMom = lifecycle_iterate.readModel('lifecycleprofiles')
@@ -184,18 +215,20 @@ def momOut_9mom(csvDir, **kwargs):
     mom3 = momOut_lifeCycle(lifeMom)
     print('Processed all HO Rate moments')
    
-    # Rescaling of moments
-    mom1[0, -1] = 5.0*mom1[0, -1]  # FTHB share
-    mom2[0, 0] = 10.0*mom2[0, 0]  # Age gradient
-    mom2[0, -2:] = 5.0*mom2[0, -2:]  # FTHB Income percentiles
+    # Current nine moments: net worth from mom1, all FTHB dist moments,
+    # all homeownership moments
+    print(mom1[0,0])
+    print(mom3)
+    print(mom2[0,:-1])
+    #momFinal = np.concatenate((mom1[0, 0], mom3, mom2[0,:-1]), axis=1)
+    momFinal = np.concatenate((netWorthRatio, mom3, mom2[:1, :-1]), axis=1)
 
-    momFinal = np.concatenate((mom1, mom2, mom3*10), axis=1)
     print(momFinal)
-    momFinal = np.delete(momFinal, 1, 1)  # The "weird" house value/income ratio
-    readf = reader(open('%sinput_data/moments2019.csv' % csvDir, 'r'))
+    readf = reader(open('%sinput_data/moments.csv' % csvDir, 'r'))
     target = np.array(readf.next()).astype(float)
+    weights = np.array(readf.next()).astype(float)
     print((momFinal - target))
-    return momFinal, target
+    return momFinal, target, weights
 
 # %>
 
@@ -240,16 +273,16 @@ def calibration_execModel(paramsDict, *args):
     modelCal = lifecycle_iterate(paramsDict)
     # Extracting all relevant moments
     modelCal.execSh(model='calib')
-    modelOut, target = momOut_9mom(modelCal.dir, ageScale=False)
+    modelOut, target, weights = momOut_9mom(modelCal.dir, ageScale=False)
     propsList = ['0.20', '%f' % args[1]]
-    call(['./gen_propensity.py', 'calib', 'First-time'] + propsList)
+    call(['python', 'gen_propensity.py', 'calib', 'First-time'] + propsList)
     try:
         view = read_csv('propensity_calib.csv')
         momExtra = momOut_marginal(view)
     except IOError:
         raise IOError('Propensity file not found. Are you sure you are in'
                       ' the right directory?')
-    return modelOut, momExtra, target
+    return modelOut, momExtra, target, weights
  
 
 def calibration_9mom(params, *args):
@@ -270,6 +303,7 @@ def calibration_9mom(params, *args):
     # If the minimization algorithm is unconstrained, still allows you
     # to input algorithm starting values using values from 0 to 1.
     scale = [1.0, 1.0e-2, 1.0, 1.0e-1, 1.0]
+    ageScale = args[4]
     params = np.multiply(params, scale)
     print(params)
      
@@ -277,7 +311,7 @@ def calibration_9mom(params, *args):
     iterDict = {'elasticity': params[4], 'rentPrem': params[1],
                 'beta2': params[0], 'rentUtil': params[2],
                 'F2': params[3]}
-    modelOut, momExtra, target = calibration_execModel(
+    modelOut, momExtra, target, weights = calibration_execModel(
             iterDict, *args)
 
     try:
@@ -285,10 +319,11 @@ def calibration_9mom(params, *args):
         np.savetxt(momFile, modelOut, fmt='%16.6f')
         np.savetxt(momFile, (modelOut - target), fmt='%16.6f')
         np.savetxt(momFile, np.array([momExtra]), fmt='%16.6f')
-        np.savetxt(momFile, np.sum((modelOut - target)**2))
     except:
         pass
-    return(np.sum((modelOut - target)**2))
+    objective = np.multiply(np.subtract(modelOut, target), weights)
+    momFile.write('{:10.6f}\n'.format(np.sum(objective**2)))
+    return np.sum(objective**2)
 
 
 def calibration_2mom(params, *args):
@@ -353,9 +388,9 @@ def calibrate_grid(steadyprice, prices):
     # Dmin, rentUtil, ret_wealth and elasticity, in that order.
     # TODO: Instead of these grids generate a series of random numbers
     # (so like basinhopping)
-    pRanges = (slice(0.865, 0.95, 0.025), slice(7.75, 9.00, 0.45),
-               slice(0.90, 0.93, 0.04), slice(1.30, 2.15, 0.25),
-               slice(2.50, 4.4, 1.0))
+    pRanges = (slice(0.92, 0.95, 0.02), slice(1.0, 6.00, 1.0),
+               slice(1.0, 1.03, 0.04), slice(1.60, 2.5, 0.4),
+               slice(2.50, 4.4, 2.0))
 
     res = brute(calibration_9mom, pRanges, args=(8e-2, steadyprice, prices[0],
                 prices[1], False), full_output=True, finish=None)
@@ -374,17 +409,17 @@ def clean_calibgrid(calibfile):
     # We deliberate don't parse the space delimiters in orig file
     infile = read_table(calibfile, sep=',', header=None)
     # Why "8"? 5 lines of parameters + 3 lines of moments
-    params = infile.loc[infile.index % 8 < 5].reset_index()
+    params = infile.loc[infile.index % 9 < 5].reset_index()
     params['iter'] = np.floor(params.index / 5.0)
     params = (params.groupby('iter')[0].apply(' '.join)
               .str.split('\s+', expand=True))
 
     # Parsing of moment rows
-    mom1 = infile.loc[infile.index % 8 == 5].reset_index()
+    mom1 = infile.loc[infile.index % 9 == 5].reset_index()
     mom1 = mom1.iloc[:,-1].str.split('\s+', expand=True)
-    mom2 = infile.loc[infile.index % 8 == 6].reset_index()
+    mom2 = infile.loc[infile.index % 9 == 6].reset_index()
     mom2 = mom2.iloc[:,-1].str.split('\s+', expand=True)
-    mom3 = infile.loc[infile.index % 8 == 7].reset_index()
+    mom3 = infile.loc[infile.index % 9 == 7].reset_index()
     mom3 = mom3.iloc[:,-1].str.split('\s+', expand=True)
     
     # Output cleaned spreadsheets
@@ -487,7 +522,7 @@ def calibrate_check(params, steadyprice, prices, recalib=True):
 
     # Output semielasticity estimates as in calibration
     propsList = ['0.20', '%f' % steadyprice]
-    call(['./gen_propensity.py', 'calib', 'First-time'] + propsList)
+    call(['python', 'gen_propensity.py', 'calib', 'First-time'] + propsList)
     try:
         view = read_csv('propensity_calib.csv')
         momExtra = momOut_marginal(view)
@@ -503,13 +538,14 @@ if __name__ == "__main__":
     # init_params = [0.80, 3.000, 0.92, 1.00, 3.50]
     # intro = calibration_9mom(init_params, 1e-3, 0.00, 0.25, 0.00, True)
     steadyprice = 0.1000 # From checking model_log.txt
-    """
-    momFile = open('moments_102019v2.txt', 'a+')
-    res = calibrate_grid(steadyprice, (0.08, -0.08))
-    momFile.close()
+    
+    #uncomment this section (leaving res commented) to get elasticities
+    momFile = open('moments_aug.txt', 'a+')
+    #res = calibrate_grid(steadyprice, (0.08, -0.08))
     clean_calibgrid(momFile)   
+    momFile.close()
     quit() 
-
+    """
     BEST PARAMETERS:
 
     res = [0.94, 8.20, 0.93, 2.05, 2.50]
