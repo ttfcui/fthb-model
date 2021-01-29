@@ -13,9 +13,9 @@ module share
     REAL(8), parameter :: tax1=0.175 !Income tax on labour
     REAL(8), parameter :: tax2=.15 ! Progressivity parameter on income tax
     REAL(8), parameter :: F= 0.06 ! fixed cost (e.g. realtor fees)
-    REAL(8), parameter :: F2= 0.00 ! quadratic trans cost term (like furniture?)
+    REAL(8), parameter :: F2= 0.238!0.00 ! quadratic trans cost term (like furniture?)
     REAL(8) :: Dmin= 1.075 ! Minimum owned house size (not parameter to fit to D grid)
-    REAL(8), parameter :: thetamatlab=.20 ! Down payment proportion
+    REAL(8), parameter :: thetamatlab=0.20 ! Down payment proportion
     REAL(8), parameter :: ConsElas= 2.5 ! Price elasticity of agg. construction
 
     ! Current parameters to be calibrated
@@ -30,8 +30,8 @@ module share
     ! Derived parameters.
     REAL(8), parameter :: beta2retire=beta2  ! Different discount rate in retirement (deprecated)
     REAL(8), parameter :: usercost = (1.0-delta-dtau)/(1.0+r)  ! Traditional user cost of housing
-    REAL(8), parameter :: rent=1.0-usercost  ! rent equals user cost in frictionless market
-    ! Downpayment incorporating user cost - from 1-theta = (1-thetamatlab)*usercost
+    REAL(8), parameter :: rent=1.0 - (1.0-delta-dtau)/(1.0+rborrow) ! rent equals user cost in frictionless market
+    !Downpayment incorporating user cost - from 1-theta = (1-thetamatlab)*usercost
     REAL(8), parameter :: theta=1-(1-thetamatlab)*usercost
     REAL(8), parameter :: psi2 = ConsElas/(1+ConsElas) ! Parameter for housing supply fn
     INTEGER, parameter :: transgridsize= 1
@@ -43,6 +43,7 @@ module share
     REAL(8), parameter :: amin=-0.40/(1+r)  !.40 is roughly min y, so this is basically a no default condition
     REAL(8), parameter :: amax=9 !max asset (measured in units of $67,250)
     REAL(8), parameter :: borrowconstraint=0.0
+    REAL(8), parameter :: offset_consumption = 0.02
 
     integer, parameter :: agridsize= 90.000000 
     integer, parameter :: Dgridsize= 55.000000 
@@ -179,11 +180,13 @@ module share
     ! If TRUE, no one dies after retirement
     LOGICAL, parameter :: no_death=.FALSE.  
     ! If TRUE, consumption in certain periods not weighed more than others
-    LOGICAL, parameter :: no_utilscale=.FALSE.  
+    LOGICAL, parameter :: no_utilscale=.TRUE.!.FALSE.  
     ! If TRUE, displays a set of policy functions when solving DP problem
-    LOGICAL, parameter :: show_pol=.FALSE.  
+    LOGICAL, parameter :: show_pol=.TRUE. !normally .FALSE.  
     ! If TRUE, exports the largest microdata files from simulations to txt files
     LOGICAL, parameter :: print_micro=.TRUE.  
+    ! If TRUE, then do not iterate towards market equilibrium in GE steady state
+    LOGICAL, parameter :: steady_state_block = .TRUE.
 
     REAL(8), parameter :: rentelasticity=1
 
