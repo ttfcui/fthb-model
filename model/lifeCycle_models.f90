@@ -199,8 +199,9 @@ module lifecycle_models
         call gen_life_shocks(numhouseholds, shock(5,:,:), incshocks)
         call simulate(hpnodes(1),numhouseholds,householdtransitionholder(:,:,:,1),&
                       shock, .TRUE.)
-        call get_mktclear(hpnodes(1), avghousing, construction, totrev)
-        DEALLOCATE(alive, consumption, incomeholder, mortint, posttaxincome, mpc)
+        call get_mktclear(hpnodes(1), 1, avghousing, construction, totrev)
+        DEALLOCATE(posttaxincome,alive)
+
 
         if (ss_only) then
             close(1)
@@ -235,27 +236,33 @@ module lifecycle_models
         INTEGER, INTENT(IN) :: tot_time
         LOGICAL, INTENT(IN) :: partial
         LOGICAL :: write_files = .TRUE.
+        LOGICAL :: partBool
         INTEGER :: i, l, t, tpol, pindex
+        REAL :: excess
  
         write(*, *) "Solving transition dynamics"
         agg_policies = .TRUE.
         do l=1,tot_time
             TransTime = l - 1
+            write(*,*) "Transition period: ", TransTime
             if (partial) then
                 pindex = 1
+                partBool = .TRUE.
+                call transition(hpnodes(pindex),numhouseholds,TransTime,&
+                    householdtransitionholder(:,:,:,l),&
+                    householdtransitionholder(:,:,:,l+1),shock,partBool, .TRUE.)
             else
                 pindex = l+1
+                partBool = .FALSE.
+                DEALLOCATE(alive)
+                excess = SimTransPath(hpnodes(pindex), numhouseholds, .TRUE., .TRUE., .FALSE.)
             end if
-            write(*,*) "Transition period: ", TransTime
-            call transition(hpnodes(pindex),numhouseholds,TransTime,&
-                householdtransitionholder(:,:,:,l),&
-                householdtransitionholder(:,:,:,l+1),shock,.TRUE., .TRUE.)
         end do
         close(71)
         close(72)
         close(73)
         close(74)
-        if (print_micro) call SimTransLeads
+        if (print_micro .AND. tot_time > 10) call SimTransLeads
 
         OPEN (UNIT=76, FILE="transition_adjust.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
         OPEN (UNIT=77, FILE="transition_difffull.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
@@ -364,6 +371,17 @@ module lifecycle_models
 
      end subroutine ! %>
 
+    REAL(8) FUNCTION SimTransIter(price, numHH)
+
+        IMPLICIT NONE
+        REAL(8), INTENT(IN) :: price
+        INTEGER, INTENT(IN) :: numHH
+
+        SimTransIter = SimTransPath(price, numHH, .FALSE., .FALSE., .FALSE.)
+
+    end function
+
+
     subroutine GE_transition_clearing(pstart, yend, priceforward)
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ! %<
         !
@@ -417,7 +435,7 @@ module lifecycle_models
             balancer_internal = balancer(l+1)
             write(*,*) "Transition period:", TransTime
             write(*,*) pstart(:,l)
-            yend(l) = brentmindist(hpnodes(l+1), pstart(1,l),pstart(2,l),SimTransPath,&
+            yend(l) = brentmindist(hpnodes(l+1), pstart(1,l),pstart(2,l),SimTransIter,&
                 numhouseholds, transition_conv_thres,priceforward(l))
         ! Compare the initial price guesses and the recalibrated price
             if ((yend(l) < 100) .AND. (abs(priceforward(l) - hpnodes(l+1)) >= pthres)) then

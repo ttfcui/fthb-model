@@ -88,7 +88,7 @@ module lifecycle_solveDP
         REAL(8), dimension(:,:,:,:,:,:,:), ALLOCATABLE :: pstartadjust
         REAL(8), dimension(:,:,:,:,:,:), ALLOCATABLE :: ystartadjust
         REAL(8), dimension(:,:,:,:,:), ALLOCATABLE :: ax, bx, cx, adjust
-        REAL(8), dimension(:,:,:,:,:,:), ALLOCATABLE :: state, assetHolder, wealthHolder, incomeHolder, costholder
+        REAL(8), dimension(:,:,:,:,:,:), ALLOCATABLE :: state, assetHolder, wealthHolder, incomeHolder, costholder, costDenom, myUsercost
         REAL(8), dimension(:,:,:,:,:,:,:), ALLOCATABLE :: transferholder
         REAL(8), dimension(:,:,:,:), ALLOCATABLE :: perturb
         REAL(8), dimension(:,:,:,:,:,:,:), ALLOCATABLE :: mySimplex
@@ -217,8 +217,9 @@ module lifecycle_solveDP
             ! %< Functions of state space (simplifies code later)
             incomeHolder(i,i2,j,k,t,l) = incomeCall(state(:, i, i2, j, k, l)) + polLevel(1) - polLevel(4) !currentincome in valfuncadjust
             ! This is the part of assetReturns that excludes future interest
-            assetHolder(i,i2,j,k,t,l) = anodes(k)-(1-theta)*&
-                ((1.0-delta)/(1.0+rborrow))*Dnodes(j)*exp(price(l))
+            assetHolder(i,i2,j,k,t,l) = anodes(k)-&
+                (1-theta)*((1.0-scrapped)*((1.0-delta)/(1.0+rborrow))*Dnodes(j)*exp(price(l)) -&
+                scrapped*scrapvalue)
             if (assetHolder(i,i2,j,k,t,l) < 0) then
                 assetHolder(i,i2,j,k,t,l) = (1+rborrow)*assetHolder(i,i2,j,k,t,l)&
                 + MIN(-himdflag*rborrow*(anodes(k)-(1-theta)*Dnodes(j)*exp(price(l))), inctax(i,t))
@@ -426,8 +427,9 @@ module lifecycle_solveDP
 
 
             ! %< Policy choice printout for certain states
-            if ((i==zgridsize/2) .AND. (((j==20) .AND. (k==6)) .OR. &
-                ((j==1) .AND. (k==30))) .AND. show_pol) THEN
+            if ((i==zgridsize/2) .AND. (((scrapped == 0) .AND. (j==20) .AND. (k==6)) .OR. &
+                ((scrapped == 1) .AND. (j==6) .AND. (k==6)) .OR. ((j==1) .AND. (k==30)) &
+                   ) .AND. show_pol) THEN
                 !((t == t_end) .OR. (mod(t, 15)==1)) .AND. show_pol) THEN
                 write(0,*) "Check optimal policy in period", t
                 write(0,*) "Sample for D-q state:", dnodes(j), anodes(k)
@@ -439,9 +441,9 @@ module lifecycle_solveDP
                 write(0,'(A20,3F20.10)') "Consumption  |", &
                     cchoiceadjust(i,i2,j,k,t,l), cchoicerent(i,i2,j,k,t,l), cchoicenoadjust(i,i2,j,k,t,l)
                 write(0,'(A20,3F20.10)') "Expected Value  |", &
-                    Vadjust(i,i2,j,k,t,l), Vrent(i,i2,j,k,t,l), Vnoadjust(i,i2,j,k,t,l)
+                    -Vadjust(i,i2,j,k,t,l), -Vrent(i,i2,j,k,t,l), -Vnoadjust(i,i2,j,k,t,l)
                 write(0,*) "// Choice  :", choiceindicator(i,i2,j,k,t,l)
-                write(0,*) "// EV  :", max(Vrent(i,i2,j,k, t,l),max(Vnoadjust(i,i2,j,k, t,l), Vadjust(i,i2,j,k, t,l)))
+                write(0,*) "// EV  :", -min(Vrent(i,i2,j,k, t,l),min(Vnoadjust(i,i2,j,k, t,l), Vadjust(i,i2,j,k, t,l)))
             end if ! %>
 
                     end do

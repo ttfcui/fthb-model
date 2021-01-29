@@ -8,7 +8,7 @@
 
 % Stochastic component parameters
 % (Now to be fed in as arguments to file)
-% sigma_z=.21;
+% sigma_z=0.21;
 % rho_z=.91;
 
 % Deterministic component parameters

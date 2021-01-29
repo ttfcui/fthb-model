@@ -141,9 +141,10 @@ module lifecycle_vfuncs
         hpholder => state(3)
 
         ! First element is current financial assets, 2nd is next period
-        finwealth = (/ a + D*(-1+theta)*presfact*exp(hpholder),&
-                       aprime + Dprime*(-1+thetaholder+delta-maint*delta+dfact)&
-                               &*exp(hpholder+hpdelta) /)
+        finwealth = (/ a + (-1.0+theta)*((1.0-scrapped)*D*presfact*exp(hpholder)&
+                         + scrapped*-scrapvalue),&
+                       aprime + (1.0-scrapped)*Dprime*(-1+theta+delta-maint*delta+dfact)&
+                               &*exp(hpholder+hpdelta) + (-1.0+theta)*scrapped*-scrapvalue /)
 
         if (finwealth(1) < 0.0) then
                 assetholder = (1+rborrow)*finwealth(1)&
@@ -619,6 +620,7 @@ module lifecycle_vfuncs
                                      aprime, t+1, hpindex+1, exp(hpholder), unemp, futliquid, D,&
                                      pol_opts(2), .FALSE.,.TRUE.,transferfuture- &
                                      downflag*(1.0-discountflag)*(1.0-exp(-transfer_down))*Dprime)
+
                 valfuncadjust= valfuncadjust + EVholder
                 if (valfuncadjust /= valfuncadjust) then  ! NA value
                     write(*,*) EVholder
@@ -907,7 +909,7 @@ module lifecycle_vfuncs
 
             myDelt = downflag*(1-discountflag)*policyfactor/thetaholder
             myThet = exp(hpholder)*thetaholder*rebateholder
-            myKap = wealthCall(substate(1:3), currentincome, assetholder) + adjshifts - F*D*(1-maint*delta-dtau)*exp(hpholder)
+            myKap = wealthCall(substate(1:3), currentincome, assetholder) + adjshifts - (1.0-scrapped)*F*D*(1-maint*delta-dtau)*exp(hpholder)
             ! The -0.01 is a perturbation
             !get_aprime = myKap - myThet*(1.0 - myDelt)*Dprime - F2*((Dprime-rentimpute)**2.0)/(Dprime+rentimpute) - offset_consumption
             get_aprime = myKap - myThet*(1.0 - myDelt)*Dprime - F2*((Dprime-0.0)**2.0)/(Dprime+rentimpute) - offset_consumption
@@ -936,26 +938,27 @@ module lifecycle_vfuncs
 
             rebateholder = 1  ! Could we generalize this factor?
             !Rewrite BC as a' + D'(myThet) + (F2*(D'-D)**2)/(D'+D) = myKap
-            myDelt = downflag*(1-discountflag)*policyfactor/thetaholder !eta_transfer*adjtransfer/(thetaholder*exp(hpholder))
+            myDelt = downflag*(1-discountflag)*policyfactor/thetaholder 
             myThet = exp(hpholder)*thetaholder*rebateholder !exp(hpholder)*thetaholder*rebateholder*downflag*(1-discountflag)
-            myKap = wealthCall(substate(1:3), currentincome, assetholder) + adjshifts - F*D*(1-maint*delta-dtau)*exp(hpholder) - offset_consumption
+            myKap = wealthCall(substate(1:3), currentincome, assetholder) + adjshifts -aprime - &
+                (1.0-scrapped)*F*D*(1-maint*delta-dtau)*exp(hpholder) - offset_consumption
             myA = myThet + F2
-            !myB = -myKap + aprime + (myThet - myDelt + delta*exp(hpholder) - 2.0*F2)*rentimpute
-            !myC = (-myKap+aprime - myDelt)*rentimpute + (F2 - delta*exp(hpholder))*rentimpute**2
-            myB = -myKap + aprime + (myThet - myDelt + delta*exp(hpholder) - 2.0*F2)*0.0
-            myC = (-myKap+aprime - myDelt)*0.0 + (F2 - delta*exp(hpholder))*0.0**2 
+            myB = myThet*rentimpute - myThet*myDelt - myKap
+            myC = -myKap*rentimpute - myThet*myDelt*rentimpute
+            !myB = -myKap + aprime + (myThet - myDelt + delta*exp(hpholder) - 2.0*F2)*0.0
+            !myC = (-myKap+aprime - myDelt)*0.0 + (F2 - delta*exp(hpholder))*0.0**2 
             !possible for it to be <0?
+            if (F2 <= 1e-7) then
+                get_Dprime = myKap/myThet + myDelt
+            else
             if (sqrt(myB**(2.0)-4*myA*myC) > 0) then
                 get_Dprime = (-myB + sqrt(myB**(2.0)-4*myA*myC))/2/myA
             else
                 get_Dprime = (-myB - sqrt(myB**(2.0)-4*myA*myC))/2/myA
             end if
+            end if
             get_Dprime = min(get_Dprime, Dmax)
             get_Dprime = max(Dmin, get_Dprime)
-            !if (get_Dprime <= 1e-3) then
-            !    write(*,*) currentincome, get_Dprime, myA, myB, myC
-            !end if
-
         END FUNCTION get_Dprime
 
         SUBROUTINE get_simplex(amoebaGrid, state, currentincome, assetholder, myUsercost, pol_opts)
@@ -975,8 +978,8 @@ module lifecycle_vfuncs
             REAL(8), POINTER :: a, D, hpholder, zindex, t, hpindex, balholder, unemp, rentimpute
             REAL(8), DIMENSION(2,3), INTENT(OUT) :: amoebaGrid
             REAL(8), DIMENSION(4) :: substate
-            REAL(8) :: thetaholder, transfers, scrapholder, adjshifts, myTheta, transcost,&
-                    rebateholder, scrapvholder, transfer_down, dep, hpcurrent, downfact
+            REAL(8) :: thetaholder, transfers, adjshifts, myTheta, transcost,&
+                    rebateholder, transfer_down, dep, hpcurrent, downfact
             ! Initialize pointers
             zindex => state(1); unemp => state(2); D => state(3); a => state(4)
             hpholder => state(5); hpindex => state(6); t => state(7); balholder => state(8); rentimpute => state(9)
@@ -988,8 +991,6 @@ module lifecycle_vfuncs
             ! Incorporate subsidy
             myTheta = 1-(1-thetamatlab)*myUsercost
             thetaholder=(1-polLevel(3))*myTheta
-            scrapholder=scrapped
-            scrapvholder=scrapvalue
             if (pol_opts(1)) then
                 transfers=1.0
                 if (.NOT. pctageflag(zindex, t))  then ! adjtransfer expressed in nominal terms
@@ -1006,7 +1007,7 @@ module lifecycle_vfuncs
             adjshifts = (1.0-downflag)*(1.0-discountflag)*(&
                     transfers*adjtransfer(zindex, t)*eta_transfer)
             ! CARS-specific scrappage policy parameters
-            adjshifts = adjshifts - scrapholder*(-scrapvholder*(1.0-transfers)&
+            adjshifts = adjshifts - scrapped*(-scrapvalue*(1.0-transfers)&
                     +D*(1-dep-dtau)*exp(hpholder))
             ! Actual grid construction
             substate = (/D, a, hpholder, rentimpute /)
@@ -1023,9 +1024,9 @@ module lifecycle_vfuncs
             ! 
             amoebaGrid(2, 3) = get_Dprime(borrowconstraint, substate, downfact, currentincome, assetholder, adjshifts,&
                                           transfer_down*exp(hpholder), thetaholder)
-            !if (D==0 .AND. zindex == 10 .AND. a == 5) then
-            !    write(*,*) amoebaGrid
-            !end if
+            if (D>=0.5 .AND. zindex == 10 .AND. a <= 0.25) then
+                !write(*,*) amoebaGrid
+            end if
             !if (t < 20) then
             !write(*,*) amoebaGrid
             !end if

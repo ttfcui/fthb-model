@@ -58,11 +58,12 @@ module lifecycle_simulate
         LOGICAL, INTENT(IN) :: write_files
         REAL(8), DIMENSION(:,:,:), INTENT(INOUT) :: household_nextperiod, shock
         REAL(8), dimension(:,:), ALLOCATABLE :: currenthouseholdstate, newhouseholdstate
-        REAL(8), dimension(:,:), ALLOCATABLE :: consumptionmpc, consumptionhpshock, durableconsumption, currenttemp, currentperm, rentalind, choiceind, movedind
+        REAL(8), dimension(:,:), ALLOCATABLE :: consumptionmpc, rental_mpc, consumptionhpshock, durable_mpc, currenttemp, currentperm, rentalind, choiceind, movedind
         REAL(8), dimension(:,:), ALLOCATABLE :: durableinvestment, actualwealth, financialwealth, housingnet, housinggross, taxrate, welfare, diffc, ratioc, qchg
         REAL(8), dimension(:,:), ALLOCATABLE :: adjustmean
         REAL(8), dimension(numHH) :: insurancetemp, insuranceperm, cov1, cov2, cov3, cov4, insurancedtemp, insurancedperm, insurancedtempconditional, insurancedpermconditional, numtrans
         real(8), dimension(numHH, 3) :: fthb_flag
+        REAL(8) :: mpc_shifter
         ! 1: age when purchase fthb, 2: last period when house sold,
         ! 3: last period when house bought
 
@@ -84,8 +85,8 @@ module lifecycle_simulate
 
         ! Allocation of automatic arrays for OpenMP (skip this) %<
         ALLOCATE(mpc(numHH, Tdie), consumption(numHH, Tdie), consumptionmpc(numHH, Tdie), &
-        consumptionhpshock(numHH, Tdie), durableconsumption(numHH, Tdie), mortint(numHH, Tdie),&
-        currenttemp(numHH, Tdie), currentperm(numHH, Tdie), incomeholder(numHH, Tdie), & 
+        consumptionhpshock(numHH, Tdie), durable_mpc(numHH, Tdie), rental_mpc(numHH, Tdie), mortint(numHH, Tdie),&
+        currenttemp(numHH, Tdie), currentperm(numHH, Tdie), incomeholder(numHH, Tdie), posttaxincome(numHH, Tdie),& 
         rentalind(numHH, Tdie), choiceind(numHH, Tdie), movedind(numHH, Tdie), durableinvestment(numHH, Tdie), actualwealth(numHH, Tdie),&
         financialwealth(numHH, Tdie), housingnet(numHH, Tdie), housinggross(numHH, Tdie), taxrate(numHH, Tdie), &
         welfare(numHH, Tdie), diffc(numHH, Tdie), ratioc(numHH, Tdie), qchg(numHH, Tdie))
@@ -141,7 +142,10 @@ module lifecycle_simulate
         posttaxincome=0
         mortint=0
         consumptionmpc=0
+        durable_mpc=0
+        rental_mpc=0
         mpc=0
+        mpc_shifter=7.5e-2
 
         ! 5th state is age (or equiv) time
         currenthouseholdstate(5, :)=1
@@ -203,13 +207,13 @@ module lifecycle_simulate
 
                 ! %< Interpolation of next period policy. Everything else in
                 ! the simulation subroutine is just bean counting.
-                currenthouseholdstate(4, i) = currenthouseholdstate(4, i)+1e-4
+                currenthouseholdstate(4, i) = currenthouseholdstate(4, i)+mpc_shifter
                 ! Exogenous shock if HH currently renter
                 if (shock(2,i,t) < movProbR .AND. currenthouseholdstate(3, i) == 0) then
                     call pol_linworking(currenthouseholdstate(:,i),achoiceMovR,DchoiceMovR,cchoiceMovR,&
                         EVmovR,chindMR,newhouseholdstate(4, i), newhouseholdstate(3, i),&
                         consumptionmpc(i, t), rentalind(i, t), choiceind(i, t), welfare(i, t))
-                    currenthouseholdstate(4, i) = currenthouseholdstate(4, i)-1e-4
+                    currenthouseholdstate(4, i) = currenthouseholdstate(4, i)-mpc_shifter
                     call pol_linworking(currenthouseholdstate(:,i),achoiceMovR,DchoiceMovR,cchoiceMovR,&
                         EVmovR,chindMR,newhouseholdstate(4, i), newhouseholdstate(3, i),&
                         consumption(i, t), rentalind(i, t), choiceind(i, t), welfare(i, t))
@@ -219,7 +223,9 @@ module lifecycle_simulate
                     call pol_linworking(currenthouseholdstate(:,i),achoiceMov,DchoiceMov,cchoiceMov,EVmov,&
                         choiceindicatorMov,newhouseholdstate(4, i), newhouseholdstate(3, i),&
                         consumptionmpc(i, t), rentalind(i, t), choiceind(i, t), welfare(i, t))
-                    currenthouseholdstate(4, i) = currenthouseholdstate(4, i)-1e-4
+                    durable_mpc(i, t) = newhouseholdstate(3, i)
+                    rental_mpc(i, t) = rentalind(i, t)
+                    currenthouseholdstate(4, i) = currenthouseholdstate(4, i)-mpc_shifter
                     call pol_linworking(currenthouseholdstate(:,i),achoiceMov,DchoiceMov,cchoiceMov,EVmov,&
                         choiceindicatorMov,newhouseholdstate(4, i), newhouseholdstate(3, i),&
                         consumption(i, t), rentalind(i, t), choiceind(i, t), welfare(i, t))
@@ -229,15 +235,17 @@ module lifecycle_simulate
                 call pol_linworking(currenthouseholdstate(:,i),achoice,Dchoice,cchoice,EV,&
                     choiceindicator,newhouseholdstate(4, i), newhouseholdstate(3, i),&
                     consumptionmpc(i, t), rentalind(i, t), choiceind(i, t), welfare(i, t))
+                durable_mpc(i, t) = newhouseholdstate(3, i)
+                rental_mpc(i, t) = rentalind(i, t)
                 ! Actual a/D policy
-                    currenthouseholdstate(4, i) = currenthouseholdstate(4, i)-1e-4
+                    currenthouseholdstate(4, i) = currenthouseholdstate(4, i)-mpc_shifter
                 call pol_linworking(currenthouseholdstate(:,i),achoice,Dchoice,cchoice,EV,&
                     choiceindicator,newhouseholdstate(4, i), newhouseholdstate(3, i),&
                     consumption(i, t), rentalind(i, t), choiceind(i, t), welfare(i, t))
                     movedind(i, t) = 0
                 end if
 
-                mpc(i, t) = (consumptionmpc(i, t) - consumption(i, t))/1e-4
+                mpc(i, t) = (consumptionmpc(i, t) - consumption(i, t))/mpc_shifter
 
                 ! To prevent any case of bad interpolation (but wouldn't
                 ! pol_linworking catch this?
@@ -302,7 +310,6 @@ module lifecycle_simulate
                     household_nextperiod(13,i,t)=welfare(i, t-1)
                 end if
 
-                durableconsumption(i, t)=newhouseholdstate(3, i)+1e-7
                 durableinvestment(i, t)=newhouseholdstate(3, i)-(1-delta-dtau)*currenthouseholdstate(3, i)
 
                 ! %< Legacy code tracking renters/owners at start of each period,
@@ -420,11 +427,12 @@ module lifecycle_simulate
                 end if
 
                 if (write_files .AND. print_micro) then
-                write(41, '(2I6.2, 19F19.6)') i, t, max(newhouseholdstate(3, i),rentalflow(i,t,1)),&
+                write(41, '(2I6.2, 22F19.6)') i, t, max(newhouseholdstate(3, i),rentalflow(i,t,1)),&
                     newhouseholdstate(4, i)-(1-theta)*exp(price)*newhouseholdstate(3, i),&
                     max(currenthouseholdstate(3, i),rentalflow(i, max(t-1,1), 1)), &
                     newhouseholdstate(4, i)+theta*exp(price)*newhouseholdstate(3, i),&
-                    rentalind(i,t),3-choiceind(i,t), movedind(i, t), financialwealth(i,t), consumption(i,t), welfare(i,t),&
+                    rentalind(i,t),3-choiceind(i,t), movedind(i, t), financialwealth(i,t), consumption(i,t), &
+                    consumptionmpc(i, t), durable_mpc(i, t), rental_mpc(i, t), welfare(i,t),&
                     householdresultsholder(12, i, t), householdresultsholder(1, i, t), householdresultsholder(10, i, t),&
                     householdresultsholder(1, i, max(t-1,1)), householdresultsholder(10, i, max(t-1,1)),&
                     householdresultsholder(1, i, max(t-2,1)), householdresultsholder(10, i, max(t-2,1)),&
@@ -450,9 +458,10 @@ module lifecycle_simulate
 
             currenthouseholdstate = newhouseholdstate
             if (write_files) then
-            write(44, '(16F16.6)') t*1.0, sum(alive(:, t)), &
+            write(44, '(17F16.6)') t*1.0, sum(alive(:, t)), &
             sum(numrent(:, t)), sum(alive(:, t)*(1-rentalind(:, t))), &
-            sum(alive(:,t)*consumption(:, t))/sum(alive(:, t)), sum(alive(:,t)*consumption(:, t)*(1-rentalind(:, t)))/sum(alive(:, t)*(1-rentalind(:, t))), &
+            sum(alive(:,t)*consumption(:, t))/sum(alive(:, t)), sum(alive(:,t)*mpc(:, t))/sum(alive(:, t)),&
+            sum(alive(:,t)*consumption(:, t)*(1-rentalind(:, t)))/sum(alive(:, t)*(1-rentalind(:, t))), &
             sum(alive(:,t)*exp(price)*newhouseholdstate(3, :)*(1-rentalind(:, t)))/sum(alive(:, t)*(1-rentalind(:, t))), &
             sum(alive(:,t)*r_rental(1)*rentalflow(1:numHH,t,1)*rentalind(:, t))/sum(numrent(:, t)), &
             sum(alive(:,t)*newhouseholdstate(4, :))/sum(alive(:, t)), &
@@ -479,7 +488,7 @@ module lifecycle_simulate
         end do
 !$OMP END PARALLEL DO
 
-        DEALLOCATE(consumptionmpc, consumptionhpshock, durableconsumption, &
+        DEALLOCATE(consumptionmpc, consumptionhpshock, durable_mpc, &
         currenttemp, currentperm, rentalind, choiceind, movedind, &
         durableinvestment, actualwealth, financialwealth, &
         housingnet, housinggross, taxrate, welfare, &
@@ -542,7 +551,7 @@ module lifecycle_simulate
         write(0,*) "Simulation starting..."
         call simulate(price, numHH, householdtransitionholder(:,1:numHH,:,1),&
                       shock(:,1:numHH,:),.FALSE.)
-        call get_mktclear(price, avghousing, construction, totrev)
+        call get_mktclear(price, 1, avghousing, construction, totrev)
 
         ! Balancer calibrated in every iteration, so no need to throw into
         ! objective fn
@@ -560,7 +569,7 @@ module lifecycle_simulate
         
     END FUNCTION SimSteady ! %>
 
-    subroutine get_mktclear(price, avghousing, construction, totrev)
+    subroutine get_mktclear(price, period, avghousing, construction, totrev)
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ! %<
         !
         !    This function computes and approximates market clearing conditions
@@ -571,6 +580,9 @@ module lifecycle_simulate
         !    PARAMETERS
         !
         !    price: Real: records the price per unit of housing services.
+        !
+        !    period: Integer: current period of the transition
+        !    (base period is 1 for steady state)
         !
         !    avghousing: Output. A real number indicating the number of units
         !    of excess demand for housing services.
@@ -585,14 +597,14 @@ module lifecycle_simulate
         USE lifecycle_solveDP
         IMPLICIT NONE
         REAL(8), INTENT(IN) :: price
+        INTEGER, INTENT(IN) :: period
         REAL(8) :: avghousing, construction, totrev
         REAL(8) :: laborshare, taxshare, netrevenue,&
                    bequestres, lifeinc, privrevenue, psi0, coef, pindex
 
         !coef = ((balancer(1) - balancer_internal)/balancer_internal)*&
         !        &SUM(mpc)/SUM(alive)
-        coef = SUM(mpc)/SUM(alive)
-        write(0,'(A10, F10.6)') "// MPC :", coef
+        !coef = SUM(mpc)/SUM(alive)
         pindex = EXP((1.0/(1.0-psi2)*(price+psi2*LOG(psi2))))
 
         ! Government budget calibration
@@ -601,7 +613,7 @@ module lifecycle_simulate
         ! Impose market clearing in consumption goods market to back out
         ! the share of labour going into construction industry (IN PROGRESS)
         lifeinc = sum(posttaxincome(:,1:Tretire)) + sum(incomeholder(:,Tretire+1:Tdie))
-        privrevenue = F*SUM(housingflow(:,:,1)) + SUM(mortint(:,:))
+        privrevenue = F*SUM(housingflow(:,:,period)) + SUM(mortint(:,:))
         laborshare = (lifeinc + balancer(1)*SUM(alive)- (sum(consumption) + privrevenue))&
                      &/(lifeinc + balancer(1)*SUM(alive))
         ! The following equation must be from when trying to solve laborshare
@@ -622,7 +634,7 @@ module lifecycle_simulate
         ! an income tax and captured revenue from land, and its outlays
         ! are pension payments plus purchases of consumption good
         netrevenue = (taxshare*sum(incomeholder(:,1:Tretire))) + &
-                     (dtau*EXP(price)*SUM(housingstock(:,:,1))) + &
+                     (dtau*EXP(price)*SUM(housingstock(:,:,period))) + &
                      (EXP(price)*EXP(construction) - &
                       laborshare*SUM(incomeholder(:,1:Tretire)))- &
                      (sum(incomeholder(:,Tretire+1:Tdie)) + ret_wealth*SUM(incomeholder(:,Tretire)))
@@ -640,16 +652,16 @@ module lifecycle_simulate
         ! industry housing stock;
         ! 2) Balances the amount of housing entering the market from homeowners
         ! entering rental and dead homeowners?
-        bequestres = SUM(bequestflow(:,:,1)) - SUM(householdresultsholder(3, :, 1))&
-                     - SUM(householdresultsholder(4, :, 1))/EXP(price)
-        avghousing =  (SUM(newownerflow(:,:,1)) - SUM(resaleflow(:,:,1))) - bequestres
-        avghousing = avghousing + maint*delta*(SUM(housingstock(:,:,1)) + SUM(rentalflow(:,:,1)))
+        bequestres = SUM(bequestflow(:,:,period)) - SUM(householdtransitionholder(3, :, 1, period))&
+                     - SUM(householdtransitionholder(4, :, 1, period))/EXP(price)
+        avghousing =  (SUM(newownerflow(:,:,period)) - SUM(resaleflow(:,:,period))) - bequestres
+        avghousing = avghousing + maint*delta*(SUM(housingstock(:,:,period)) + SUM(rentalflow(:,:,period)))
         if (avghousing < 0) avghousing = 1e-6
         if (construction < 0) construction = LOG(1e-6)
         write(0,'(3A30)') "// Housing in SS", "  |  New homeowners in SS", "  |  Resold housing in SS"
-        write(0,'(3F30.4)') SUM(housingstock(:,:,1))/SUM(alive), SUM(newownerflow(:,:,1))/SUM(alive), SUM(resaleflow(:,:,1))/SUM(alive)
+        write(0,'(3F30.4)') SUM(housingstock(:,:,period))/SUM(alive), SUM(newownerflow(:,:,period))/SUM(alive), SUM(resaleflow(:,:,period))/SUM(alive)
         write(0,'(2A30)') "// Final rental homes in SS", "  |  Bequested housing in SS"
-        write(0,'(2F30.4)') SUM(rentalflow(:,:,1))/SUM(alive), bequestres/SUM(alive)
+        write(0,'(2F30.4)') SUM(rentalflow(:,:,period))/SUM(alive), bequestres/SUM(alive)
         write(0,'(A40,A21)') "// Demand for housing less resale supply", "  |  New construction"
         write(0,'(F40.10,F20.10)') avghousing/SUM(alive), EXP(construction)/SUM(alive)
         

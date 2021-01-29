@@ -580,7 +580,7 @@ module lifecycle_transition
         diffc, ratioc, qchg, numtrans)
         DEALLOCATE(numowntotal,numrent,numresale,numbequest)
         DEALLOCATE(currenthouseholdstate,newhouseholdstate)
-        if (partial) DEALLOCATE(alive, consumption, incomeholder, posttaxincome, mortint, subval)
+        if (partial) DEALLOCATE(alive, posttaxincome)
 
     end subroutine transition ! %>
 
@@ -591,7 +591,7 @@ module lifecycle_transition
     ! state holder argument. Then a transition path is calculated by taking
     ! a loop over the transaction subroutine. But at each step of the loop
     ! we can just call the Brent minimization routine as well.
-    REAL(8) FUNCTION SimTransPath(price, numHH)
+    REAL(8) FUNCTION SimTransPath(price, numHH, write_files, skipmodel, skipsim)
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ! %<
         !
         !    This function is called in every iteration of the algorithm used
@@ -614,6 +614,7 @@ module lifecycle_transition
                    lifeinc, lifecons, psi0, avghousing, totrev
         INTEGER :: ind, timestart, timeend, timeres
         LOGICAL :: pol_at_start = .TRUE.
+        LOGICAL, INTENT(IN) :: write_files, skipmodel, skipsim
         
         ind = TransTime+2
         hpdelta = price - hpnodes(ind-1)
@@ -625,6 +626,7 @@ module lifecycle_transition
         call bequests((/price/), ind+1)
         call system_clock(timestart, timeres)
 
+        if (.NOT. skipmodel) then
         if (TransTime < PolEnd) then
 
         if ((PolEnd == 1) .and. (TransTime == 0)) then
@@ -689,6 +691,7 @@ module lifecycle_transition
                 .TRUE., .FALSE., 'None', EV(:,:,:,:,:,ind+1:ind+1), EVmov(:,:,:,:,:,ind+1:ind+1), EVmovR(:,:,:,:,:,ind+1:ind+1))
             write(0,*) "Value function iteration complete"
         !end if
+        end if
 
         call system_clock(timeend, timeres)
         write(*,*) "Time elapsed:", (timeend - timestart) / timeres, "seconds"
@@ -702,41 +705,11 @@ module lifecycle_transition
         numadjust(:,:, ind) = 0
         call transition(price,numHH,TransTime,&
             householdtransitionholder(:,:,:,ind-1),&
-            householdtransitionholder(:,:,:,ind), shock, .FALSE., .FALSE.)
+            householdtransitionholder(:,:,:,ind), shock, .FALSE., write_files)
 
-
+        if (.NOT. skipsim) then
         ! TODO: Substitute get_mktclear into this?
-        call get_mktclear(price, avghousing, construction, totrev)
-
-        !! Government budget calibration
-        !taxshare = (sum(incomeholder(:,1:Tretire) - posttaxincome(:,1:Tretire))&
-        !           /sum(incomeholder(:,1:Tretire)))
-        !! Impose market clearing in consumption goods market to back out
-        !! the share of labour going into construction industry (IN PROGRESS)
-        !lifeinc = sum(posttaxincome(:,1:Tretire)) + sum(incomeholder(:,Tretire+1:Tdie))
-        !lifecons = sum(consumption(:,:)) + pr*F*SUM(resaleflow(:,:,1)) + &
-        !          (1.0-pr)*F*SUM(housingflow(:,:,1)) + rentPrem*SUM(rentalflow(:,:,1)) + &
-        !          SUM(mortint(:,:))
-        !laborshare = (lifeinc - lifecons)/SUM(incomeholder(:,1:Tretire))*&
-        !             &EXP((1.0/(psi2-1.0)*(price+psi2*LOG(psi2))))
-        !psi0 = (laborshare*SUM(incomeholder(:,1:Tretire)))**(1.0-psi2)
-        !write(0,'(2A30)') "// Share of construction labor", "  |  Factor value"
-        !write(0,'(2F30.5)') laborshare, psi0
-        !construction = LOG(psi0) + psi2/(1.0-psi2)*LOG((psi2*psi0*exp(price)))
-
-        !! First budget balance formula: government's budget is financed by
-        !! an income tax and captured revenue from land, and its outlays
-        !! are pension payments plus purchases of consumption good
-        !netrevenue = (taxshare*sum(incomeholder(:,1:Tretire))) + &
-        !             (EXP(price)*EXP(construction)) - &
-        !              laborshare*SUM(incomeholder(:,1:Tretire))- &
-        !             (sum(incomeholder(:,Tretire+1:Tdie)))
-        !write(0,'(A30, F30.5)') "// Taxes as share of income:", taxshare
-        !! Note netrevenue is actually not a residual - it is the total amount
-        !! of expenses transferred toward agents or taken away. Hence taking
-        !! the difference below should mean the value -> 0
-        !write(0,'(A30, F30.5)') "// Net government revenue:", netrevenue - &
-        !    balancer(ind)*SUM(alive)
+        call get_mktclear(price, ind, avghousing, construction, totrev)
 
         ! Balancer calibrated in every iteration, so no need to throw into
         ! objective fn
@@ -766,9 +739,12 @@ module lifecycle_transition
         !write(0,'(2F30.2)') SUM(resaleflow(:,:,ind)), SUM(bequestflow(:,:,ind))
         !write(0,'(A40,A20)') "// Demand for housing less resale supply", "  |  New construction"
         !write(0,'(F40.10,F20.10)') avghousing, EXP(construction)
-        
-        DEALLOCATE(alive, consumption, incomeholder, mortint, posttaxincome)
         SimTransPath = (LOG(avghousing) - construction)**2.0
+        else
+        SimTransPath = 1.0e6  ! Placeholder
+        end if
+        DEALLOCATE(posttaxincome)
+        
 
     END FUNCTION SimTransPath ! %>
 
@@ -787,8 +763,8 @@ module lifecycle_transition
         OPEN (UNIT=75, FILE="transition_lagsleads.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
 !$OMP PARALLEL DO
-        do t=1,Tretire+10 ! Recording future paths of all working age agents
-            do i=1,numhouseholds,10
+        do t=1,Tretire+10 ! Recording future paths of working age agents
+            do i=1,numhouseholds,10  ! Taking only a 10% sample of all households
         write(75,'(2I6.2, A9, 12F16.6)') i, t, "C", householdresultsholder(6, i, max(t-4,1)), &
             householdresultsholder(6, i, max(t-3,1)),householdresultsholder(6, i, max(t-2,1)),&
             householdresultsholder(6, i, max(t-1,1)),householdresultsholder(6, i, t),&

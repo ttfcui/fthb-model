@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
 from types import *
+from os import remove
 import pandas as pd
 import re
+import pdb
 import glob
 
 
@@ -61,7 +63,7 @@ class lifecycle_iterate:
     def __init__(self, paramSub, file_path='share.f90', new=False, sub=True):
         from tempfile import mkstemp
         from shutil import move
-        from os import getcwd, close
+        from os import getcwd, close, chmod
 
         assert type(paramSub) is DictType
         assert all(type(key) is StringType for key, val in paramSub.items())
@@ -97,7 +99,10 @@ class lifecycle_iterate:
                         newFile.write(line)
                     oldFile.close()
             close(fh)
-            move(abs_path, self.dir + 'shareIter.f90')
+            chmod(abs_path, 0o775)
+            move(abs_path, 'shareIter.f90')
+            move('shareIter.f90', self.dir + 'shareIter.f90')
+            
 
         self.tBegin = 1  # -1
         self.OKFiles = ['fthb', 'income_val', 'dist_fthb',
@@ -200,7 +205,8 @@ class lifecycle_iterate:
         self.headers = {'fthb':
                         ['id', 'age', 'nextDurables', 'nextAssets',
                          'durables', 'netWorth', 'rent', 'adjust', 'moved', 'assets',
-                         'consumption', 'welfare', 'durTime', 'income',
+                         'consumption', 'consumptionmpc', 'durablesmpc', 'rentalmpc',
+                         'welfare', 'durTime', 'income',
                          'income_val', 'income_l', 'income_val_l', 'income_l2',
                          'income_val_l2', 'consumption_l', 'assets_l'],
                         'income_val':
@@ -222,7 +228,7 @@ class lifecycle_iterate:
                          'rent', 'rent_pol', 'adjust_ss', 'adjust_pol'],
                         'lifecycleprofiles':
                         ['age', 'N', 'NRent', 'NOwn', 'avgConsumption',
-                         'avgConsumptionOwners', 'avgHouseOwners',
+                         'avgMPC', 'avgConsumptionOwners', 'avgHouseOwners',
                          'avgRental', 'avgAssets', 'avgAssetsOwners',
                          'avgAssetsRental', 'avgAssetsExDebtOwners',
                          'avgHouseToNetWOwners', 'aggNetW',
@@ -408,7 +414,7 @@ class lifecycle_iterate:
                           'Are you looking at fthb.txt, the only dataset'
                           'that contains all relevant variables?')
 
-    def matlabPlot(self, life=40, pol='FTHB', **kwargs):
+    def matlabPlot(self, life=40, end=40, pol='FTHB', **kwargs):
         """ Assemble model outputs with a MATLAB script in the same directory
             and runs it, which builds several plots of the steady-state
             and of dynamics after the policy is enacted.
@@ -428,12 +434,14 @@ class lifecycle_iterate:
                                  'housingstock', 'transition_fthb']:
                     copyfile(directory + '%s_%s.txt' % (plotFile, name),
                              directory + '%s.txt' % plotFile)
-                time = 'T=%d;' % (life - self.tBegin - 1)
+                time = 'Tretire=%d;' % (life - self.tBegin - 1)
+                polEnd = 'End=%d;' % end
                 policy = 'POL=%d;' % -1 if pol == 'FTHB' else 'POL=%d;' % -2
+                suffixes = "suffix='%s';" % name
                 # Execute the Matlab code in the model subdirectory
                 call(['matlab', '-nodisplay', '-nodesktop', '-nosplash',
-                      '-r', policy + time + 'cd(\'%s\');' % directory +
-                      'transition_plots;exit'])
+                      '-r', policy + time + polEnd + suffixes +
+                      'cd(\'%s\');' % directory + 'transition_plots;exit'])
                 for plotFile in ['dist_fthb', 'housing_transit',
                                  'housingstock', 'transition_fthb']:
                     remove(directory + '%s.txt' % plotFile)

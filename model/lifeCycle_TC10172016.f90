@@ -140,6 +140,7 @@ program durables  !Program shell
         REAL(8), DIMENSION(2,hptransLength), INTENT(INOUT) :: pstart
         REAL(8), DIMENSION(hptranslength), INTENT(OUT) :: yend
         REAL(8), DIMENSION(hptransLength-1) :: priceforward
+        REAL(8) :: avghousing, construction, totrev, excess
 
         ! Check hptransLength > 1 here
         if ((hptransLength == 1) .AND. .NOT. ss_only) then
@@ -157,7 +158,7 @@ program durables  !Program shell
         bequestflow(numhouseholds,Tdie,hptransLength),newownerflow(numhouseholds,Tdie,hptransLength),&
         resaleflow(numhouseholds,Tdie,hptransLength),numadjust(numhouseholds,Tdie,Tretire+1))
 
-        if (steady_state_block) then
+        if (.NOT. steady_state_block) then
         !block: define variable in share
         call system_clock(timestart, timeres)
         write(*,*) "Begin steady-state computation..."
@@ -171,13 +172,15 @@ program durables  !Program shell
             write(*,*) "Market equilibrium failed to converge given the interval of possible&
                        & price values. Quitting."
             RETURN
+        end if
         else 
+            write(*,*) "Assume partial equilibrium with fixed price level"
             call PE_vfunc
-            call PE_simulate
+            ! Fix a flat subsidy/tax value
+            balancer_internal = balancer(1)
         end if
         
         write(0,*) NEW_LINE('A') // "// Steady-state market clearing price:", hpnodes(1)
-        end if
         ! end block
         ! TODO: Check this
         hpnodes(hptransLength+1)=hpnodes(1)
@@ -195,6 +198,7 @@ program durables  !Program shell
             do i=2, hptransLength
                 READ(97,*) hpnodes(i)
             end do
+            write(*,*) hpnodes
         end if
 
         write(*,*) "Calculating full panel in steady-state"
@@ -203,6 +207,12 @@ program durables  !Program shell
         call gen_life_shocks(numhouseholds, shock(5,:,:), incshocks)
         call simulate(hpnodes(1), numhouseholds, householdtransitionholder(:,:,:,1),&
                       shock, .TRUE.)
+        call get_mktclear(hpnodes(1), 1, avghousing, construction, totrev)
+        ! Blank out the steady state values
+        consumption = 0
+        mortint = 0
+        incomeholder = 0
+        DEALLOCATE(mpc, posttaxincome, alive)
         write(0,'(3A30)') "// Housing in SS", "  |  New homeowners in SS", "  |  Resold housing in SS"
         write(0,'(3F30.2)') SUM(housingstock(:,:,1)), SUM(newownerflow(:,:,1)), SUM(resaleflow(:,:,1))
         write(0,'(2A30)') "// Final rental homes in SS", "  |  Bequested housing in SS"
@@ -218,6 +228,10 @@ program durables  !Program shell
             call bequests(hpnodes(2:hptransLength+1), 2)
 
             call GE_transition_vfunc
+
+            ! Calculation of value function with policy
+            TransTime = 0  ! Represents policy period or 0 periods post policy
+            excess = SimTransPath(hpnodes(2), numhouseholds, .FALSE., .FALSE., .TRUE.)
         end if
 
         do while (.NOT. loadpricepath .AND.  &
@@ -238,13 +252,14 @@ program durables  !Program shell
         end do
         
         ! Final GE iteration
-        call bequests(hpnodes(2:hptransLength+1), 2)
+        !call bequests(hpnodes(2:hptransLength+1), 2)
         write(0,*) NEW_LINE('A') // "Transition path for prices:"
         do i=2,hptranslength+1
             write(0,'(F16.6)') hpnodes(i)
         end do
-        call GE_transition_vfunc
+        !call GE_transition_vfunc
         call transition_final(hptransLength-1, .FALSE.)
+        DEALLOCATE(alive, consumption, incomeholder, mortint)
          
         OPEN (UNIT=78, FILE="transition_aggs.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
         write(78,'(I6.2,5F16.6)') 1, hpnodes(1), SUM(housingstock(:,:,1)),&

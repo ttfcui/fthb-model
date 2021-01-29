@@ -17,16 +17,17 @@ close all
 
 
 
-policy_ss = importdata('dist_fthb.txt');
-hstock_orig = importdata('housingstock.txt');
-%T = 40;                         % number of periods
-hstock_orig = hstock_orig(1:T,:);
+policy_ss = importdata(strcat('dist_fthb','_',suffix,'.txt'));
+hstock_orig = importdata(strcat('housingstock','_',suffix,'.txt'));
+%Tretire = 38;                     % age of retirement (sample selection)
+%End = 40;                         % number of periods
+hstock_orig = hstock_orig(1:Tretire,:);
 if POL == -1
     agType = 'FTHBs';
-    fthb_ss = policy_ss((policy_ss(:,2) <= T) & (policy_ss(:,17) == POL), :);
+    fthb_ss = policy_ss((policy_ss(:,2) <= Tretire) & (policy_ss(:,17) == POL), :);
 else
     agType = 'Repeat buyers';
-    fthb_ss = policy_ss((policy_ss(:,2) <= T) & (policy_ss(:,17) == POL), :);
+    fthb_ss = policy_ss((policy_ss(:,2) <= Tretire) & (policy_ss(:,17) == POL), :);
 end
 
 
@@ -34,21 +35,21 @@ end
 %% Steady State Plots
 % number of first time houses bought in every period
 
-q_ss = size(fthb_ss(fthb_ss(:,2) <= T, :), 1);
+q_ss = size(fthb_ss(fthb_ss(:,2) <= Tretire, :), 1);
 h_ss = sum(hstock_orig(:, 3)); % Total housing value transacted in steady state
 t_ss = sum(hstock_orig(:, 4)) % Total housing transactions in steady state
 i_ss = sum(fthb_ss(:, 3)); % Total *FTHB investment* in steady state
 
-age = 21+ [1:T];
-fthb_age = zeros(T, 1);
-for t = 1:T
+age = 21+ [1:Tretire];
+fthb_age = zeros(Tretire, 1);
+for t = 1:Tretire
     fthb_age(t) = sum(fthb_ss(:, 2)==t)/q_ss;
 end
 
 if POL == -1
 % Age distribution (not a histogram because age is categorical)
 % import actual FTHB age distribution
-try
+%try
     data_fthb = load('FTHB_dist_data.csv');
     f_frac = sprintf('%.1f', q_ss/t_ss*100);
     fig = figure;
@@ -66,8 +67,7 @@ try
     fig.PaperPosition = [0 0 6 4.5]; fig.PaperSize = [6 4.5];
     print('fracFthb','-dpdf')
     dlmwrite('FTHB_model_dist.txt',fthb_age,'delimiter','\t','precision',3)
-catch
-end
+%catch
 
 % Size distribution
 % Highlighting different income shock states
@@ -110,16 +110,16 @@ end
 
 %% Transition to a policy change
 
-% TODO: looking only at working workers in transition
+% Looking only at working workers in transition
 % (retirees have no income uncertainty so they exploit 1-period variation)
-fthb_transition =  importdata('transition_fthb.txt');
-fthb_transition = fthb_transition((fthb_transition(:,3) <= T) & ...
+fthb_transition =  importdata(strcat('transition_fthb','_',suffix,'.txt'));
+fthb_transition = fthb_transition((fthb_transition(:,3) <= Tretire) & ...
                                   (fthb_transition(:,18) == POL), :);
-hstock = importdata('housing_transit.txt');
-hstock = hstock(hstock(:,2) <= T, :);
+hstock = importdata(strcat('housing_transit','_',suffix,'.txt'));
+hstock = hstock(hstock(:,2) <= Tretire, :);
 
 PolYrs = 1; AppendStart = 0;
-T_plot = T - 1;
+T_plot = End - 1;
 
 % TODO: Append transition statistics when multi-period policies are in place
 
@@ -127,12 +127,12 @@ T_plot = T - 1;
 Q_p = zeros(T_plot+1, 1); % FTHB proportion of buyers holder
 Qf_p = zeros(T_plot+1, 1); % FTHB number holder
 T_p = zeros(T_plot+1, 1); % Total transactions holder
-H_p = zeros(T, 1); % Housing wealth holder
-I_p = zeros(T, 1); % FTHB proportion of housing investment holder
-If_p = zeros(T, 1); % FTHB housing investment holder
+H_p = zeros(End, 1); % Housing wealth holder
+I_p = zeros(End, 1); % FTHB proportion of housing investment holder
+If_p = zeros(End, 1); % FTHB housing investment holder
 
-fthb_age_transition = zeros(T, 2);
-fthb_age_investment = zeros(T, 2);
+fthb_age_transition = zeros(Tretire, 2);
+fthb_age_investment = zeros(Tretire, 2);
 for p = 0:T_plot
     q_ss = size(fthb_ss(fthb_ss(:,2) > p, :), 1);
     p_ind = find((fthb_transition(:, 2) > 0) & ...
@@ -147,7 +147,7 @@ for p = 0:T_plot
     end
     T_p(p+1) = sum(hstock(h_ind,5))/t_ss - 1;
 
-    if (p < T)
+    if (p < End)
     try
 	%h_ind = find((hstock(:,1) == p) & (hstock(:,2) > T - p) & (hstock(:,2) <= T));
 	owninvest_ss = hstock_orig(1:p, 2);
@@ -170,7 +170,7 @@ If_pd =  If_p / i_ss;
 
 % Get age distribution over time and investment ratios
 q_ss = size(fthb_ss, 1);
-for t = 1:T
+for t = 1:Tretire
     p_ind = find(((fthb_transition(:, 3) - fthb_transition(:, 2)) < PolYrs) & ...
 	 (fthb_transition(:, 3) == t));
     fthb_age_transition(t, 1) = size(fthb_transition(p_ind, 1), 1) ...
@@ -187,18 +187,20 @@ for t = 1:T
     end
 
     p_ind = find(((fthb_transition(:, 3) - fthb_transition(:, 2)) >= PolYrs) & ...
-	((fthb_transition(:, 3) - fthb_transition(:, 2)) < T) & ...
+	((fthb_transition(:, 3) - fthb_transition(:, 2)) < End) & ...
         (fthb_transition(:, 3) == t));
     fthb_age_transition(t, 2) = size(fthb_transition(p_ind, 1), 1) ...
-        /sum(Qf_p(PolYrs+1:T));
+        /sum(Qf_p(PolYrs+1:End));
 end
 
 for j = 1:2
-    fthb_age_transition(1:T, j) = ...
-	fthb_age_transition(1:T, j)/sum(fthb_age_transition(1:T, j));
+    fthb_age_transition(1:Tretire, j) = ...
+	fthb_age_transition(1:Tretire, j)/sum(fthb_age_transition(1:Tretire, j));
 end
 
-T_img = 15;  % reversal is done by this time
+T_img = min(15,T_plot) ;  % reversal is done by this time
+T_img
+T_plot
 fig = figure;
 hold on
 title('Transaction following a policy change')
@@ -281,7 +283,7 @@ fig = figure;
 fig.PaperUnits = 'inches';
 fig.PaperPosition = [0 0 6 4.5]; fig.PaperSize = [6 4.5];
 print('FthbShockAge','-dpdf')
-dlmwrite('FTHB_age_trans.txt',[[2:T+1]', fthb_age_transition(:,1), fthb_age],...
+dlmwrite('FTHB_age_trans.txt',[[2:Tretire+1]', fthb_age_transition(:,1), fthb_age],...
          'delimiter','\t','precision',5)
 
 % Histograms of policy period housing investment

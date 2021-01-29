@@ -359,7 +359,7 @@ module lifecycle_calibrate
         REAL(8), DIMENSION(:), INTENT(IN) :: price
         INTEGER, INTENT(IN) :: init_period
         INTEGER :: i, j, k
-        REAL(8) :: finwealth, wholder, p_const
+        REAL(8) :: liability, finwealth, wholder, p_const
         REAL(8), DIMENSION(zgridsize) :: realwealth
         INTEGER :: pricelen
 
@@ -373,14 +373,18 @@ module lifecycle_calibrate
         do i=1, agridsize
             do j=1, Dgridsize
                 do k=1, pricelen
+                    ! Non-leveraged part of durable value
+                    liability = (1.0-theta)*((1.0-scrapped)*(1-delta+maint*delta-dtau)*Dnodes(j)*exp(price(k)) &
+                        + scrapped*scrapvalue)
                     ! This is the a term
-                    finwealth=anodes(i)-(1-delta+maint*delta-dtau)*(1-theta)*Dnodes(j)*exp(price(k))
+                    finwealth=anodes(i)-liability
                     ! This is the a term + d term
+                    liability = liability/(1.0-theta)
                     if (finwealth<0) then
-                        wholder=(1+rborrow)*finwealth+(1-delta+maint*delta-dtau)*Dnodes(j)*exp(price(k))
+                        wholder=(1+rborrow)*finwealth+liability
                     !    EV(i, j,:, k, Tdie+1)=1/((1-elasticity))*((finwealth*(1+rborrow)+(1-delta-dtau)*Dnodes(j)*exp(price(k))*(1-F)))**(1-elasticity)
                     else
-                        wholder=(1+r)*finwealth+(1-delta+maint*delta-dtau)*Dnodes(j)*exp(price(k))
+                        wholder=(1+r)*finwealth+liability
                     !    EV(i, j,:, k, Tdie+1)=1/((1-elasticity))*((finwealth*(1+r)+(1-delta-dtau)*Dnodes(j)*exp(price(k))*(1-F)))**(1-elasticity)
                     end if
                     ! Bequest utility is in real terms.
@@ -437,19 +441,10 @@ module lifecycle_calibrate
                 out_array(i) = out_array(i) + 1
             end if
         end do
-        !do i=1, numHH
-        !    if (real(i)/numHH<Probinitcum(1)) then
-        !        init(1, i)=1
-        !    else
-        !        do j=1, zgridsize-zcut-1
-        !            if (real(i)/numHH > Probinitcum(j) .AND. real(i)/numHH<=Probinitcum(j+1)) then
-        !                init(1, i)=j+1
-        !                exit
-        !            end if
-        !        end do
-        !    end if
-        !end do
 
+        if (custom_incs) then
+            out_array(i) = 8
+        end if
     end subroutine ! %>
 
     subroutine gen_life_shocks(numHH, shocks, out_array)
@@ -512,9 +507,6 @@ module lifecycle_calibrate
 
         ! Generate initial distribution of income states (unless overriden)
         call gen_init_shock(numHH, init(1, :))
-        if (custom_incs) then
-            init(1, :) = 8
-        end if
 
         ! Steady-state unemployment rates (TBD)
         if (no_unemp) then
