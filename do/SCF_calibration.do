@@ -599,7 +599,7 @@ make_BPP `initdir'
 initial_grid_calibration 22 25 [pw=wgt], initdir(`initdir') ///
     theta(0.20) normed(`incNormed') hoyears(24)
 make_moments `initdir', normed(`incNormed')
-init_incomes `initdir', normed(`incNormed') agefe(-0.30)
+init_incomes `initdir', maxgrid(1.433) normed(`incNormed') agefe(-0.30)
 
 /* Creating other non-fitted calibration moments here */
 qui bin_moments ageind [pw=wgt], datadir(`datadir') normed(`incNormed')
