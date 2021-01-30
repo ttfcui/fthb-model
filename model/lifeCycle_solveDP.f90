@@ -535,27 +535,30 @@ module lifecycle_solveDP
         INTEGER, dimension(:), INTENT(IN) :: agelist
         INTEGER, INTENT(IN) :: period
         REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: EV, Vadjust, Vrent, Vnoadjust, achoice, dadjchoice, dchoice, cadjchoice, cchoice
-        INTEGER :: i, i2, j, k, t, l, t2, u, u2
+        INTEGER, dimension(1) :: ageIter
+        INTEGER :: i, i2, j, k, t, s, l, t2, u, u2
         CHARACTER(LEN=8) :: fname
 
-        OPEN (UNIT=21, FILE="vfunc1.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+        !OPEN (UNIT=21, FILE="vfunc1.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        OPEN (UNIT=22, FILE="vfunc2.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+        !OPEN (UNIT=22, FILE="vfunc2.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        OPEN (UNIT=23, FILE="vfunc3.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+        !OPEN (UNIT=23, FILE="vfunc3.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        OPEN (UNIT=24, FILE="vfunc4.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+        !OPEN (UNIT=24, FILE="vfunc4.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        OPEN (UNIT=25, FILE="vfunc5.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+        !OPEN (UNIT=25, FILE="vfunc5.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        OPEN (UNIT=26, FILE="vfunc6.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+        !OPEN (UNIT=26, FILE="vfunc6.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
         OPEN (UNIT=27, FILE="vfuncLC.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        t=1
-        do while (t <= shape(agelist)(1))
+        s=1
+        ageIter = shape(agelist)
+        do while (s <= ageIter)
         
-        write(fname, '(A6, I0.3)') "vfunc_" // agelist(t)
+        t = agelist(s)
+        write(fname, '(A6, I0.3)') "vfunc_" // t
         OPEN (UNIT=21, FILE=fname, STATUS="NEW", ACTION="WRITE", POSITION="REWIND")
         do i=1, zgridsize, 2
             do i2=2, 2
@@ -568,12 +571,12 @@ module lifecycle_solveDP
                                achoice(i, i2, j, k, t, l), dadjchoice(i, i2, j, k, t, l), &
                                dchoice(i, i2, j, k, t, l), cadjchoice(i, i2, j, k, t, l),  &
                                cchoice(i, i2, j, k, t, l),  income(i, t)
-                        end do
                     end do
                 end do
+              end do
             end do
          end do
-         t = t + 1
+         s = s + 1
          CLOSE(21)
          end do
 
