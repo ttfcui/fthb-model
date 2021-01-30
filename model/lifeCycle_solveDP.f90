@@ -13,7 +13,7 @@ module lifecycle_solveDP
 
     CONTAINS
 
-    subroutine solveworkingproblem(price, balancer, achoice, Dchoice, cchoice, &
+    subroutine solveworkingproblem(price, balancer, achoice, Dchoice, rentchoice, cchoice, &
                                    choiceindicator, achoiceMov, dchoiceMov, cchoiceMov,&
                                    choiceindicatorMov,achoiceMovR, dchoiceMovR, cchoiceMovR,&
                                    choiceindicatorMovR, noShock, repl, expected, &
@@ -78,8 +78,9 @@ module lifecycle_solveDP
         CHARACTER(LEN=*), INTENT(IN) :: expected
         REAL(8), dimension(:), INTENT(IN) :: price, balancer
         REAL(8), dimension(:,:,:,:,:,:), INTENT(INOUT) :: cchoice, achoice, dchoice, &
-            choiceindicator, cchoiceMov, achoiceMov, dchoiceMov, choiceindicatorMov, &
-            cchoiceMovR, achoiceMovR, dchoiceMovR, choiceindicatorMovR
+            rentchoice, choiceindicator, cchoiceMov, achoiceMov, dchoiceMov, rentchoiceMov, &
+            choiceindicatorMov, cchoiceMovR, achoiceMovR, dchoiceMovR, rentchoiceMov,&
+            choiceindicatorMovR
         REAL(8), dimension(:,:,:,:,:,:), INTENT(INOUT) :: EV, EVMov, EVMovR
         INTEGER, dimension(2), INTENT(IN), OPTIONAL :: state_end
         REAL(8), dimension(:,:,:,:,:,:), ALLOCATABLE :: achoiceadjust, achoicenoadjust, &
@@ -238,7 +239,7 @@ module lifecycle_solveDP
 
             ! %< Optimal (a', D') assuming entry into rental sector
 
-            ! %< Set up initial 2-simplex and find local minimum
+            ! Set up initial 2-simplex and find local minimum
             ! The initial simplex is identical to the adjustment initialization, since
             ! selling the house has costs too and someone still in rental has D=0
             
@@ -265,11 +266,9 @@ module lifecycle_solveDP
             state(9, i, i2, j, k, l)=Dchoicerent(i, i2, j, k, t, l)
             ! %>
 
-! %>
-
             ! %< Optimal (a', D') assuming adjustment / paid trans. costs
 
-            ! %< Set up initial 2-simplex and find local minimum
+            ! Set up initial 2-simplex and find local minimum
                 !create fn that takes init guess for policy fn. check if downpayment for min house size > income? if F, dont call
                 !amoeba (this is outside loop). if T, find optimal a', D'  
             call get_simplex(mySimplex(:, :, i, i2, j, k, l), state(:, i, i2, j, k, l), incomeHolder(i,i2,j,k,t,l), assetHolder(i,i2,j,k,t,l), myUsercost(i,i2,j,k,t,l), valfuncpol(1,:))
@@ -298,14 +297,6 @@ module lifecycle_solveDP
             Dchoiceadjust(i, i2, j, k, t,l)=min(max(pstartadjust(1, 2, i, i2, j, k, l),0.0),Dmax)
             ! %>
 
-            ! %>
-
-            ! %< Optimal (a', D') assuming entry into rental sector
-
-            ! %< Set up initial 2-simplex and find local minimum
-            ! The initial simplex is identical to the adjustment initialization, since
-            ! selling the house has costs too and someone still in rental has D=0
-
             ! %< Optimal (a') assuming no adjustment (D' = D)
             ax(i, i2, j, k, l)=0.0
             if (costlyequity) then
@@ -320,6 +311,8 @@ module lifecycle_solveDP
             cx(i, i2, j, k, l)=(1-1e-7)*amax
 
             state(3, i, i2, j, k, l)=j ! Need this to retrieve EV
+            ! %>
+
             ! %< Optimization in one variable, hence use Brent's method for
             ! optimization without derivatives
             Vnoadjust(i, i2, j, k, t, l)=brentnew(&
@@ -370,6 +363,7 @@ module lifecycle_solveDP
             ! %>
 
             ! %< Finding the best housing decision and recording it to array 
+            rentchoice(i, i2, j, k, t, l)=Dchoicerent(i, i2, j, k, t, l)
             !this chunk is fine, empirically verified. but what's polLevel(3)?
             if (Vadjust(i, i2, j, k, t, l)<Vnoadjust(i, i2, j, k, t, l) .and. &
                 Vadjust(i, i2, j, k, t, l)<Vrent(i, i2, j, k, t, l)) then  ! since V = - V from minimization

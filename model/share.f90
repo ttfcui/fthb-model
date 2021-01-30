@@ -116,15 +116,15 @@ module share
     REAL(8), DIMENSION(vars,vars+1,2) :: amoebaGrid
     REAL(8) :: steady_conv_thres, transition_conv_thres, pthres, ftol
 
-    REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoice, Dchoice, cchoice !Policy functions when solving problem
+    REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoice, Dchoice, rentchoice, cchoice !Policy functions when solving problem
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceMov, DchoiceMov, cchoiceMov
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceMovR, DchoiceMovR, cchoiceMovR
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: choiceindicator, choiceindicatorMov !choice indicator= 1 if adjust, 2 if noadjust, 3 if rent
-    REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceshock, Dchoiceshock, &
+    REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceshock, Dchoiceshock, rentchoiceshock, &
         cchoiceshock, choiceindicatorshock
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceshockMov, DchoiceshockMov, cchoiceshockMov, choiceindicatorshockMov
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceshockMovR, DchoiceshockMovR, cchoiceshockMovR
-    REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceexpect, Dchoiceexpect, &
+    REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceexpect, Dchoiceexpect, rentchoiceexpect, &
         cchoiceexpect, choiceindicatorexpect
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceexpectMov, DchoiceexpectMov, cchoiceexpectMov, choiceindicatorexpectMov
     REAL(8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, TARGET :: achoiceexpectMovR, DchoiceexpectMovR, cchoiceexpectMovR
@@ -253,6 +253,7 @@ module share
         !Policy functions when solving problem
         ALLOCATE(achoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1),&
              Dchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1),&
+             rentchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
              cchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1))
         ALLOCATE(choiceindicator(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1))
         ALLOCATE(EV(zgridsize, 2, Dgridsize, agridsize, Tdie+1, hptransLength+1))
@@ -260,12 +261,14 @@ module share
         !Policy functions for storing subsidy policy response
         ALLOCATE(achoiceshock(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
              Dchoiceshock(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
+             rentchoiceshock(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
              cchoiceshock(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd))
         ALLOCATE(choiceindicatorshock(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd))
 
         !Policy functions for storing response given policy in the future
         ALLOCATE(achoiceexpect(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
              Dchoiceexpect(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
+             rentchoiceexpect(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
              cchoiceexpect(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd))
         ALLOCATE(choiceindicatorexpect(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd))
         ALLOCATE(EVpol(zgridsize, 2, Dgridsize, agridsize, Tdie+1, hptransLength+1))

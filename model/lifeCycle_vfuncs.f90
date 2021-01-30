@@ -842,8 +842,9 @@ module lifecycle_vfuncs
 
     END FUNCTION valfuncnoadjust ! %>
 
-    SUBROUTINE adj_func_comp(p, state, aArray, Darray, cArray, choiceArray, EVarray, &
-                             nocreditBool, price, consOut, rentOut, choiceOut, welfOut)
+    SUBROUTINE adj_func_comp(p, state, aArray, Darray, rentalArray, cArray, &
+                             choiceArray, EVarray, nocreditBool, price,
+                             consOut, rentOut, choiceOut, welfOut)
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ! %<
         !
         !    Subroutine evaluates utility from two separate optimization problems
@@ -860,21 +861,25 @@ module lifecycle_vfuncs
         LOGICAL, DIMENSION(:), INTENT(IN) :: nocreditBool
         REAL(8), INTENT(IN) :: price
         REAL(8), INTENT(INOUT) :: consOut, rentOut, choiceOut, welfOut
-        REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: aArray,DArray,cArray,choiceArray, EVarray
-        REAL(8) :: constemp, renttemp, choicetemp, welftemp
+        REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: aArray,DArray,rentalArray, cArray,choiceArray, EVarray
+        REAL(8) :: rentchoice, constemp, renttemp, choicetemp, welftemp
         REAL(8), DIMENSION(2) :: testutil, newteststate
 
         call pol_linworking(state, aArray, Darray, cArray, choiceArray, EVarray, &
             newteststate(1), newteststate(2),&
             constemp, renttemp, choicetemp, welftemp)
+
+        rentchoice = rentalArray(state(1), state(2), state(3),&
+                state(4), state(5), state(6))
+
         ! Inputted function: adjustment with credit but with extra conditions
         testutil(1) = valfuncadjust((/p(2), p(1) /),&
-            (/ state(1:4), price, state(6), state(5), balancer_internal /),&
+            (/ state(1:4), price, state(6), state(5), balancer_internal, rentchoice /),&
              (/.TRUE., .FALSE./))
         ! Computed within subroutine: adjustment without credit, but possibly
         ! expecting one as well
         testutil(2) = valfuncadjust(newteststate,&
-            (/ state(1:4), price, state(6), state(5), balancer_internal /),&
+            (/ state(1:4), price, state(6), state(5), balancer_internal, rentchoice /),&
              nocreditBool)
         if (testutil(1) <= testutil(2)) then
             return

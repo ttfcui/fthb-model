@@ -39,7 +39,7 @@ module lifecycle_models
         EVMov(:,:,:,:,Tdie+1,:) = EV(:,:,:,:,Tdie+1,:)
         EVMovR(:,:,:,:,Tdie+1,:) = EV(:,:,:,:,Tdie+1,:)
         call solveworkingproblem(hpnodes(1:1), balancer(1:1),&
-             achoice, Dchoice, cchoice, choiceindicator,&
+             achoice, Dchoice, rentchoice, cchoice, choiceindicator,&
              achoiceMov, DchoiceMov, cchoiceMov, choiceindicatorMov,&
              achoiceMovR, DchoiceMovR, cchoiceMovR,chindMR,&
              .TRUE., .TRUE., 'None', EV, EVMov, EVMovR)
@@ -48,6 +48,7 @@ module lifecycle_models
         ! transition subroutine
         achoice(:,:,:,:,:,2) = achoice(:,:,:,:,:,1)
         Dchoice(:,:,:,:,:,2) = Dchoice(:,:,:,:,:,1)
+        rentchoice(:,:,:,:,:,2) = rentchoice(:,:,:,:,:,1)
         cchoice(:,:,:,:,:,2) = cchoice(:,:,:,:,:,1)
         choiceindicator(:,:,:,:,:,2) = choiceindicator(:,:,:,:,:,1)
         EV(:,:,:,:,:,2) = EV(:,:,:,:,:,1)
@@ -123,7 +124,7 @@ module lifecycle_models
                 if (polParam(i) == 1.0) polLevel(i) = polRead(i)
             end do
             call solveworkingproblem(hpnodes(1:1), balancer(1:1),&
-                achoiceshock, Dchoiceshock, cchoiceshock, choiceindicatorshock,&
+                achoiceshock, Dchoiceshock, rentchoiceshock, cchoiceshock, choiceindicatorshock,&
                 achoiceshockMov, DchoiceshockMov, cchoiceshockMov, choiceindicatorshockMov,&
                 achoiceshockMovR, DchoiceshockMovR, cchoiceshockMovR,chindshockMR,&
                 .FALSE., .TRUE., 'None', EVpol, EVpolmov, EVpolmovR, pol_vec)
@@ -143,7 +144,7 @@ module lifecycle_models
             EVpolMovR(:,:,:,:,Tdie+1,:) = EV(:,:,:,:,Tdie+1,:)
             if (PolEnd > Tretire) pol_perm = 'first-time'
             call solveworkingproblem(hpnodes(1:1), balancer(1:1),&
-                achoiceshock, Dchoiceshock, cchoiceshock, choiceindicatorshock,&
+                achoiceshock, Dchoiceshock, rentchoiceshock, cchoiceshock, choiceindicatorshock,&
                 achoiceshockMov, DchoiceshockMov, cchoiceshockMov, choiceindicatorshockMov,&
                 achoiceshockMovR, DchoiceshockMovR, cchoiceshockMovR,chindshockMR,&
                 .FALSE., .TRUE., trim(pol_perm), EVpol, EVpolMov, EVpolMovR, pol_vec)
@@ -157,7 +158,7 @@ module lifecycle_models
             if (PolStart == 0) pol_at_start = .FALSE.
 
             call solveworkingproblem(hpnodes(1:1), balancer(1:1),&
-                achoiceexpect, Dchoiceexpect,cchoiceexpect, choiceindicatorexpect,&
+                achoiceexpect, Dchoiceexpect, rentchoiceexpect, cchoiceexpect, choiceindicatorexpect,&
                 achoiceexpectMov, DchoiceexpectMov,cchoiceexpectMov, choiceindicatorexpectMov,&
                 achoiceexpectMovR, DchoiceexpectMovR,cchoiceexpectMovR,chindexpectMR,&
                 pol_at_start, .FALSE., 'first-time', EVpol, EVpolMov, EVpolMovR, pol_vec)
@@ -356,7 +357,8 @@ module lifecycle_models
         ! Recall l=1 is the steady-state price.
         call solveworkingproblem(hpnodes(2:hptransLength+1), balancer(2:hptransLength+1),&
             achoice(:,:,:,:,:,2:hptransLength), Dchoice(:,:,:,:,:,2:hptransLength),&
-            cchoice(:,:,:,:,:,2:hptransLength), choiceindicator(:,:,:,:,:,2:hptransLength),&
+            rentchoice(:,:,:,:,:,2:hptransLength), cchoice(:,:,:,:,:,2:hptransLength), &
+            choiceindicator(:,:,:,:,:,2:hptransLength),&
             achoiceMov(:,:,:,:,:,2:hptransLength), DchoiceMov(:,:,:,:,:,2:hptransLength),&
             cchoiceMov(:,:,:,:,:,2:hptransLength), choiceindicatorMov(:,:,:,:,:,2:hptransLength),&
             achoiceMovR(:,:,:,:,:,2:hptransLength), DchoiceMovR(:,:,:,:,:,2:hptransLength),&

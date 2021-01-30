@@ -263,17 +263,20 @@ module lifecycle_transition
                     if (scrapped > 0) then
                         if (shock(2,i,t) < movProbR .AND. currenthouseholdstate(3, i) == 0) then
                         call adj_func_comp(newhouseholdstate(3:4, i), &
-                                transhouseholdstate(:,i), achoiceMovR, DchoiceMovR, cchoiceMovR, chindMR, EVpolmovR,&
+                                transhouseholdstate(:,i), achoiceMovR, DchoiceMovR, rentchoice,&
+                                cchoiceMovR, chindMR, EVpolmovR,&
                             (/.FALSE., .FALSE./), price, consumption(i,t), &
                             rentalind(i,t), choiceind(i,t), welfare(i,t))
                         else if (shock(2,i,t) < movprob .AND. currenthouseholdstate(3, i) > 0) then
                             call adj_func_comp(newhouseholdstate(3:4, i), &
-                                transhouseholdstate(:,i), achoiceMov, DchoiceMov, cchoiceMov, choiceindicatorMov, EVpolmov,&
+                                transhouseholdstate(:,i), achoiceMov, DchoiceMov, rentchoice,&
+                                cchoiceMov, choiceindicatorMov, EVpolmov,&
                                 (/.FALSE., .FALSE./), price, consumption(i,t), &
                                 rentalind(i,t), choiceind(i,t), welfare(i,t))
                         else
                             call adj_func_comp(newhouseholdstate(3:4, i), &
-                            transhouseholdstate(:,i), achoice, Dchoice, cchoice, choiceindicator, EVpol,&
+                            transhouseholdstate(:,i), achoice, Dchoice, rentchoice,&
+                                cchoice, choiceindicator, EVpol,&
                                 (/.FALSE., .FALSE./), price, consumption(i,t), &
                                 rentalind(i,t), choiceind(i,t), welfare(i,t))
                         end if
@@ -309,19 +312,19 @@ module lifecycle_transition
                         if (shock(2,i,t) < movProbR .AND. currenthouseholdstate(3, i) == 0) then
                             call adj_func_comp(newhouseholdstate(3:4, i), &
                                 transhouseholdstate(:,i), achoiceMovR, DchoiceMovR,&
-                                cchoiceMovR, chindMR, EVpolMovR,&
+                                rentchoice, cchoiceMovR, chindMR, EVpolMovR,&
                             (/.FALSE., .TRUE./), price, consumption(i,t), &
                             rentalind(i,t), choiceind(i,t), welfare(i,t))
                         else if (shock(2,i,t) < movprob) then
                             call adj_func_comp(newhouseholdstate(3:4, i), &
                                 transhouseholdstate(:,i), achoiceexpectMov, DchoiceexpectMov,&
-                                cchoiceexpectMov, choiceindicatorexpectMov, EVpolMov,&
+                                rentchoiceexpect, cchoiceexpectMov, choiceindicatorexpectMov, EVpolMov,&
                                 (/.FALSE., .TRUE./), price, consumption(i,t), &
                                 rentalind(i,t), choiceind(i,t), welfare(i,t))
                         else
                         call adj_func_comp(newhouseholdstate(3:4, i), &
                             transhouseholdstate(:,i), achoiceexpect, Dchoiceexpect,&
-                            cchoiceexpect, choiceindicatorexpect, EVpol,&
+                            rentchoiceexpect, cchoiceexpect, choiceindicatorexpect, EVpol,&
                             (/.FALSE., .TRUE./), price, consumption(i,t), &
                             rentalind(i,t), choiceind(i,t), welfare(i,t))
                         end if
