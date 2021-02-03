@@ -551,8 +551,6 @@ module lifecycle_solveDP
 
         !OPEN (UNIT=26, FILE="vfunc6.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
-        OPEN (UNIT=27, FILE="vfuncLC.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
-
         s=1
         ageIter = shape(agelist)
         do while (s <= ageIter)
@@ -581,7 +579,7 @@ module lifecycle_solveDP
          end do
 
 
-      OPEN (UNIT=22, FILE="vfuncLC.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
+      OPEN (UNIT=22, FILE="vfuncLC.txt", STATUS="NEW", ACTION="WRITE", POSITION="REWIND")
       do i=1, zgridsize, 2
           do i2=2, 2
               do k=6, agridsize, 6
