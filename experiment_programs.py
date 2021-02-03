@@ -106,7 +106,7 @@ def simFTHB(polSpecList, maint, **kwargs):
         try:
             modelPol.matlabPlot(model=[model], end=kwargs['transLen'])
         except:
-        modelPol.matlabPlot(model=[model])
+            modelPol.matlabPlot(model=[model])
 
         if value == 0.0 and 'override' not in kwargs:
             print('No Policy Simulated')
@@ -162,7 +162,7 @@ def simCARS(polSpecList, maint, keepTransition=False, **kwargs):
         try:
             modelPol.matlabPlot(pol='Return', model=[model], end=kwargs['transLen'])
         except:
-        modelPol.matlabPlot(pol='Return', model=[model])
+            modelPol.matlabPlot(pol='Return', model=[model])
 
         if modelDict['adjTransfer'] == 0.0:
             print('No Policy Simulated')
@@ -177,7 +177,7 @@ def simCARS(polSpecList, maint, keepTransition=False, **kwargs):
             call(['python', 'gen_propensity.py', model, 'Repeat'] + propsList)
         # Disk space management (this transition file is massive)
         if not keepTransition:
-        remove('output/%s/transition_fthb_%s.txt' % (model, model))
+            remove('output/%s/transition_fthb_%s.txt' % (model, model))
 
 
 # FTHB, general equilibrium (TBD?)

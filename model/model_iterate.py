@@ -165,13 +165,13 @@ class lifecycle_iterate:
             pass
 
         if 'stop_model' not in kwargs:
-        print('################################################# \n'
-               '#   FORTRAN CODE RUNNING... \n'
-               '#################################################')
-        proc = Popen(['sbatch', self.mainD + 'lifecycle_build.sh',
-                      '%d' % thread], stdout=PIPE, stderr=PIPE)
+            print('################################################# \n'
+                   '#   FORTRAN CODE RUNNING... \n'
+                   '#################################################')
+            proc = Popen(['sbatch', self.mainD + 'lifecycle_build.sh',
+                          '%d' % thread], stdout=PIPE, stderr=PIPE)
             self.batchSubCheck(proc)
-        copyfile(self.dir + 'model_log.txt', self.dir + 'model_log_prev.txt')
+            copyfile(self.dir + 'model_log.txt', self.dir + 'model_log_prev.txt')
         else:
             print('Model was not executed')
 
