@@ -843,7 +843,7 @@ module lifecycle_vfuncs
     END FUNCTION valfuncnoadjust ! %>
 
     SUBROUTINE adj_func_comp(p, state, aArray, Darray, rentalArray, cArray, &
-                             choiceArray, EVarray, nocreditBool, price,
+                             choiceArray, EVarray, nocreditBool, price,&
                              consOut, rentOut, choiceOut, welfOut)
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ! %<
         !
