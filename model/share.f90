@@ -253,7 +253,7 @@ module share
         !Policy functions when solving problem
         ALLOCATE(achoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1),&
              Dchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1),&
-             rentchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, PolEnd),&
+             rentchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1),&
              cchoice(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1))
         ALLOCATE(choiceindicator(zgridsize, 2, Dgridsize, agridsize, Tdie, hptransLength+1))
         ALLOCATE(EV(zgridsize, 2, Dgridsize, agridsize, Tdie+1, hptransLength+1))
