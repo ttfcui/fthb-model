@@ -537,7 +537,7 @@ module lifecycle_solveDP
         REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: EV, Vadjust, Vrent, Vnoadjust, achoice, dadjchoice, dchoice, cadjchoice, cchoice
         INTEGER, dimension(1) :: ageIter
         INTEGER :: i, i2, j, k, t, s, l, t2, u, u2
-        CHARACTER(LEN=8) :: fname
+        CHARACTER(LEN=12) :: fname
 
         !OPEN (UNIT=21, FILE="vfunc1.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
