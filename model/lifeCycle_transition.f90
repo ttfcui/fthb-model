@@ -636,7 +636,7 @@ module lifecycle_transition
             write(0,*) NEW_LINE('A') // "Begin value function iteration with subsidy:"
             call solveworkingproblem((/price, hpnodes(ind+1)/), (/balancer_internal/),&
                 achoiceshock(:,:,:,:,:,ind-1:ind-1), Dchoiceshock(:,:,:,:,:,ind-1:ind-1),&
-                cchoiceshock(:,:,:,:,:,ind-1:ind-1), choiceindicatorshock(:,:,:,:,:,ind-1:ind-1),& 
+                rentchoiceshock(:,:,:,:,:,ind-1:ind-1),cchoiceshock(:,:,:,:,:,ind-1:ind-1), choiceindicatorshock(:,:,:,:,:,ind-1:ind-1),& 
                 achoiceshockMov(:,:,:,:,:,ind-1:ind-1),dchoiceshockmov(:,:,:,:,:,ind-1:ind-1),&
                 cchoiceshockMov(:,:,:,:,:,ind-1:ind-1),choiceindicatorshockMov(:,:,:,:,:,ind-1:ind-1),&
                 achoiceshockMovR(:,:,:,:,:,ind-1:ind-1),dchoiceshockmovR(:,:,:,:,:,ind-1:ind-1),&
@@ -649,7 +649,7 @@ module lifecycle_transition
             EVpol(:,:,:,:,TDie+1,ind+1) = EV(:,:,:,:,Tdie+1,ind+1)
             call solveworkingproblem((/price, hpnodes(ind+1)/), (/balancer_internal/),&
                 achoiceshock(:,:,:,:,:,ind-1:ind-1),Dchoiceshock(:,:,:,:,:,ind-1:ind-1),&
-                cchoiceshock(:,:,:,:,:,ind-1:ind-1),choiceindicatorshock(:,:,:,:,:,ind-1:ind-1),&
+                rentchoiceshock(:,:,:,:,:,ind-1:ind-1),cchoiceshock(:,:,:,:,:,ind-1:ind-1), choiceindicatorshock(:,:,:,:,:,ind-1:ind-1),& 
                 achoiceshockMov(:,:,:,:,:,ind-1:ind-1),DchoiceshockMov(:,:,:,:,:,ind-1:ind-1),&
                 cchoiceshockMov(:,:,:,:,:,ind-1:ind-1),choiceindicatorshockMov(:,:,:,:,:,ind-1:ind-1),&
                 achoiceshockMovR(:,:,:,:,:,ind-1:ind-1),dchoiceshockmovR(:,:,:,:,:,ind-1:ind-1),&
@@ -667,7 +667,7 @@ module lifecycle_transition
 
             call solveworkingproblem((/price, hpnodes(ind+1)/), (/balancer_internal/),&
                 achoiceexpect(:,:,:,:,:,ind-1:ind-1),Dchoiceexpect(:,:,:,:,:,ind-1:ind-1),&
-                cchoiceexpect(:,:,:,:,:,ind-1:ind-1),choiceindicatorexpect(:,:,:,:,:,ind-1:ind-1),&
+                rentchoiceexpect(:,:,:,:,:,ind-1:ind-1),cchoiceexpect(:,:,:,:,:,ind-1:ind-1), choiceindicatorexpect(:,:,:,:,:,ind-1:ind-1),& 
                 achoiceexpectMov(:,:,:,:,:,ind-1:ind-1),DchoiceexpectMov(:,:,:,:,:,ind-1:ind-1),&
                 cchoiceexpectMov(:,:,:,:,:,ind-1:ind-1),choiceindicatorexpectMov(:,:,:,:,:,ind-1:ind-1),&
                 achoiceexpectMovR(:,:,:,:,:,ind-1:ind-1),DchoiceexpectMovR(:,:,:,:,:,ind-1:ind-1),&
@@ -686,7 +686,7 @@ module lifecycle_transition
             write(0,*) NEW_LINE('A') // "Begin value function iteration:"
             call solveworkingproblem((/price, hpnodes(ind+1)/), (/balancer_internal/),&
                 achoice(:,:,:,:,:,ind:ind), Dchoice(:,:,:,:,:,ind:ind),&
-                cchoice(:,:,:,:,:,ind:ind), choiceindicator(:,:,:,:,:,ind:ind), &
+                rentchoice(:,:,:,:,:,ind:ind),cchoice(:,:,:,:,:,ind:ind), choiceindicator(:,:,:,:,:,ind:ind), &
                 achoiceMov(:,:,:,:,:,ind:ind), DchoiceMov(:,:,:,:,:,ind:ind),&
                 cchoiceMov(:,:,:,:,:,ind:ind), choiceindicatorMov(:,:,:,:,:,ind:ind), &
                 achoiceMovR(:,:,:,:,:,ind:ind), DchoiceMovR(:,:,:,:,:,ind:ind),&

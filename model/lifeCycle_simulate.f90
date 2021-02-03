@@ -539,7 +539,7 @@ module lifecycle_simulate
         call bequests((/price/), 1)
         write(0,*) NEW_LINE('A') // "Begin value function iteration:"
         call solveworkingproblem((/price/), (/balancer_internal/),&
-            achoice(:,:,:,:,:,1:1), Dchoice(:,:,:,:,:,1:1),&
+            achoice(:,:,:,:,:,1:1), Dchoice(:,:,:,:,:,1:1), rentchoice(:,:,:,:,:,1:1),&
             cchoice(:,:,:,:,:,1:1), choiceindicator(:,:,:,:,:,1:1),&
             achoiceMov(:,:,:,:,:,1:1), DchoiceMov(:,:,:,:,:,1:1),&
             cchoiceMov(:,:,:,:,:,1:1), choiceindicatorMov(:,:,:,:,:,1:1),&
