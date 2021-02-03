@@ -78,8 +78,8 @@ module lifecycle_solveDP
         CHARACTER(LEN=*), INTENT(IN) :: expected
         REAL(8), dimension(:), INTENT(IN) :: price, balancer
         REAL(8), dimension(:,:,:,:,:,:), INTENT(INOUT) :: cchoice, achoice, dchoice, &
-            rentchoice, choiceindicator, cchoiceMov, achoiceMov, dchoiceMov, rentchoiceMov, &
-            choiceindicatorMov, cchoiceMovR, achoiceMovR, dchoiceMovR, rentchoiceMov,&
+            rentchoice, choiceindicator, cchoiceMov, achoiceMov, dchoiceMov, &
+            choiceindicatorMov, cchoiceMovR, achoiceMovR, dchoiceMovR,&
             choiceindicatorMovR
         REAL(8), dimension(:,:,:,:,:,:), INTENT(INOUT) :: EV, EVMov, EVMovR
         INTEGER, dimension(2), INTENT(IN), OPTIONAL :: state_end
