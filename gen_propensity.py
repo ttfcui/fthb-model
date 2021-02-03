@@ -69,7 +69,11 @@ def prop1():
                                'consumption_pol': 'consumption'})) 
     view2_merge = merge(view3, merged, how='right', on=['id', 'age', 'model'])
     view2_merge['purchPol'] = 1
-    view2_merge.loc[isnull(view2_merge['infraMarg']), 'marginal'] = 1
+    try:
+        view2_merge.loc[isnull(view2_merge['infraMarg']), 'marginal'] = 1
+    except:
+        raise ValueError('Variable assignment failed. This is likely because '
+            'the model output file has zero observations.')
 
     merged_nonbuyer = merge(view1, view2_merge[['id', 'age', 'infraMarg',
                             'purchPol', 'marginal']], how='left', on=['id', 'age'])
@@ -93,7 +97,11 @@ def prop2(theta, hprice):
             .appended.sort_values(['id', 'age', 'variable']))
     floatCol = view.columns[~view.columns.isin(['variable', 'model'])].tolist()
     view.loc[:,floatCol] = view.loc[:,floatCol].apply(to_numeric, errors='coerce')
-    viewVar = view.loc[view['variable'].isin(['H_own', 'Q'])]
+    try:
+        viewVar = view.loc[view['variable'].isin(['H_own', 'Q'])]
+    except:
+        raise ValueError('Variable assignment failed. This is likely because '
+            'the model output file has zero observations.')
     viewVar = viewVar.pivot_table(index=['id', 'age'], columns='variable')
     idx = IndexSlice
 

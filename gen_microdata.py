@@ -72,7 +72,12 @@ def merge2(mdir='model', tretire=39, end=39):
     data['age'] += 1  # to reconcile age with other datasets
     data = data.loc[(data['age'] <= tretire)]
 
-    pullforward = data.loc[data[2] == 1]
+    try:
+        pullforward = data.loc[data[2] == 1]
+    except:
+        raise ValueError('Variable assignment failed. This is likely because '
+            'the model output file has zero observations.')
+
     if not pullforward.empty:  # Policy eliciting *some* takers
         agent, dates = np.where(pullforward == -1)
         pullforward.loc[:, 'pullforward'] = np.nan
@@ -165,9 +170,13 @@ def merge3(polType, dep):
         durBool = (view4['policy'] == 0)
         durCols = ['durTime']
 
-    durShift = view4.loc[durBool & (view4['PolTaken'] == polType),
-                         ['id', 'ageBought', 'nextDurables', 'nextAssets',
-                          'consumption', 'welfare'] + durCols]
+    try:
+        durShift = view4.loc[durBool & (view4['PolTaken'] == polType),
+                             ['id', 'ageBought', 'nextDurables', 'nextAssets',
+                              'consumption', 'welfare'] + durCols]
+    except:
+        raise ValueError('Variable assignment failed. This is likely because '
+            'the model output file has zero observations.')
     durSS = view5.loc[view5['PolTaken'] == polType, ['id', 'ageBought',
                       'consumption']]
 
