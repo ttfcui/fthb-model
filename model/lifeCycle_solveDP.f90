@@ -553,7 +553,7 @@ module lifecycle_solveDP
 
         s=1
         ageIter = shape(agelist)
-        do while (s <= ageIter)
+        do while (s <= ageIter(1))
         
         t = agelist(s)
         write(fname, '(A6, I0.3)') "vfunc_" , t
