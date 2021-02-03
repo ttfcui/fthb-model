@@ -556,7 +556,7 @@ module lifecycle_solveDP
         do while (s <= ageIter)
         
         t = agelist(s)
-        write(fname, '(A6, I0.3)') "vfunc_" // t
+        write(fname, '(A6, I0.3)') "vfunc_" , t
         OPEN (UNIT=21, FILE=fname, STATUS="NEW", ACTION="WRITE", POSITION="REWIND")
         do i=1, zgridsize, 2
             do i2=2, 2
