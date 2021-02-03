@@ -92,9 +92,9 @@ def merge2(mdir='model', tretire=39, end=39):
 
     posext = data.loc[data[end] > 0]
     if not posext.empty:  # *Some* extensive margin movement
-    posext = merge(posext, pullforward[['pullforward']], left_index=True,
-                   right_index=True, how='left')
-    posext.loc[:, 'posext'] = np.nan
+        posext = merge(posext, pullforward[['pullforward']], left_index=True,
+                       right_index=True, how='left')
+        posext.loc[:, 'posext'] = np.nan
     for row, rowval in posext.iterrows():
         indices = np.where(rowval[2:] == 1)[0]
         posext.loc[row, 'posext'] = indices[np.argmax(indices > posext.loc
@@ -104,9 +104,9 @@ def merge2(mdir='model', tretire=39, end=39):
 
     negext = data.loc[data[end] < 0]
     if not negext.empty:
-    negext = merge(negext, pullforward[['pullforward']], left_index=True,
-                   right_index=True, how='left')
-    negext.loc[:, 'negext'] = ((negext == -1).idxmax(axis=1)) - 2
+        negext = merge(negext, pullforward[['pullforward']], left_index=True,
+                       right_index=True, how='left')
+        negext.loc[:, 'negext'] = ((negext == -1).idxmax(axis=1)) - 2
     else:
         negext = None
 
@@ -221,8 +221,8 @@ if __name__ == '__main__':
         print('num periods {}'.format(argv[4]))
         merged2 = merge2(end=int(float(argv[4])))
     except:
-    merged2 = merge2()
-    merged3 = merge3(argv[2], float(argv[3]))
+        merged2 = merge2()
+        merged3 = merge3(argv[2], float(argv[3]))
 
     if merged2 is not None:
         merged = merge(merged, merged2, how='left', on=['id', 'age'])
