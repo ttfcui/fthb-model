@@ -556,7 +556,7 @@ module lifecycle_solveDP
         do while (s <= ageIter(1))
         
         t = agelist(s)
-        write(fname, '(A6, I0.3)') "vfunc_" , t, ".txt"
+        write(fname, '(A6, I0.3, A4)') "vfunc_" , t, ".txt"
         OPEN (UNIT=21, FILE=fname, ACTION="WRITE", POSITION="REWIND")
         do i=1, zgridsize, 2
             do i2=2, 2
