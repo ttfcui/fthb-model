@@ -863,7 +863,9 @@ module lifecycle_vfuncs
         REAL(8), INTENT(INOUT) :: consOut, rentOut, choiceOut, welfOut
         REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: aArray,DArray,rentalArray, cArray,choiceArray, EVarray
         REAL(8) :: rentchoice, constemp, renttemp, choicetemp, welftemp,&
-            weightDl, Dl, Dh, weightal, al, ah
+            weightDl, weightal
+        INTEGER :: Dl, Dh, al, ah
+
         REAL(8), DIMENSION(2) :: testutil, newteststate
 
         call pol_linworking(state, aArray, Darray, cArray, choiceArray, EVarray, &
