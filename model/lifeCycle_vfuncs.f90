@@ -862,16 +862,19 @@ module lifecycle_vfuncs
         REAL(8), INTENT(IN) :: price
         REAL(8), INTENT(INOUT) :: consOut, rentOut, choiceOut, welfOut
         REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: aArray,DArray,rentalArray, cArray,choiceArray, EVarray
-        REAL(8) :: rentchoice, constemp, renttemp, choicetemp, welftemp
+        REAL(8) :: rentchoice, constemp, renttemp, choicetemp, welftemp,&
+            weightDl, Dl, Dh, weightal, al, ah
         REAL(8), DIMENSION(2) :: testutil, newteststate
 
         call pol_linworking(state, aArray, Darray, cArray, choiceArray, EVarray, &
             newteststate(1), newteststate(2),&
             constemp, renttemp, choicetemp, welftemp)
-        write(*,*) state
 
-        rentchoice = rentalArray(state(1), state(2), state(3),&
-                state(4), state(5), state(6))
+        call weightprimeL(state(3), Dnodes, weightDl, Dl, Dh)
+        call weightprimeL(state(4), anodes, weightal, al, ah)
+
+        rentchoice = rentalArray(state(1), state(2), Dl, al, state(4), &
+                state(5), state(6))
 
         ! Inputted function: adjustment with credit but with extra conditions
         testutil(1) = valfuncadjust((/p(2), p(1) /),&
