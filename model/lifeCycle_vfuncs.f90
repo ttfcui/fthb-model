@@ -868,6 +868,7 @@ module lifecycle_vfuncs
         call pol_linworking(state, aArray, Darray, cArray, choiceArray, EVarray, &
             newteststate(1), newteststate(2),&
             constemp, renttemp, choicetemp, welftemp)
+        write(*,*) state
 
         rentchoice = rentalArray(state(1), state(2), state(3),&
                 state(4), state(5), state(6))

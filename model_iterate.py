@@ -112,7 +112,8 @@ class lifecycle_iterate:
         # Create all of the model output files in advance
         access = 'w+' if new else 'r+'
         for file in (['model_log', 'policy_constantwealth',
-                      'transition_lagsleads', 'transition_debug'] + self.OKFiles):
+                      'transition_lagsleads', 'transition_aggs', 
+                      'transition_debug'] + self.OKFiles):
             with open('%s%s.txt' % (self.dir, file), access) as newfile:
                 newfile.close()
 

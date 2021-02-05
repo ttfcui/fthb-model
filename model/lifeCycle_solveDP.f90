@@ -537,7 +537,7 @@ module lifecycle_solveDP
         REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: EV, Vadjust, Vrent, Vnoadjust, achoice, dadjchoice, dchoice, cadjchoice, cchoice
         INTEGER, dimension(1) :: ageIter
         INTEGER :: i, i2, j, k, t, s, l, t2, u, u2
-        CHARACTER(LEN=12) :: fname
+        CHARACTER(LEN=18) :: fname
 
         !OPEN (UNIT=21, FILE="vfunc1.txt", STATUS="OLD", ACTION="WRITE", POSITION="REWIND")
 
@@ -556,8 +556,8 @@ module lifecycle_solveDP
         do while (s <= ageIter(1))
         
         t = agelist(s)
-        write(fname, '(A6, I0.3)') "vfunc_" , t
-        OPEN (UNIT=21, FILE=fname, STATUS="NEW", ACTION="WRITE", POSITION="REWIND")
+        write(fname, '(A6, I0.3)') "vfunc_" , t, ".txt"
+        OPEN (UNIT=21, FILE=fname, ACTION="WRITE", POSITION="REWIND")
         do i=1, zgridsize, 2
             do i2=2, 2
               do j=1, Dgridsize/2, 4
@@ -579,7 +579,7 @@ module lifecycle_solveDP
          end do
 
 
-      OPEN (UNIT=22, FILE="vfuncLC.txt", STATUS="NEW", ACTION="WRITE", POSITION="REWIND")
+      OPEN (UNIT=22, FILE="vfuncLC.txt", ACTION="WRITE", POSITION="REWIND")
       do i=1, zgridsize, 2
           do i2=2, 2
               do k=6, agridsize, 6
