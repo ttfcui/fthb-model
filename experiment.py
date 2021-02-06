@@ -41,8 +41,12 @@ run.simCARS([('experiment_CARS', 0.20, 0, 0.035),
 # %>
 
 # %< FTHB, general equilibrium (TBD?)
-run.simFTHB_GE([('experiment_monetary_GE', 0.12, 1.00),
-                ('experiment_monetary_nodown_GE', 0.12, 0.00)], 1.0)
+run.simFTHB([('experiment_monetary_GE', 0.075, 1.00)], 1.0,
+             gen_micro=True, gen_props=True, transLen=3,
+             loadPrices=True)
+run.simFTHB([('experiment_monetary_nodown_GE', 0.075, 0.00)], 1.0,
+             gen_micro=True, gen_props=True, transLen=3,
+             loadPrices=True)
 # %>
 
 # %< Comparative statistics checks

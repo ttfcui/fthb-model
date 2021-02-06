@@ -261,7 +261,6 @@ module lifecycle_transition
 
                     ! compare utility of scrapping to not adjusting?
                     if (scrapped > 0) then
-                        write(*,*) "Case 1?"
                         if (shock(2,i,t) < movProbR .AND. currenthouseholdstate(3, i) == 0) then
                         call adj_func_comp(newhouseholdstate(3:4, i), &
                                 transhouseholdstate(:,i), achoiceMovR, DchoiceMovR, rentchoice,&
@@ -288,7 +287,6 @@ module lifecycle_transition
                 else if (currenthouseholdstate(7, i) /= 3 .AND. period >= PolStart &
                          .AND. period < PolEnd - 1) then
 
-                    write(*,*) "Case 2?"
                     if (shock(2,i,t) < movProbR .AND. currenthouseholdstate(3, i) == 0) then
                     call pol_linworking(transhouseholdstate(:,i),&
                            achoiceMovR,DchoiceMovR,cchoiceMovR,EVpolMovR,chindMR,&

@@ -56,6 +56,8 @@ def genParams(polParamsDict, polDict, **kwargs):
         modelDict.update({'pctageflag': '.TRUE.'})
     if 'aggPol' in kwargs:
         modelDict.update({'agg_policies': '.TRUE.'})
+    if 'loadPrices' in kwargs:
+        modelDict.update({'loadpricepath': '.TRUE.'})
     modelDict.update(commonParamsDict)
     modelDict.update(polParamsDict)
     modelDict.update(polDict)

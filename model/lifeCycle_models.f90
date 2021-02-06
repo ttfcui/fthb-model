@@ -365,8 +365,7 @@ module lifecycle_models
             cchoiceMovR(:,:,:,:,:,2:hptransLength),chindMR(:,:,:,:,:,2:hptransLength),& 
             .TRUE., .TRUE., 'None', EV(:,:,:,:,:,3:hptransLength+1), EVmov(:,:,:,:,:,3:hptransLength+1),&
             EVmovR(:,:,:,:,:,3:hptransLength+1))
-        !call output_vfuncs(2)
-        !call output_vfuncs(hptransLength)
+
         write(*,*) "Value function iteration complete:"
         call system_clock(timeend, timeres)
         write(*,*) "Time elapsed:", (timeend - timestart) / timeres, "seconds"
@@ -380,6 +379,7 @@ module lifecycle_models
         INTEGER, INTENT(IN) :: numHH
 
         SimTransIter = SimTransPath(price, numHH, .FALSE., .FALSE., .FALSE.)
+        DEALLOCATE(alive)
 
     end function
 
