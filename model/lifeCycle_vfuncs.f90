@@ -875,8 +875,7 @@ module lifecycle_vfuncs
         call weightprimeL(state(3), Dnodes, weightDl, Dl, Dh)
         call weightprimeL(state(4), anodes, weightal, al, ah)
 
-        rentchoice = rentalArray(state(1), state(2), Dl, al, state(4), &
-                state(5), state(6))
+        rentchoice = rentalArray(state(1), state(2), Dl, al, state(5), state(6))
 
         ! Inputted function: adjustment with credit but with extra conditions
         testutil(1) = valfuncadjust((/p(2), p(1) /),&
