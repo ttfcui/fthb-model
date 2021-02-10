@@ -231,7 +231,7 @@ if __name__ == '__main__':
         merged2 = merge2(end=int(float(argv[4])))
     except:
         merged2 = merge2()
-        merged3 = merge3(argv[2], float(argv[3]))
+    merged3 = merge3(argv[2], float(argv[3]))
 
     if merged2 is not None:
         merged = merge(merged, merged2, how='left', on=['id', 'age'])

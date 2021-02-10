@@ -97,12 +97,12 @@ def prop2(theta, hprice):
             .appended.sort_values(['id', 'age', 'variable']))
     floatCol = view.columns[~view.columns.isin(['variable', 'model'])].tolist()
     view.loc[:,floatCol] = view.loc[:,floatCol].apply(to_numeric, errors='coerce')
+    viewVar = view.loc[view['variable'].isin(['H_own', 'Q'])]
     try:
-        viewVar = view.loc[view['variable'].isin(['H_own', 'Q'])]
+        viewVar = viewVar.pivot_table(index=['id', 'age'], columns='variable')
     except:
         raise ValueError('Variable assignment failed. This is likely because '
             'the model output file has zero observations.')
-    viewVar = viewVar.pivot_table(index=['id', 'age'], columns='variable')
     idx = IndexSlice
 
     # Short-term homeownership reversion
@@ -131,8 +131,11 @@ def prop2(theta, hprice):
 if __name__ == '__main__':
     print('Creating purchase propensity data: \n \n')
     merged = prop1().set_index(['id', 'age'])
-    futVars = prop2(float(argv[3]),float(argv[4]))
-    merged = merged.join(futVars, how='left')
+    try:
+        futVars = prop2(float(argv[3]),float(argv[4]))
+        merged = merged.join(futVars, how='left')
+    except:
+        pass
     merged = merged.drop(['purchPol', 'income_l'], axis=1)
     merged.to_csv('propensity_%s.csv' % argv[1])
 

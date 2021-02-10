@@ -121,19 +121,23 @@ def stats2(mdir='model', tretire=39, end=39):
     cols[0:2] = ['id', 'age']
     data.columns = cols
     data['age'] += 1  # to reconcile age with other datasets
-    for i in xrange(tretire, 2, -1):
-        data.iloc[:, i] = data.iloc[:, 2:i+1].sum(axis=1)
+    try:
+        for i in xrange(end, 2, -1):
+            data.iloc[:, i] = data.iloc[:, 2:i+1].sum(axis=1)
+    except:
+        raise ValueError('Variable assignment failed. This is likely because '
+            'the model output file has zero observations.')
 
     data = merge(data, view3, on=['id', 'age'])
-    data = data[data['age'] <= end]
+    data = data[data['age'] <= tretire]
     genbins(data)
     init = (data[2] == 1)
     statFunc = lambda x: x.describe().loc[['count', 'mean']]
     statGrpFunc = lambda x: x.describe().loc[idx[:, ['count', 'mean']]]
     ivar = 'income_val'
 
-    for cond, sub in [('data[tretire] > 0', 'more transactions'),
-            ('data[tretire] < 0', 'fewer transactions')]:
+    for cond, sub in [('data[end] > 0', 'more transactions'),
+            ('data[end] < 0', 'fewer transactions')]:
         try:
             all_stats.append(cleaning(statFunc(data.loc[eval(cond), ivar]),
                                       'All agents w/ {} + mean income'.format(sub),
@@ -147,8 +151,8 @@ def stats2(mdir='model', tretire=39, end=39):
 
 
     for cond, sub in [('init', 'total'),
-                      ('init & (data[tretire] > 0)', 'more transactions'),
-                      ('init & (data[tretire] < 0)', 'fewer transactions')]:
+                      ('init & (data[end] > 0)', 'more transactions'),
+                      ('init & (data[end] < 0)', 'fewer transactions')]:
         try:
             all_stats.append(cleaning(statFunc(data.loc[eval(cond), ivar]),
                                       ('All marginal transactions + mean '
@@ -466,7 +470,12 @@ if __name__ == '__main__':
     print('Generating aggregate statistics: \n \n')
     print(argv)
     stats1()
-    stats2()
+    try:
+        print('num periods {}'.format(argv[6]))
+        stats2(end=int(float(argv[6])))
+    except:
+        stats2()
+
     durShift, durSS = stats3(argv[2], float(argv[3]),
                              float(argv[4]), float(argv[5]))
     try:

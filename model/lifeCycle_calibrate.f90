@@ -21,8 +21,8 @@ module lifecycle_calibrate
         INTEGER :: i, j, k, t, bet_stat
         REAL(8) :: cdfout, cdfinv
         REAL(8) :: averagelifetimeearnings, alpha_init, beta_init, beta, bound_init
-        REAL(8), DIMENSION(3) :: parammodel, paramcheck
-        CHARACTER(4) :: rhostr, sigmastr
+        REAL(8), DIMENSION(4) :: parammodel, paramcheck
+        CHARACTER(4) :: rhostr, sigmastr, tempstr
         CHARACTER(255) :: matlabcall
    
 
@@ -57,10 +57,10 @@ module lifecycle_calibrate
             READ(30,*) alpha_init, beta_init
             write(0,*) NEW_LINE('A')
             write(0,*) alpha_init, beta_init
-            Probinitcum(zgridsize-4:zgridsize) = 1.0
-            do j=zgridsize-5,1,-1
-                call cdfbet(1, cdfout, cdfinv, exp(znodes(j))/exp(znodes(zgridsize-5)), &
-                            1.0-exp(znodes(j))/exp(znodes(zgridsize-5)), &
+            Probinitcum(zgridsize-2:zgridsize) = 1.0
+            do j=zgridsize-3,1,-1
+                call cdfbet(1, cdfout, cdfinv, exp(znodes(j))/exp(znodes(zgridsize-3)), &
+                            1.0-exp(znodes(j))/exp(znodes(zgridsize-3)), &
                             alpha_init, beta_init, bet_stat, bound_init)
                 !call gamma_inc(j+1.0, poismean, cdfinv, cdfout, 1)
                 write(0,*) cdfout
@@ -132,15 +132,16 @@ module lifecycle_calibrate
         !retirement regression needs to first run matlab program simulateearningsprocess
         write(rhostr, '(F4.2)') rho_z
         write(sigmastr, '(F4.2)') sigma_z
+        write(tempstr, '(F4.2)') sigma_temp
         matlabcall = 'matlab -nodisplay -desktop -r "cd ../matlab; sigma_z=' // &
-            sigmastr // ';rho_z=' // rhostr // ';simulateearningsprocess;&
+            sigmastr // ';rho_z=' // rhostr // ';sigma_eps=' // tempstr // ';simulateearningsprocess;&
             exit;exit;"'
         write(*,*) matlabcall
         CALL SYSTEM(trim(matlabcall))
         averagelifetimeearnings=0.0
         OPEN(34, FILE='input_data/lifeearn.txt', STATUS='OLD')
         READ(34,*) paramCheck(:), beta
-        parammodel = (/ rho_z, sigma_z, REAL(Tretire) /)
+        parammodel = (/ rho_z, sigma_z, sigma_temp, REAL(Tretire) /)
         if (maxval(abs(parammodel - paramcheck)) >= 1e-7) THEN
             write(*,*) parammodel
             write(*,*) paramCheck

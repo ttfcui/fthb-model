@@ -51,6 +51,7 @@ module share
     ! Permanent income process
     REAL(8), parameter :: sigma_z= 0.21  ! Standard deviation of productivity shocks
     REAL(8), parameter :: rho_z=.91  ! Autocorrelation of AR(1) process
+    REAL(8), parameter :: sigma_temp=.006  ! Standard deviation of idiosyncratic shocks
     integer, parameter :: zgridsize= 19 !size of ar(1) income shock grid
     REAL(8), parameter :: poismean=0.1  ! Mean of initial poisson dist (deprecated)
 
