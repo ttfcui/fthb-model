@@ -377,8 +377,8 @@ module lifecycle_vfuncs
         ! TODO: are there transaction costs to renting?
         ! Maybe not as that should be absorbed into quadratic costs.
         null_vec = (/ 0.0, 1.0 /)
-        tmpgrid => (/ sigma_temp, -sigma_temp /)  ! null_vec(1:1)
-        probtmp => (/ 0.5, 0.5 /)  ! null_vec(2:2)
+        tmpgrid = (/ sigma_temp, -sigma_temp /)  ! => null_vec(1:1)
+        probtmp = (/ 0.5, 0.5 /)  ! => null_vec(2:2)
         if (rental) then
             weightDprimel = 0.0
             Dprimel = 1
