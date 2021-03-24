@@ -18,11 +18,11 @@ module lifecycle_calibrate
 
         IMPLICIT NONE
         REAL(8), DIMENSION(zgridsize) :: predictedlifetimeearnings, retirementincome
-        INTEGER :: i, j, k, t, bet_stat
+        INTEGER :: i, j, k, t, bet_stat, endpoint
         REAL(8) :: cdfout, cdfinv
         REAL(8) :: averagelifetimeearnings, alpha_init, beta_init, beta, bound_init
         REAL(8), DIMENSION(4) :: parammodel, paramcheck
-        CHARACTER(4) :: rhostr, sigmastr, tempstr
+        CHARACTER(6) :: rhostr, sigmastr, tempstr
         CHARACTER(255) :: matlabcall
    
 
@@ -39,7 +39,7 @@ module lifecycle_calibrate
         end do
 
     ! Following line pops out stationary distribution.
-        if (poismean <= 0) then
+        if (stationary) then
             Probinit = ergodic(Probz(1:zgridsize,1:zgridsize), zgridsize)
             do j=1, zgridsize-1
                 Probinitcum(j) = SUM(Probinit(1:j))
@@ -55,18 +55,20 @@ module lifecycle_calibrate
             ! alpha, beta are corresponding shape parameters for the beta distribution
             OPEN(30, FILE='input_data/init_incomes.txt', STATUS='OLD')
             READ(30,*) alpha_init, beta_init
+            write(0,*) "// ECDF Beta distribution parameters:"
             write(0,*) NEW_LINE('A')
             write(0,*) alpha_init, beta_init
-            Probinitcum(zgridsize-2:zgridsize) = 1.0
-            do j=zgridsize-3,1,-1
-                call cdfbet(1, cdfout, cdfinv, exp(znodes(j))/exp(znodes(zgridsize-3)), &
-                            1.0-exp(znodes(j))/exp(znodes(zgridsize-3)), &
+            Probinitcum(zgridsize-incLimit:zgridsize) = 1.0
+            do j=zgridsize-incLimit-1,1,-1
+                endpoint = zgridsize-incLimit-1
+                call cdfbet(1, cdfout, cdfinv, exp(znodes(j))/exp(znodes(endpoint)), &
+                        1.0-exp(znodes(j))/exp(znodes(endpoint)), &
                             alpha_init, beta_init, bet_stat, bound_init)
                 !call gamma_inc(j+1.0, poismean, cdfinv, cdfout, 1)
-                write(0,*) cdfout
                 Probinitcum(j) = cdfout
                 if (j < zgridsize) Probinit(j+1) = Probinitcum(j+1) - Probinit(j)
             end do
+            write(0,*) NEW_LINE('A') // "// Truncated ECDF of income states:"
         end if
         write(0,'(8F16.10)') Probinitcum
 
@@ -130,9 +132,9 @@ module lifecycle_calibrate
         end if
 
         !retirement regression needs to first run matlab program simulateearningsprocess
-        write(rhostr, '(F4.2)') rho_z
-        write(sigmastr, '(F4.2)') sigma_z
-        write(tempstr, '(F4.2)') sigma_temp
+        write(rhostr, '(F6.4)') rho_z
+        write(sigmastr, '(F6.4)') sigma_z
+        write(tempstr, '(F6.4)') sigma_temp
         matlabcall = 'matlab -nodisplay -desktop -r "cd ../matlab; sigma_z=' // &
             sigmastr // ';rho_z=' // rhostr // ';sigma_eps=' // tempstr // ';simulateearningsprocess;&
             exit;exit;"'

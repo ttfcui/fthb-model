@@ -35,7 +35,8 @@ def momOut_allHH(data, workmax):
         the "fthb.txt" file.
     """
 
-    assert data['age'].max() == workmax  # max age in model
+    if data['age'].max() != workmax:  # max age in model
+        print('WARNING: max age in model is really {}'.format(data['age'].max()))
     print('test2.1')
     data = data.loc[data['age'] >= 2]
     data.loc[data['age'] <= 39, 'NetWToIncome'] = data['netWorth']/data['income_val']
@@ -85,7 +86,7 @@ def momOut_FTHBs(data):
     # Moments 1 : Median FTHB Age
     mediansF = dataMom.median()['ageBought']
 
-    # 28-30 pooled net 23-25 pooled (upward gradient)
+    # 28-30 pooled net 22-24 pooled (upward gradient)
     ageagg = dataMom.groupby('ageBought')['id'].count()
     #print(ageagg)
     try:
@@ -93,10 +94,10 @@ def momOut_FTHBs(data):
         #print(ageagg)
     except:
         pass
-    calibinfo_mom1 = get_gradient(ageagg.loc[8:10].mean(),
-                                  ageagg.loc[3:5].mean())
-    # 33-35 pooled net 28-30 pooled (downward gradient)
-    calibinfo_mom_down = get_gradient(ageagg.loc[13:15].mean(),
+    calibinfo_mom1 = get_gradient(ageagg.loc[5:7].mean(),
+                                  ageagg.loc[2:4].mean())
+    # 34-36 pooled net 28-30 pooled (downward gradient)
+    calibinfo_mom_down = get_gradient(ageagg.loc[14:16].mean(),
                                       ageagg.loc[8:10].mean())
 
     # FTHB income distribution stats
@@ -225,9 +226,12 @@ def momOut_9mom(csvDir, **kwargs):
 
     print(momFinal)
     readf = reader(open('%sinput_data/moments.csv' % csvDir, 'r'))
-    target = np.array(readf.next()).astype(float)
-    weights = np.array(readf.next()).astype(float)
+    target = np.array(next(readf)).astype(float)
+    weights = np.array(next(readf)).astype(float)
+    try:
     print((momFinal - target))
+    except:
+        pass
     return momFinal, target, weights
 
 # %>
@@ -255,8 +259,8 @@ def calibration_execModel(paramsDict, *args):
             execution. This means policy period moments outputted afterwards
             are not appropriate for calibration.
     """
-    algoDict = {'agridsize': 100, 'Dgridsize': 55,
-                'zgridsize': 19, 'steady_conv_thres': args[0],
+    algoDict = {'agridsize': 135, 'Dgridsize': 35,
+                'zgridsize': 17, 'steady_conv_thres': args[0],
                 'hpnodes(1)': args[1], 'EligYrsF': 3,
                 'adjTransfer': 0.075,
                 'startprice(1,1)': args[2],
@@ -321,8 +325,11 @@ def calibration_9mom(params, *args):
         np.savetxt(momFile, np.array([momExtra]), fmt='%16.6f')
     except:
         pass
+    try:
     objective = np.multiply(np.subtract(modelOut, target), weights)
-    momFile.write('{:10.6f}\n'.format(np.sum(objective**2)))
+    except:
+        return 99999.99
+    momFile.write('\t{:10.6f}\n'.format(np.sum(objective**2)))
     return np.sum(objective**2)
 
 
@@ -352,14 +359,20 @@ def calibration_2mom(params, *args):
     iterDict = {'F2': params[1], 'rentPrem': params[0],
                 'beta2': args[5], 'rentUtil': args[6],
                 'elasticity': args[7]}
-    modelOut, momExtra, target = calibration_execModel(
+    modelOut, momExtra, target, weights = calibration_execModel(
             iterDict, *args)
 
     # Pick only the FTHB/HO rates moments we set as targets
-    modelOut = modelOut[0,np.array([2, 6, 7])]
-    target = target[np.array([2, 6, 7])]
-    print((modelOut - target))
-    return(np.sum(np.abs(modelOut - target)))
+    modelOut = modelOut[0,np.array([2, 4, 6])]
+    target = target[np.array([2, 4, 6])]
+    try:
+        print(weights)
+        objective = np.multiply(np.subtract(modelOut, target),
+            weights[np.array([2, 4, 6])])
+        print(objective)
+    except:
+        return 99999.99
+    return np.sum(objective**2)
 
 # %>
 
@@ -388,9 +401,9 @@ def calibrate_grid(steadyprice, prices):
     # Dmin, rentUtil, ret_wealth and elasticity, in that order.
     # TODO: Instead of these grids generate a series of random numbers
     # (so like basinhopping)
-    pRanges = (slice(0.92, 0.95, 0.02), slice(1.0, 6.00, 1.0),
-               slice(1.0, 1.03, 0.04), slice(1.60, 2.5, 0.4),
-               slice(2.50, 4.4, 2.0))
+    pRanges = (slice(0.925, 0.93, 0.007), slice(0.65, 0.90, 0.08),
+               slice(1.0, 1.03, 0.04), slice(3.50, 4.5, 0.4),
+               slice(2.50, 3.4, 0.5))
 
     res = brute(calibration_9mom, pRanges, args=(8e-2, steadyprice, prices[0],
                 prices[1], False), full_output=True, finish=None)
@@ -443,9 +456,9 @@ def calibrate_alg(params, steadyprice, prices):
             of prices over which the market clearing price is searched.
     """
     simplex = np.zeros([3, 2])
-    simplex[0, :] = [8.00, 2.00]
-    simplex[1, :] = [8.10, 3.00]
-    simplex[2, :] = [7.50, 2.40]
+    simplex[0, :] = [0.70, 5.00]
+    simplex[1, :] = [0.80, 4.25]
+    simplex[2, :] = [0.75, 3.50]
 
     res = minimize(calibration_2mom, simplex[0, :],
                    args=(1e-2, steadyprice, prices[0], prices[1], False,
@@ -472,21 +485,26 @@ def calibrate_check(params, steadyprice, prices, recalib=True):
             to debug this function.
 
     """
+    algoDict = {'agridsize': 135, 'Dgridsize': 35,
+                'zgridsize': 17, 'steady_conv_thres': 1e-2,
+                'hpnodes(1)': steadyprice, 'EligYrsF': 3,
+                'numhouseholds': 50000,
+                'adjTransfer': 0.075,
+                'startprice(1,1)': prices[0],
+                'startprice(2,1)': prices[1],
+                'ge_start': '.FALSE.', 'ss_only': '.FALSE.',
+                'pe_start': '.TRUE.'}
+    iterDict = {'elasticity': params[4], 'rentPrem': params[1],
+                'beta2': params[0], 'rentUtil': params[2],
+                'F2': params[3]}
+    algoDict.update(iterDict)
+
     # ModelMin feeds in the minimizing parameter found by earlier functions
-    modelMin = lifecycle_iterate({'agridsize': 120, 'Dgridsize': 55,
-                                  'zgridsize': 19, 'steady_conv_thres': 1e-2,
-                                  'hpnodes(1)': steadyprice, 'EligYrsF': 3,
-                                  'numhouseholds': 50000,
-                                  'adjTransfer': 0.075,
-                                  'startprice(1,1)': prices[0],
-                                  'startprice(2,1)': prices[1],
-                                  'elasticity': params[4], 'rentPrem': params[1],
-                                  'beta2': params[0], 'rentUtil': params[2],
-                                  'F2': params[3], 'ge_start': '.FALSE.',
-                                   'ss_only': '.FALSE.', 'pe_start': '.TRUE.'})
+    modelMin = lifecycle_iterate(algoDict)
+            
     if recalib:
-        modelMin.execSh()
-        momOut_9mom(modelMin.dir, ageScale=False)
+        modelMin.execSh(model='calib')
+    momOut_9mom(modelMin.dir, ageScale=False)
 
     # Get out lifecycle moments also generated from SCF calibration, split
     # over 5-year bins. Feed the CSVs into Stata file moment_graphs.do
@@ -510,8 +528,8 @@ def calibrate_check(params, steadyprice, prices, recalib=True):
     view = view.loc[view['age'] <= 39]
     view['adjcount'] = view.groupby('id')['adjuster'].transform(lambda x: x.cumsum())
     holdtimes = view.loc[view['rent'] == 0.0].groupby(['id', 'adjcount'])['adjust'].count().reset_index()
-    print 'Average durable holding time: %6.2f' % holdtimes.groupby('id')['adjust'].mean().mean()
-    print 'Median durable holding time: %6.2f' % holdtimes['adjust'].median()
+    print('Average durable holding time: %6.2f' % holdtimes.groupby('id')['adjust'].mean().mean())
+    print('Median durable holding time: %6.2f' % holdtimes['adjust'].median())
 
     indivAssets = view.loc[(view['age'] < 54), ['id', 'age', 'rent',
                            'nextAssets', 'nextDurables', 'netWorth',
@@ -537,25 +555,26 @@ if __name__ == "__main__":
     # Get an idea of what the steady state price should be.
     # init_params = [0.80, 3.000, 0.92, 1.00, 3.50]
     # intro = calibration_9mom(init_params, 1e-3, 0.00, 0.25, 0.00, True)
-    steadyprice = 0.1000 # From checking model_log.txt
+    steadyprice = 0.0599 # From checking model_log.txt
     
     #uncomment this section (leaving res commented) to get elasticities
-    momFile = open('moments_aug.txt', 'a+')
-    #res = calibrate_grid(steadyprice, (0.08, -0.08))
-    clean_calibgrid(momFile)   
+    momName = 'moments_march.txt'
+    momFile = open(momName, 'a+')
+    res = calibrate_grid(steadyprice, (0.08, -0.08))
     momFile.close()
+    clean_calibgrid(momName)
     quit() 
     """
     BEST PARAMETERS:
 
-    res = [0.94, 8.20, 0.93, 2.05, 2.50]
+    res = ###
     
     params_v1 = np.multiply([res[0], res[2], res[-1]], [1.0, 1.0, 1.0])
     res2 = calibrate_alg(params_v1, steadyprice, (0.05, -0.05))
     res2 = np.multiply([res2[0], res2[1]], [1.0e-2, 1.0])
-    print res2
+    print(res2)
     """
-    res_final = np.multiply([0.94, 7.70, 0.93, 2.38, 2.50],
+    res_final = np.multiply([0.925, 0.65, 1.00, 4.30, 3.00],
                             [1.0, 1.0e-2, 1.0, 1.0e-1, 1.0])
-    print res_final
+    print(res_final)
     calibrate_check(res_final, steadyprice, (0.05, -0.60))

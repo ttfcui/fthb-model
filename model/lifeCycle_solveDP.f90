@@ -258,6 +258,10 @@ module lifecycle_solveDP
                         valfuncrent)
             ! p1 dimension doesn't matter because vertices should converge
             Vrent(i, i2, j, k, t, l)=ystartadjust(1, i, i2, j, k, l)
+            ! In the case of scrap vs. no scrap (cars), we shut down the rental option explicitly
+            if (scrapped > 0) then
+                 Vrent(i, i2, j, k, t, l) = 1e6
+            end if
             achoicerent(i, i2, j, k, t, l)=min(max(pstartadjust(1, 1, i, i2, j, k, l),borrowconstraint),amax)
             Dchoicerent(i, i2, j, k, t, l)=min(max(pstartadjust(1, 2, i, i2, j, k, l),0.0),Dmax)
 

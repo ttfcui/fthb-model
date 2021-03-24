@@ -40,10 +40,13 @@ h_ss = sum(hstock_orig(:, 3)); % Total housing value transacted in steady state
 t_ss = sum(hstock_orig(:, 4)) % Total housing transactions in steady state
 i_ss = sum(fthb_ss(:, 3)); % Total *FTHB investment* in steady state
 
-age = 21+ [1:Tretire];
-fthb_age = zeros(Tretire, 1);
-for t = 1:Tretire
-    fthb_age(t) = sum(fthb_ss(:, 2)==t)/q_ss;
+binWidth = 3;
+age = 21+ [1:binWidth:Tretire];
+fthb_age = zeros(ceil(Tretire/binWidth), 1);
+binNo = size(fthb_age);
+for t = 1:binNo
+    fthb_age(t) = sum(fthb_ss(:, 2) > (t-1)*binWidth & ...
+        fthb_ss(:, 2) <= t*binWidth)/q_ss;
 end
 
 if POL == -1
@@ -61,7 +64,7 @@ if POL == -1
         title('Age Distribution')
         ylabel(strjoin({'% of FTH bought by age (FTHBs ',f_frac,'% of all transactions)'}))
         xlabel('Age')
-        xlim([21, age(end)]); ylim([0 0.08])
+        xlim([21, age(end)+2]); ylim([0 0.20])
     
     fig.PaperUnits = 'inches';
     fig.PaperPosition = [0 0 6 4.5]; fig.PaperSize = [6 4.5];
@@ -120,6 +123,7 @@ hstock = hstock(hstock(:,2) <= Tretire, :);
 
 PolYrs = 1; AppendStart = 0;
 T_plot = End - 1;
+T_img = min(15,T_plot) ;  % reversal is done by this time
 
 % TODO: Append transition statistics when multi-period policies are in place
 
@@ -131,7 +135,10 @@ H_p = zeros(End, 1); % Housing wealth holder
 I_p = zeros(End, 1); % FTHB proportion of housing investment holder
 If_p = zeros(End, 1); % FTHB housing investment holder
 
-fthb_age_transition = zeros(Tretire, 2);
+binWidth = 3;
+fthb_age_transition = zeros(ceil(Tretire/binWidth), 2);
+binNo = size(fthb_age);
+
 fthb_age_investment = zeros(Tretire, 2);
 for p = 0:T_plot
     q_ss = size(fthb_ss(fthb_ss(:,2) > p, :), 1);
@@ -170,11 +177,21 @@ If_pd =  If_p / i_ss;
 
 % Get age distribution over time and investment ratios
 q_ss = size(fthb_ss, 1);
+for t= 1:binNo
+    p_ind = find(((fthb_transition(:, 3) - fthb_transition(:, 2)) < PolYrs) & ...
+	 (fthb_transition(:, 3) > (t-1)*binWidth) & (fthb_transition(:, 3) <= t*binWidth));
+    fthb_age_transition(t, 1) = size(fthb_transition(p_ind, 1), 1) ...
+        /sum(Qf_p(1:PolYrs));
+    p_ind = find(((fthb_transition(:, 3) - fthb_transition(:, 2)) >= PolYrs) & ...
+	((fthb_transition(:, 3) - fthb_transition(:, 2)) < T_img) & ...
+	 (fthb_transition(:, 3) > (t-1)*binWidth) & (fthb_transition(:, 3) <= t*binWidth));
+    fthb_age_transition(t, 2) = size(fthb_transition(p_ind, 1), 1) ...
+        /sum(Qf_p(PolYrs+1:T_img));
+end
+
 for t = 1:Tretire
     p_ind = find(((fthb_transition(:, 3) - fthb_transition(:, 2)) < PolYrs) & ...
 	 (fthb_transition(:, 3) == t));
-    fthb_age_transition(t, 1) = size(fthb_transition(p_ind, 1), 1) ...
-        /sum(Qf_p(1:PolYrs));
     % First column samples from policy-induced FTHBs,
     % Second samples from FTHBs in steady state
     fthb_age_investment(t, 1) = sum(fthb_transition(p_ind, 4))/ ...
@@ -186,19 +203,13 @@ for t = 1:Tretire
         fthb_age_investment(t, 2) = 0; % Undefined due to no FTHBs of that age
     end
 
-    p_ind = find(((fthb_transition(:, 3) - fthb_transition(:, 2)) >= PolYrs) & ...
-	((fthb_transition(:, 3) - fthb_transition(:, 2)) < End) & ...
-        (fthb_transition(:, 3) == t));
-    fthb_age_transition(t, 2) = size(fthb_transition(p_ind, 1), 1) ...
-        /sum(Qf_p(PolYrs+1:End));
 end
 
 for j = 1:2
-    fthb_age_transition(1:Tretire, j) = ...
-	fthb_age_transition(1:Tretire, j)/sum(fthb_age_transition(1:Tretire, j));
+    fthb_age_transition(1:binNo, j) = ...
+	fthb_age_transition(1:binNo, j)/sum(fthb_age_transition(1:binNo, j));
 end
 
-T_img = min(15,T_plot) ;  % reversal is done by this time
 T_img
 T_plot
 fig = figure;
@@ -267,29 +278,29 @@ dlmwrite('PolSeries.txt',[[zeros(3, 1); T_pc], [zeros(3, 1); Q_pc], ...
 fig = figure;
     subplot(2,1,1);
     hold on
-    bar(age+0.5, fthb_age_transition(:,1))
+    bar(age+binWidth/2.0, fthb_age_transition(:,1))
     stairs(age, fthb_age, '-.', 'Color', 'r', 'LineWidth', 1.9)
     eval(['title(''Policy period( to period ' num2str(PolYrs) ')'');'])
-    ylim([0 0.1])
+    ylim([0 0.2])
     subplot(2,1,2);
     hold on
-    bar(age+0.5, fthb_age_transition(:,2))
+    bar(age+binWidth/2.0, fthb_age_transition(:,2))
     stairs(age, fthb_age, '-.', 'Color', 'r', 'LineWidth', 1.9)
     title('Remaining Periods')
     xlabel('Age')
     ylabel(strjoin({'Prop. of',agType,'by age'}))
-    ylim([0 0.1])
+    ylim([0 0.2])
 %     set(gca, 'fontsize', 16)
 fig.PaperUnits = 'inches';
 fig.PaperPosition = [0 0 6 4.5]; fig.PaperSize = [6 4.5];
 print('FthbShockAge','-dpdf')
-dlmwrite('FTHB_age_trans.txt',[[2:Tretire+1]', fthb_age_transition(:,1), fthb_age],...
+dlmwrite('FTHB_age_trans.txt',[age', fthb_age_transition(:,1), fthb_age],...
          'delimiter','\t','precision',5)
 
 % Histograms of policy period housing investment
 fig = figure;
     hold on
-    y = bar(age+0.1, fthb_age_investment, 'EdgeColor', 'w', 'BarWidth', 1);
+    y = bar(21.1+[1:Tretire], fthb_age_investment, 'EdgeColor', 'w', 'BarWidth', 1);
     set(y(2), 'FaceColor', [1 0.6 0.6]);
     eval(['title(''Policy period( to period ' num2str(PolYrs) ')'');'])
     xlabel('Age')

@@ -197,7 +197,7 @@ module lifecycle_models
         call system_clock(timestart, timeres)
         ! Plus 1 because first period is calibrated state
         ALLOCATE(incshocks(numhouseholds, Tretire+1))
-        call gen_life_shocks(numhouseholds, shock(5,:,:), incshocks)
+        call gen_life_shocks(numhouseholds, shock(6,:,:), incshocks)
         call simulate(hpnodes(1),numhouseholds,householdtransitionholder(:,:,:,1),&
                       shock, .TRUE.)
         call get_mktclear(hpnodes(1), 1, avghousing, construction, totrev)
@@ -331,7 +331,7 @@ module lifecycle_models
 
         ! Plus 1 because first period is calibrated state
         ALLOCATE(incshocks(numhouseholds, Tretire+1))
-        call gen_life_shocks(numhouseholds, shock(5,:,:), incshocks)
+        call gen_life_shocks(numhouseholds, shock(6,:,:), incshocks)
 
         ! NOTE: the function SimSteady includes the backwards induction calculation
         yend = brentmindist(pstart(1,1), pstart(1,1),pstart(2,1),SimSteady,numhouseholds,&

@@ -260,7 +260,7 @@ module lifecycle_transition
                     end if
 
                     ! compare utility of scrapping to not adjusting?
-                    if (scrapped > 0) then
+                    if (scrapped > 0 .and. polParam(2) == 1.0) then
                         if (shock(2,i,t) < movProbR .AND. currenthouseholdstate(3, i) == 0) then
                         call adj_func_comp(newhouseholdstate(3:4, i), &
                                 transhouseholdstate(:,i), achoiceMovR, DchoiceMovR, rentchoice,&
@@ -395,6 +395,15 @@ module lifecycle_transition
                 if (newhouseholdstate(4, i)>amax) then
                     newhouseholdstate(4, i)=(1.0-1e-7)*amax
                 end if
+
+                ! %< Impute pure transitory shock going into next period
+                if (shock(5,i,t) < 0.5 ) then
+                    newhouseholdstate(4, i) = newhouseholdstate(4, i) - sigma_temp
+                else
+                    newhouseholdstate(4, i) = newhouseholdstate(4, i) + sigma_temp
+                end if
+
+                ! %>
 
                 incomeholder(i, t)=(currenthouseholdstate(2, i) - 1.0)*&
                                    income(currenthouseholdstate(1, i), t)

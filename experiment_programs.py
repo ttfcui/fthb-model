@@ -15,26 +15,22 @@ from shutil import rmtree
 
 # Parameters of interest in model (preset or calibrated)
 
-algDict = {'agridsize': 100, 'Dgridsize': 45, 'zgridsize': 19,
-            'hpnodes(1)': 0.1000}
-commonParamsDict = {'beta2': 0.94, 'elasticity': 2.5, 'unempprob': 0.0,
-                     'psi': 2.5, 'ret_wealth': 0.03, 'tax1': 0.175,
-                     'r': 0.01,  'rborrow': 0.02, 'rho_z': 0.91, 'sigma_z': 0.21, 'rentUtil': 1.00,
-                     'balancer': -0.0000, 'numhouseholds': 10000, 'ss_only': '.FALSE.', 'print_micro': '.TRUE.'}
+algDict = {'agridsize': 135, 'Dgridsize': 35, 'zgridsize': 17,
+            'hpnodes(1)': 0.0599}
+commonParamsDict = {'beta2': 0.925, 'elasticity': 3.0, 'unempprob': 0.000,
+                    'psi': 0.5, 'ret_wealth': 0.00, 'tax1': 0.175, 'F': 0.06,
+                     'r': 0.03,  'sigma_temp': 0.041, 'rentUtil': 1.00,
+                     'balancer': -0.0000, 'numhouseholds': 30000,
+                     'ss_only': '.FALSE.', 'print_micro': '.TRUE.'}
 fthbParamsDict = {'EligYrsR': 99, 'EligYrsF': 3, 'delta': 0.022, 'movprob': 0.015,
-                   'F2': 0.2, 'movprobR': 0.000, 'thetamatlab': 0.2, 'elasticity2': 0.759,
-                   'rentPrem': 0.01, 'Dmin': 1.1, 'polEnd': 1, 'dtau': 0.01, 'F': 0.06}
-carsParamsDict = {'EligYrsR': 3, 'EligYrsF': 99, 'rentPrem': 99.9, 'Dmin': 0.15,
-                   'F2': 0.00, 'elasticity2': 0.95, 'delta': 0.3, 'rentPremRetire': 99.9,
-                   'scrapped': 1.0, 'adjTransfer': 0.06, 'Eta_transfer': 1.00,
-                   'polEnd': 1, 'hptransLength': 1, 'custom_start': '.TRUE.', 'F':0.0}
-
-# Manual override of calibrated parameters
-commonParamsDict['beta2'] = 0.95
-fthbParamsDict['rentPrem'] = 0.01
-commonParamsDict['rentUtil'] = 1
-commonParamsDict['F2'] = 0.24
-commonParamsDict['elasticity'] = 3.0
+                   'F2': 0.43, 'movprobR': 0.000, 'thetamatlab': 0.2, 'elasticity2': 0.759,
+                   'rentPrem': 0.0065, 'Dmin': 1.1, 'polEnd': 1, 'dtau': 0.01, 
+                   'numhouseholds': 30000}
+carsParamsDict = {'EligYrsR': 3, 'EligYrsF': 99, 'rentPrem': 0.00, 'Dmin': 0.05,
+                   'F2': 0.0, 'elasticity2': 0.90, 'delta': 0.125, 'rentPremRetire': 0.00,
+                   'scrapped': 1.0, 'adjTransfer': 0.067, 'Eta_transfer': 1.00,
+                   'polEnd': 1, 'hptransLength': 1,
+                   'numhouseholds': 6000, 'custom_start': '.TRUE.'}
 
 def genParams(polParamsDict, polDict, **kwargs):
     """ Parameter dict wrapper - appends calibrated parameters to the

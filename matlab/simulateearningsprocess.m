@@ -8,9 +8,9 @@
 
 % Stochastic component parameters
 % (Now to be fed in as arguments to file)
-% sigma_z=0.0873;
-% sigma_eps=0.0066;
-% rho_z=.843;
+sigma_z=0.295;
+sigma_eps=0.005;
+rho_z=.843;
 
 % Deterministic component parameters
 if exist('Tretire', 'var')
@@ -53,15 +53,15 @@ betas=regress(y, x);
 output = [rho_z, sigma_z, sigma_eps, Tretire, betas(2)];
 save ../model/input_data/lifeearn.txt output -ASCII;
 
-% earnLong=reshape(logearnings(:,1:35), [n_sim*5, 35/5]);
-% earnLongNonS = reshape(logNonSearnings(:,1:35), [n_sim*5, 35/5]);
+earnLong=reshape(logearnings(:,1:35), [n_sim*5, 35/5]);
+earnLongNonS = reshape(logNonSearnings(:,1:35), [n_sim*5, 35/5]);
 % 
-% simul = readmatrix("~/Downloads/fthb_model.csv");
-% simul(:,4) = log(simul(:,4));
-% n_model = size(simul(simul(:,2) == 2,:));
-% simul = reshape(simul(simul(:,2) <= 35,4), ...
-%     [n_model(1)*5, 35/5]);
-% boxplotGroup({earnLong, simul}, 'SecondaryLabels', ...
-%     {'1-5', '6-10', '11-15', '16-20', '21-25', '26-30', '31-35'}, ...
-%   'PrimaryLabels',{'Matlab', 'Model'}, 'InterGroupSpace', 2, 'Whisker', 0, 'symbol', '')
-% clear all;
+simul = readmatrix("~/Downloads/fthb_model.csv");
+simul(:,4) = log(simul(:,4));
+n_model = size(simul(simul(:,2) == 2,:));
+simul = reshape(simul(simul(:,2) <= 35,4), ...
+    [n_model(1)*5, 35/5]);
+boxplotGroup({earnLong, simul}, 'SecondaryLabels', ...
+    {'1-5', '6-10', '11-15', '16-20', '21-25', '26-30', '31-35'}, ...
+    'PrimaryLabels',{'Matlab', 'Model'}, 'InterGroupSpace', 2, 'Whisker', 0, 'symbol', '')
+clear all;

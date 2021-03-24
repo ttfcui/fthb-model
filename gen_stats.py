@@ -85,7 +85,7 @@ def stats1():
     grpASlice['diff'] = ((grpASlice['adjustment_pol']
                           - grpASlice['adjustment_ss'])*(grpASlice['id']))
 
-    for num in xrange(0, 3):
+    for num in range(0, 3):
         try:
             all_stats.append(cleaning(grouped['id'].count().loc[idx[num, 1:]],
                                       'Extensive from {}'.format(num),
@@ -122,7 +122,7 @@ def stats2(mdir='model', tretire=39, end=39):
     data.columns = cols
     data['age'] += 1  # to reconcile age with other datasets
     try:
-        for i in xrange(end, 2, -1):
+        for i in range(end, 2, -1):
             data.iloc[:, i] = data.iloc[:, 2:i+1].sum(axis=1)
     except:
         raise ValueError('Variable assignment failed. This is likely because '
@@ -446,7 +446,7 @@ def stats6(mdir, polType):
                              header=None, names=['age', 'distPol', 'distSta'])
         ageDistAgg = ageDist.loc[3:19, :]
         ageDist = ageDist[(ageDist['age'] > 3) & (ageDist['age'] < 38)]
-        print ageDistAgg
+        print(ageDistAgg)
         genbins(ageDist)
         all_stats.append(cleaning([entropy(ageDistAgg['distPol'],
                                            ageDistAgg['distSta'])],

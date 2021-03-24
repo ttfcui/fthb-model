@@ -93,7 +93,7 @@ class lifecycle_iterate:
                                         self.paramReplace((phrase, value),
                                                           value, line))
                                     if lineChk != line:
-                                        print '#   Substituted ' + phrase
+                                        print('#   Substituted ' + phrase)
                                         line = lineChk
                                         break
                         newFile.write(line)

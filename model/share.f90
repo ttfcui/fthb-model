@@ -4,33 +4,33 @@ module share
 
     ! Basic model parameters
     REAL(8), parameter :: elasticity2= .759 ! 1 - (share of expenditure in housing)
-    REAL(8), parameter :: beta2= 0.94! 0.9175 !Quarterly discount factor
     REAL(8), parameter :: e_of_s= 2 ! elasticity of substitution (unused)
-    REAL(8), parameter :: r=.010 ! return on safe asset
-    REAL(8), parameter :: rborrow=r+.008 ! Plus 0.8% mortgage premium
+    REAL(8), parameter :: r=.030 ! return on safe asset
+    REAL(8), parameter :: rborrow=r+.015 ! Plus 0.8% mortgage premium
     REAL(8), parameter :: delta=.022 !depreciation rate of durable  was .03
-    REAL(8), parameter :: dtau=.000 !Property tax on housing
+    REAL(8), parameter :: dtau=.010 !Property tax on housing
     REAL(8), parameter :: tax1=0.175 !Income tax on labour
     REAL(8), parameter :: tax2=.15 ! Progressivity parameter on income tax
     REAL(8), parameter :: F= 0.06 ! fixed cost (e.g. realtor fees)
-    REAL(8), parameter :: F2= 0.238!0.00 ! quadratic trans cost term (like furniture?)
-    REAL(8) :: Dmin= 1.075 ! Minimum owned house size (not parameter to fit to D grid)
+    REAL(8) :: Dmin= 1.10 ! Minimum owned house size (not parameter to fit to D grid)
+    REAL(8), parameter :: psi= 0.5 ! End-of-life bequest parameter
+    REAL(8), parameter :: rentUtil= 1.00 ! Disutility of renting relative to owning
+    REAL(8), parameter :: beq_base= 0.00 ! affects MU of a unit increase in bequests
     REAL(8), parameter :: thetamatlab=0.20 ! Down payment proportion
     REAL(8), parameter :: ConsElas= 2.5 ! Price elasticity of agg. construction
 
     ! Current parameters to be calibrated
     REAL(8), parameter :: elasticity= 2.5 ! intertemporal elasticity of substitution
+    REAL(8), parameter :: beta2= 0.94! 0.9175 !Quarterly discount factor
+    REAL(8), parameter :: F2= 0.238!0.00 ! quadratic trans cost term (like furniture?)
     REAL(8), parameter :: rentPrem= 7.7e-2 ! Rental operation costs on top of user cost
     REAL(8), parameter :: rentPremRetire= rentPrem ! Different premium for retirement
-    REAL(8), parameter :: ret_wealth=0.03 ! Lump-sum transfer at retirement, relative to labour income
-    REAL(8), parameter :: psi= 5 ! End-of-life bequest parameter
-    REAL(8), parameter :: rentUtil= .93 ! Disutility of renting relative to owning
-    REAL(8), parameter :: beq_base= 0.00 ! affects MU of a unit increase in bequests
+    REAL(8), parameter :: ret_wealth=0.00 ! Lump-sum transfer at retirement, relative to labour income
 
     ! Derived parameters.
     REAL(8), parameter :: beta2retire=beta2  ! Different discount rate in retirement (deprecated)
-    REAL(8), parameter :: usercost = (1.0-delta-dtau)/(1.0+r)  ! Traditional user cost of housing
-    REAL(8), parameter :: rent=1.0 - (1.0-delta-dtau)/(1.0+rborrow) ! rent equals user cost in frictionless market
+    REAL(8), parameter :: usercost = (1.0-delta-dtau)/(1.0+r) !+(1-thetamatlab)*rborrow)  ! Traditional user cost of housing
+    REAL(8), parameter :: rent=1.0 - usercost !(1.0-delta-dtau)/(1.0+r) ! rent equals user cost in frictionless market
     !Downpayment incorporating user cost - from 1-theta = (1-thetamatlab)*usercost
     REAL(8), parameter :: theta=1-(1-thetamatlab)*usercost
     REAL(8), parameter :: psi2 = ConsElas/(1+ConsElas) ! Parameter for housing supply fn
@@ -45,19 +45,20 @@ module share
     REAL(8), parameter :: borrowconstraint=0.0
     REAL(8), parameter :: offset_consumption = 0.02
 
-    integer, parameter :: agridsize= 90.000000 
-    integer, parameter :: Dgridsize= 55.000000 
+    integer, parameter :: agridsize= 125.000000 
+    integer, parameter :: Dgridsize= 35.000000 
 
     ! Permanent income process
-    REAL(8), parameter :: sigma_z= 0.21  ! Standard deviation of productivity shocks
-    REAL(8), parameter :: rho_z=.91  ! Autocorrelation of AR(1) process
-    REAL(8), parameter :: sigma_temp=.006  ! Standard deviation of idiosyncratic shocks
-    integer, parameter :: zgridsize= 19 !size of ar(1) income shock grid
-    REAL(8), parameter :: poismean=0.1  ! Mean of initial poisson dist (deprecated)
+    REAL(8), parameter :: sigma_z=.255  ! Standard deviation of productivity shocks
+    REAL(8), parameter :: rho_z=.843 ! Autocorrelation of AR(1) process
+    REAL(8), parameter :: sigma_temp=.041  ! Standard deviation of idiosyncratic shocks
+    integer, parameter :: zgridsize=17 !size of ar(1) income shock grid
+    integer, parameter :: incLimit=5 !States from highest state censored in initial state allocation
+    LOGICAL, parameter :: stationary=.FALSE.  ! Whether model initialized from stationary distribution
 
     ! Job separation / transitory income process
     REAL(8), DIMENSION(:), ALLOCATABLE, TARGET :: empprob
-    REAL(8), parameter :: unempprob= 0.118  ! Prob. of going into unemp. (deprecated)
+    REAL(8), parameter :: unempprob= 0.000  ! Prob. of going into unemp. (deprecated)
     REAL(8), parameter :: movprob= 0.015  ! Prob. of exogenous move for owners
     REAL(8), parameter :: movprobR= 0.000 ! Prob. of exogenous home purchase for renters (deprecated)
     REAL(8), parameter :: unemptrans= -0.05  ! Unemploymeny benefits (deprecated)
@@ -66,8 +67,8 @@ module share
     integer, parameter :: hptransLength=1 ! Total number of years in transition
     integer, parameter :: PolStart=0 ! Period when policy starts (but policy is announced at period 0)
     integer, parameter :: PolEnd=1 ! Period when policy stops
-    integer, parameter :: EligYrsF= 40.000000 ! Years under which agent is not owning to be first-time
-    integer, parameter :: EligYrsR= 99.000000 ! Years under which agent owns the same durable to be repeat
+    integer, parameter :: EligYrsF= 3 ! Years under which agent is not owning to be first-time
+    integer, parameter :: EligYrsR= 99 ! Years under which agent owns the same durable to be repeat
     REAL(8), DIMENSION(:), ALLOCATABLE :: hpnodes, r_rental, r_rental_retire
     REAL(8), DIMENSION(2,hptransLength) :: startprice
     INTEGER, dimension(9) :: polParam ! Whether or not other params change in policy period
@@ -239,7 +240,7 @@ module share
         seedvalue(:)=195423
         CALL random_seed(put=seedvalue(:))
 
-        ALLOCATE(shock(5, numhouseholds, TDie),shock_calibrate(4, numhouseholds),&
+        ALLOCATE(shock(6, numhouseholds, TDie),shock_calibrate(4, numhouseholds),&
                  householdresultsholder(15, numhouseholds, TDie))
 
         CALL random_number(shock_calibrate)

@@ -34,9 +34,9 @@ run.simFTHB([('experiment_monetary_dep_nodown', 0.12, 0.00),
 # run.simCARS([('experiment_repeat', 0.20, 1)], 1.0)
 
 # CARS, no maintenance allowed
-run.simCARS([('experiment_CARS', 0.20, 0, 0.035),
-             ('experiment_CARS_nocoll', 1, 0, 0.035),
-             ('experiment_CARS_altScrap', 0.20, 0, 0.01)], 0.0,
+run.simCARS([('experiment_CARS', 0.10, 0, 0.020),
+             ('experiment_CARS_lowcoll', 0.90, 0, 0.020),
+             ('experiment_CARS_altScrap', 0.10, 0, 0.01)], 0.0,
              gen_micro=True, gen_props=True)
 # %>
 

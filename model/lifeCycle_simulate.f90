@@ -130,10 +130,10 @@ module lifecycle_simulate
         ! Placeholder data if we need state vars for first age cohort
         if (write_files) then
         do i=1, numHH
-        write(41, '(2I6.2, 19F16.6)') i, 0, currenthouseholdstate(3, i),&
+        write(41, '(2I6.2, 22F16.6)') i, 0, currenthouseholdstate(3, i),&
             currenthouseholdstate(4, i)-(1-theta)*exp(price)*currenthouseholdstate(3, i),&
             0d0, currenthouseholdstate(4, i)+theta*exp(price)*currenthouseholdstate(3, i),&
-            rentalind(i,1),2d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0 
+            rentalind(i,1),2d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,0d0,currenthouseholdstate(1, i),0d0,0d0,0d0,0d0 
         end do
         end if
 
@@ -251,6 +251,15 @@ module lifecycle_simulate
                 ! pol_linworking catch this?
                 if (newhouseholdstate(3, i)>Dmax) newhouseholdstate(3, i)=(1.0-1e-7)*Dmax
                 if (newhouseholdstate(4, i)>amax) newhouseholdstate(4, i)=(1.0-1e-7)*amax
+                ! %>
+
+                ! %< Impute pure transitory shock going into next period
+                if (shock(5,i,t) < 0.5 ) then
+                    newhouseholdstate(4, i) = newhouseholdstate(4, i) - sigma_temp
+                else
+                    newhouseholdstate(4, i) = newhouseholdstate(4, i) + sigma_temp
+                end if
+
                 ! %>
 
                 ! %< Recover next period income shock
@@ -612,9 +621,11 @@ module lifecycle_simulate
                    /sum(incomeholder(:,1:Tretire))
         ! Impose market clearing in consumption goods market to back out
         ! the share of labour going into construction industry (IN PROGRESS)
-        lifeinc = sum(posttaxincome(:,1:Tretire)) + sum(incomeholder(:,Tretire+1:Tdie))
-        privrevenue = F*SUM(housingflow(:,:,period)) + SUM(mortint(:,:))
-        laborshare = (lifeinc + balancer(1)*SUM(alive)- (sum(consumption) + privrevenue))&
+        lifeinc = sum(posttaxincome(:,1:Tretire)) !+ sum(incomeholder(:,Tretire+1:Tdie))
+        write(0,*) lifeinc, balancer(1)*SUM(alive)
+        privrevenue = F*SUM(housingflow(:,1:Tretire,period)) + SUM(mortint(:,1:Tretire))
+        write(0,*) sum(consumption(:,1:Tretire)), privrevenue
+        laborshare = (lifeinc + balancer(1)*SUM(alive)- (sum(consumption(:,1:Tretire)) + privrevenue))&
                      &/(lifeinc + balancer(1)*SUM(alive))
         ! The following equation must be from when trying to solve laborshare
         ! and netrevenue simultaneously - but subbing in post tax income may approximate it enough

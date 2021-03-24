@@ -92,7 +92,7 @@ def merge2(mdir='model', tretire=39, end=39):
         pullforward = DataFrame([np.nan]*len(data.index),
                                 columns=['pullforward'], index=data.index)
 
-    for i in xrange(end, 2, -1):
+    for i in range(end, 2, -1):
         data.iloc[:, i] = data.iloc[:, 2:i+1].sum(axis=1)
 
     posext = data.loc[data[end] > 0]
@@ -141,11 +141,11 @@ def merge3(polType, dep):
 
     print('Dataset #3: \n \n')
     # Future income shocks identical between SS and policy, for each id
-    for t in xrange(1, 5):
+    for t in range(1, 5):
         view3['income_valf%d' % t] = view3.groupby('id')['income_val'].shift(-1*t)
         view3['income_f%d' % t] = view3.groupby('id')['income'].shift(-1*t)
     incHolder = DataFrame()
-    for j in xrange(2, 40):
+    for j in range(2, 40):
         grouped = (view3.loc[(view3['age'] < 40) & (view3['age'] >= j)]
                    .groupby('id'))
         inc_data = concat([grouped['age'].first(),
@@ -218,8 +218,8 @@ def merge4(view, futVar):
     colNames[-5:] = ['var_pol1_cf', 'var_pol2_cf', 'var_pol3_cf', 'var_pol4_cf', 'var_pol5_cf']
     colNames = [col.replace('var_', '%s_' % futVar) for col in colNames]
     merged.columns = colNames
-    futCols = (['%s_pol%s' % (futVar, i) for i in xrange(0, 6)] +
-               ['%s_pol%s_cf' % (futVar, i) for i in xrange(1, 6)])
+    futCols = (['%s_pol%s' % (futVar, i) for i in range(0, 6)] +
+               ['%s_pol%s_cf' % (futVar, i) for i in range(1, 6)])
     merged = merged[['id', 'age'] + futCols]
     return merged
 

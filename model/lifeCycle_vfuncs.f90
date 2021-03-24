@@ -117,8 +117,8 @@ module lifecycle_vfuncs
         a => state(2)
         hpholder => state(3)
 
-        wealthCall = currentincome + D*(1-maint*delta-dtau)*exp(hpholder)&
-            + assetholder
+        wealthCall = currentincome + assetholder + &
+            (1.0-scrapped)*D*(1-maint*delta-dtau)*exp(hpholder)
 
     END FUNCTION ! %>
 
@@ -357,7 +357,7 @@ module lifecycle_vfuncs
         LOGICAL, INTENT(IN) :: expecting, rental, adjust
         REAL(8), OPTIONAL :: transfers
         REAL(8), DIMENSION(:,:,:), POINTER :: EVmat, EVmatM, EVmatMR, EVmatU, EVmatD
-        REAL(8), DIMENSION(:), POINTER :: tmpgrid, probtmp
+        REAL(8), DIMENSION(2) :: tmpgrid, probtmp
         REAL(8), DIMENSION(:), ALLOCATABLE, TARGET:: costsgrid
         REAL, POINTER :: deathrisk, emprisk
         INTEGER, POINTER :: zmin, zmax
@@ -377,8 +377,8 @@ module lifecycle_vfuncs
         ! TODO: are there transaction costs to renting?
         ! Maybe not as that should be absorbed into quadratic costs.
         null_vec = (/ 0.0, 1.0 /)
-        tmpgrid = (/ sigma_temp, -sigma_temp /)  ! => null_vec(1:1)
-        probtmp = (/ 0.5, 0.5 /)  ! => null_vec(2:2)
+        tmpgrid  = (/ -sigma_temp, sigma_temp /)  !null_vec(1:1)
+        probtmp = (/ 0.5, 0.5 /) !null_vec(2:2)
         if (rental) then
             weightDprimel = 0.0
             Dprimel = 1
@@ -387,7 +387,7 @@ module lifecycle_vfuncs
             allocate(costsgrid(transgridsize))
             costsgrid = 0.0! transcst*(Dval*price) 
             !tmpgrid = 0.0! => costsgrid 
-            probtmp => transcstProbs
+            !probtmp => transcstProbs
         end if
  
         if (tval - 1 <= Tretire .AND. uval == 2) then
@@ -593,9 +593,8 @@ module lifecycle_vfuncs
             ! Straight monetary transfer (for both CARS and FTHB designs)
             adjshifts = (1.0-downflag)*(1.0-discountflag)*(&
                         transfers*adjtransfer(zindex, t)*eta_transfer)
-            ! CARS-specific scrappage policy parameters
-            adjshifts = adjshifts - scrapholder*(-scrapvholder*(1.0-transfers)&
-                        +D*(1-dep-dtau)*exp(hpholder)) 
+            ! CARS-specific scrappage net out (no double counting of scrapping if policy is in effect)
+            adjshifts = adjshifts + scrapholder*scrapvholder*(1.0-transfers)
             
             ! The value of policyfactor is face value of subsidy normalized by house value,
             ! Normalized again by the down payment factor thetaholder
@@ -857,13 +856,14 @@ module lifecycle_vfuncs
         !
         IMPLICIT NONE
         REAL(8), DIMENSION(2), INTENT(INOUT) :: p
-        REAL(8), DIMENSION(:), INTENT(IN) :: state
+        REAL(8), DIMENSION(:), INTENT(IN), TARGET :: state
         LOGICAL, DIMENSION(:), INTENT(IN) :: nocreditBool
         REAL(8), INTENT(IN) :: price
         REAL(8), INTENT(INOUT) :: consOut, rentOut, choiceOut, welfOut
         REAL(8), dimension(:,:,:,:,:,:), INTENT(IN) :: aArray,DArray,rentalArray, cArray,choiceArray, EVarray
         REAL(8) :: rentchoice, constemp, renttemp, choicetemp, welftemp,&
             weightDl, weightal
+        REAL(8), POINTER :: aval, Dval
         INTEGER :: Dl, Dh, al, ah
 
         REAL(8), DIMENSION(2) :: testutil, newteststate
@@ -872,8 +872,18 @@ module lifecycle_vfuncs
             newteststate(1), newteststate(2),&
             constemp, renttemp, choicetemp, welftemp)
 
-        call weightprimeL(state(3), Dnodes, weightDl, Dl, Dh)
-        call weightprimeL(state(4), anodes, weightal, al, ah)
+        dval => state(3)
+        aval => state(4)
+
+        if (aval>=anodes(agridsize)) then
+            aval => anodes(agridsize)
+        end if
+        if (dval>=Dmax) then
+            dval => Dnodes(dgridsize)
+        end if
+
+        call weightprimeL(dval, Dnodes, weightDl, Dl, Dh)
+        call weightprimeL(aval, anodes, weightal, al, ah)
 
         rentchoice = rentalArray(state(1), state(2), Dl, al, state(5), state(6))
 
